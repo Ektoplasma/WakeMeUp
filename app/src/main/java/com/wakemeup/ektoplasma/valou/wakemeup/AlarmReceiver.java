@@ -24,6 +24,7 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
         Log.d("AlarmReceiver", "Alarm sonne");
         essai.setAlarmText("Le reveil sonne");
         intent = new Intent(context, YoutubeActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
         //this will sound the alarm tone
         //this will sound the alarm once, if you wish to
