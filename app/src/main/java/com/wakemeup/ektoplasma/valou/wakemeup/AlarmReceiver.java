@@ -20,8 +20,9 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
     public void onReceive(final Context context, Intent intent) {
         //this will update the UI with message
         MainActivity inst = MainActivity.instance();
+        ClockActivity essai = new ClockActivity();
         Log.d("AlarmReceiver", "Alarm sonne");
-        inst.setAlarmText("Le reveil sonne");
+        essai.setAlarmText("Le reveil sonne");
         intent = new Intent(context, YoutubeActivity.class);
         context.startActivity(intent);
         //this will sound the alarm tone

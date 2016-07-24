@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
     AlarmManager alarmManager;
     private PendingIntent pendingIntent;
     private static MainActivity inst;
-    private ClockActivity ClockObject = new ClockActivity();
+    public ClockActivity ClockObject = new ClockActivity();
 
     public static MainActivity instance() {
         return inst;
@@ -122,23 +122,21 @@ public class MainActivity extends AppCompatActivity {
         if (((ToggleButton) view).isChecked()) {
             Log.d("MyActivity", "Alarm On");
             Calendar calendar = Calendar.getInstance();
-            setAlarmText("Bonjour");
-            Log.d("MyActivity", "Alarm heure : "+ClockObject.alarmTimePicker.getCurrentHour()+":"+ClockObject.alarmTimePicker.getCurrentMinute());
-            calendar.set(Calendar.HOUR_OF_DAY, ClockObject.alarmTimePicker.getCurrentHour());
-            calendar.set(Calendar.MINUTE, ClockObject.alarmTimePicker.getCurrentMinute());
+            ClockObject.setAlarmText("YOLOPPOELDORK");
+            Log.d("MyActivity", "Alarm heure : "+ClockObject.GetHours()+":"+ClockObject.GetMinutes());
+            calendar.set(Calendar.HOUR_OF_DAY, ClockObject.GetHours());
+            calendar.set(Calendar.MINUTE, ClockObject.GetMinutes());
             Intent myIntent = new Intent(MainActivity.this, AlarmReceiver.class);
 
             pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0, myIntent, 0);
             alarmManager.set(AlarmManager.RTC, calendar.getTimeInMillis(), pendingIntent);
         } else {
             alarmManager.cancel(pendingIntent);
-            setAlarmText("");
+            ClockObject.setAlarmText("");
             AlarmReceiver alarme = new AlarmReceiver();
             Log.d("MyActivity", "Alarm Off");
         }
     }
-
-    public void setAlarmText(String alarmText) { ClockObject.AlarmTextView.setText(alarmText);  }
 
 
     @Override

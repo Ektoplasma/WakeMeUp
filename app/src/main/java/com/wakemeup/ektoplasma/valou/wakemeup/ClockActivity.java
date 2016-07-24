@@ -14,8 +14,20 @@ import android.widget.ToggleButton;
  */
 public class ClockActivity extends Fragment {
 
-    public TextView AlarmTextView;
-    public TimePicker alarmTimePicker;
+    public static TextView AlarmTextView;
+    public static TimePicker alarmTimePicker;
+
+    public void setAlarmText(String alarmText) {AlarmTextView.setText(alarmText);}
+
+    public int GetHours ()
+    {
+        return alarmTimePicker.getCurrentHour();
+    }
+
+    public int GetMinutes ()
+    {
+        return alarmTimePicker.getCurrentMinute();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
