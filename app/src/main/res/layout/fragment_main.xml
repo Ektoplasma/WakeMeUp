@@ -13,28 +13,29 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
-    <TimePicker
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/ClockAlarmPicker"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
-
     <ToggleButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Activer/Desactiver"
         android:id="@+id/SetAlarmButton"
-        android:layout_alignStart="@+id/ClockAlarmPicker"
+        android:onClick="onToggleClicked"
         android:layout_below="@+id/ClockAlarmPicker"
-        android:onClick="onToggleClicked" />
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="36dp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/AlarmText"
-        android:layout_alignTop="@+id/SetAlarmButton"
-        android:layout_alignParentEnd="true"
-        android:layout_below="@+id/SetAlarmButton" />
+        android:text="YOLO"
+        android:layout_alignBottom="@+id/SetAlarmButton"
+        android:layout_alignEnd="@+id/ClockAlarmPicker" />
+
+    <TimePicker
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ClockAlarmPicker"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true" />
 
 </RelativeLayout>

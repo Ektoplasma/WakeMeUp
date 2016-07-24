@@ -46,9 +46,8 @@ public class MainActivity extends AppCompatActivity {
 
     AlarmManager alarmManager;
     private PendingIntent pendingIntent;
-    private TimePicker alarmTimePicker;
     private static MainActivity inst;
-    private TextView AlarmTextView;
+    private ClockActivity ClockObject = new ClockActivity();
 
     public static MainActivity instance() {
         return inst;
@@ -113,10 +112,8 @@ public class MainActivity extends AppCompatActivity {
          * Gestion alarm
          ****************************************/
 
-        //setContentView(R.layout.fragment_main);
-        AlarmTextView = (TextView) findViewById(R.id.AlarmText);
-        alarmTimePicker = (TimePicker) findViewById(R.id.ClockAlarmPicker);
-        ToggleButton SetAlarmButton = (ToggleButton) findViewById(R.id.SetAlarmButton);
+       // setContentView(R.layout.fragment_main);
+
         alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
 
     }
@@ -126,9 +123,9 @@ public class MainActivity extends AppCompatActivity {
             Log.d("MyActivity", "Alarm On");
             Calendar calendar = Calendar.getInstance();
             setAlarmText("Bonjour");
-            Log.d("MyActivity", alarmTimePicker.getCurrentHour()+":"+alarmTimePicker.getCurrentMinute());
-            calendar.set(Calendar.HOUR_OF_DAY, alarmTimePicker.getCurrentHour());
-            calendar.set(Calendar.MINUTE, alarmTimePicker.getCurrentMinute());
+            Log.d("MyActivity", "Alarm heure : "+ClockObject.alarmTimePicker.getCurrentHour()+":"+ClockObject.alarmTimePicker.getCurrentMinute());
+            calendar.set(Calendar.HOUR_OF_DAY, ClockObject.alarmTimePicker.getCurrentHour());
+            calendar.set(Calendar.MINUTE, ClockObject.alarmTimePicker.getCurrentMinute());
             Intent myIntent = new Intent(MainActivity.this, AlarmReceiver.class);
 
             pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0, myIntent, 0);
@@ -141,9 +138,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void setAlarmText(String alarmText) {
-        AlarmTextView.setText(alarmText);
-    }
+    public void setAlarmText(String alarmText) { ClockObject.AlarmTextView.setText(alarmText);  }
 
 
     @Override

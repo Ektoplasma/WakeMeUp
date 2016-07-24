@@ -21,7 +21,7 @@ public class PageAdapter extends FragmentStatePagerAdapter {
 
         switch (position) {
             case 0:
-                Test2 tab1 = new Test2();
+                ClockActivity tab1 = new ClockActivity();
                 return tab1;
             case 1:
                 Test tab2 = new Test();
