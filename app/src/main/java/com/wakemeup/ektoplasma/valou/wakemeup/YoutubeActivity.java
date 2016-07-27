@@ -46,4 +46,8 @@ public class YoutubeActivity extends YouTubeBaseActivity{
             }
         });*/
     }
+
+    public void onToggleClicked(View view) {
+        finish();
+    }
 }

@@ -17,7 +17,10 @@ public class ClockActivity extends Fragment {
     public static TextView AlarmTextView;
     public static TimePicker alarmTimePicker;
 
-    public void setAlarmText(String alarmText) {AlarmTextView.setText(alarmText);}
+    public void setAlarmText(String alarmText)
+    {
+        AlarmTextView.setText(alarmText);
+    }
 
     public int GetHours ()
     {
