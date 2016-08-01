@@ -11,13 +11,6 @@
         android:layout_gravity="center_horizontal"
         android:layout_weight="0.45" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Play Video"
-        android:id="@+id/button"
-        android:layout_gravity="center_horizontal" />
-
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/stopbutton"
         android:layout_width="172dp"
