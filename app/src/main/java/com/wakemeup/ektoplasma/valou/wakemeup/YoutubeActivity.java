@@ -2,6 +2,7 @@ package com.wakemeup.ektoplasma.valou.wakemeup;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -21,6 +22,8 @@ public class YoutubeActivity extends YouTubeBaseActivity {
     Button b;
     private YouTubePlayerView youTubePlayerView;
     private YouTubePlayer.OnInitializedListener onInitializedListener;
+    private YouTubePlayer.PlaybackEventListener PlaybackEventListener;
+    private YouTubePlayer MyouTubePlayer;
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -37,7 +40,9 @@ public class YoutubeActivity extends YouTubeBaseActivity {
         onInitializedListener = new YouTubePlayer.OnInitializedListener() {
             @Override
             public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
-                youTubePlayer.loadVideo("oavMtUWDBTM");
+                MyouTubePlayer = youTubePlayer;
+                MyouTubePlayer.loadVideo("oavMtUWDBTM");
+
             }
 
             @Override
@@ -45,6 +50,33 @@ public class YoutubeActivity extends YouTubeBaseActivity {
 
             }
 
+        };
+
+        PlaybackEventListener = new YouTubePlayer.PlaybackEventListener() {
+            @Override
+            public void onPlaying() {
+                MyouTubePlayer.seekToMillis(25000);
+            }
+
+            @Override
+            public void onPaused() {
+
+            }
+
+            @Override
+            public void onStopped() {
+
+            }
+
+            @Override
+            public void onBuffering(boolean b) {
+
+            }
+
+            @Override
+            public void onSeekTo(int i) {
+
+            }
         };
         youTubePlayerView.initialize("AIzaSyBtBeaAX_O9FdHLtGX-4stTpKfveDkLVR4", onInitializedListener);
         /*b = (Button) findViewById(R.id.button);
@@ -102,4 +134,5 @@ public class YoutubeActivity extends YouTubeBaseActivity {
         AppIndex.AppIndexApi.end(client, viewAction);
         client.disconnect();
     }
+
 }
