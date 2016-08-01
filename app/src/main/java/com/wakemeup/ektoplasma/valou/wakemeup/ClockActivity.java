@@ -38,6 +38,7 @@ public class ClockActivity extends Fragment {
         AlarmTextView = (TextView) view.findViewById(R.id.AlarmText);
         AlarmTextView.setText("Bonjour");
         alarmTimePicker = (TimePicker) view.findViewById(R.id.ClockAlarmPicker);
+        alarmTimePicker.is24HourView();
         //ToggleButton SetAlarmButton = (ToggleButton) getView().findViewById(R.id.SetAlarmButton);
         return view;
     }
