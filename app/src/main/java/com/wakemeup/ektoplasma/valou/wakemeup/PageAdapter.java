@@ -24,7 +24,7 @@ public class PageAdapter extends FragmentStatePagerAdapter {
                 ClockActivity tab1 = new ClockActivity();
                 return tab1;
             case 1:
-                Test tab2 = new Test();
+                UsersList tab2 = new UsersList();
                 return tab2;
             default:
                 return null;
