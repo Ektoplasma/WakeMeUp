@@ -22,7 +22,7 @@ public class DataList {
         ToutLeMonde.add("Il est drole lui");
 
         UsersDetails.put("Amis", Amis);
-        UsersDetails.put("Tout les utilisateurs", ToutLeMonde);
+        UsersDetails.put("Tous les utilisateurs", ToutLeMonde);
 
         return UsersDetails;
     }
