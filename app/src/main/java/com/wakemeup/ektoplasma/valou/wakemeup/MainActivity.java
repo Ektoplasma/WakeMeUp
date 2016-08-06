@@ -2,6 +2,7 @@ package com.wakemeup.ektoplasma.valou.wakemeup;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -48,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
     private PendingIntent pendingIntent;
     private static MainActivity inst;
     public ClockActivity ClockObject = new ClockActivity();
+    protected Context ctx = this;
 
     public static MainActivity instance() {
         return inst;
@@ -57,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Caller.setCtx(ctx.getApplicationContext());
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
