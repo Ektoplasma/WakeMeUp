@@ -1,6 +1,6 @@
 ;<?php return; ?>
 [SQL]
 host = localhost
-user = nevalost
-password = cmlsbGV0dGVzCg
-dbname = nevalost
+user = wakemeup
+password = wakemeup
+dbname = wakemeup
