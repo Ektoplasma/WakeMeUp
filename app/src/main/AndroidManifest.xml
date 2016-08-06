@@ -21,6 +21,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ShareLinkActivity"
+            android:label="WakeMeUp"
+            >
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="text/*" android:host="www.youtube.com"
+                    android:scheme="http" />
+            </intent-filter>
+        </activity>
         <service
             android:name=".AlarmService"
             android:enabled="true" />
