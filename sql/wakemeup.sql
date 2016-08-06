@@ -5,8 +5,6 @@ SET foreign_key_checks = 0;
 SET time_zone = 'SYSTEM';
 SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO';
 
-DROP DATABASE IF EXISTS `wakemeup`;
-CREATE DATABASE `wakemeup` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `wakemeup`;
 
 DROP TABLE IF EXISTS `alarm`;
