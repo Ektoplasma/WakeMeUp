@@ -99,6 +99,15 @@ public class MainActivity extends AppCompatActivity {
 
        // setContentView(R.layout.fragment_main);
 
+        Intent intent = getIntent();
+        String action = intent.getAction();
+        String type = intent.getType();
+
+        String sharedText = intent.getStringExtra(Intent.EXTRA_TEXT);
+        if (sharedText != null) {
+            System.out.println(sharedText);
+        }
+
         alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
 
     }
