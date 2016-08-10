@@ -106,6 +106,7 @@ public class MainActivity extends AppCompatActivity {
         String sharedText = intent.getStringExtra(Intent.EXTRA_TEXT);
         if (sharedText != null) {
             System.out.println(sharedText);
+            viewPager.setCurrentItem(1);
         }
 
         alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
