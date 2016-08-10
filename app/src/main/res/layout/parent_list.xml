@@ -7,7 +7,7 @@
         android:id="@+id/ParentTxt"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="10dp"
+        android:paddingBottom="2dp"
         android:paddingLeft="?android:attr/expandableListPreferredItemPaddingLeft"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textStyle="bold"

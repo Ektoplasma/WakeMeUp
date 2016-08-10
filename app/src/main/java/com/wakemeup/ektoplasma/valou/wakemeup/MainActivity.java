@@ -109,6 +109,8 @@ public class MainActivity extends AppCompatActivity {
             viewPager.setCurrentItem(1);
         }
 
+
+
         alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
 
     }
