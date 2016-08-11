@@ -23,6 +23,15 @@
                 <data android:mimeType="text/plain" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".SettingsActivity"
+            android:screenOrientation="nosensor">
+            <intent-filer>
+                <action android:name=".Preferences" />
+                <category android:name="android.intent.cetagory.PREFERENCE" />
+            </intent-filer>
+        </activity>
+
         <service
             android:name=".AlarmService"
             android:enabled="true" />

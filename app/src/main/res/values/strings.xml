@@ -3,4 +3,18 @@
     <string name="action_settings">Settings</string>
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="hostname_server">valou.ddns.net</string>
+
+    <string name="menu_settings">Settings</string>
+    <string name="title_activity_main">MainActivity</string>
+
+
+    <string name="pref_send_report">Envoyer rapport</string>
+    <string name="pref_send_report_summary">Aidez-nous à fixer les bugs</string>
+    <string name="pref_sync_frequency">Activation du reveil</string>
+    <string name="pref_sync_frequency_summary">Frequence du reveil</string>
+    <string name="pref_user_name">Nom utilisateur</string>
+    <string name="pref_user_name_summary">Entrer le nom du profil</string>
+
+    <string name="pref_user_profile">Profile Utilisateur</string>
+    <string name="pref_update_setting">Paramètres reveil</string>
 </resources>
