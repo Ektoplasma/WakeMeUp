@@ -54,7 +54,7 @@
 
 		}
 		else{
-			$response["statut"] = array("succes"=>"false","error"=>"sql search error");
+			$response["statut"] = array("succes"=>"false","error"=>"sql search error ".$cookie);
 			header('Content-Type: application/json;charset=utf-8');
 			echo json_encode($response, JSON_FORCE_OBJECT | JSON_PRETTY_PRINT);	
 		}

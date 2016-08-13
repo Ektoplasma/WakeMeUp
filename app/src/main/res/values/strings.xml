@@ -2,7 +2,7 @@
     <string name="app_name">WakeMeUp</string>
     <string name="action_settings">Settings</string>
     <string name="section_format">Hello World from section: %1$d</string>
-    <string name="hostname_server">valou.ddns.net</string>
+    <string name="hostname_server">valoulou.ddns.net</string>
 
     <string name="menu_settings">Settings</string>
     <string name="title_activity_main">MainActivity</string>

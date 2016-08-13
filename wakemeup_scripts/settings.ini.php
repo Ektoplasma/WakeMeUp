@@ -2,5 +2,5 @@
 [SQL]
 host = localhost
 user = wakemeup
-password = wakemeup
+password = q0SPQH7NXj8H
 dbname = wakemeup

@@ -10,6 +10,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
+import java.util.Collections;
 import java.util.Map;
 
 /**
@@ -35,14 +36,18 @@ public class DataRequest extends Request<JSONObject> {
     @Override
     protected Response<JSONObject> parseNetworkResponse(NetworkResponse response) {
         try {
+
             String jsonString = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
             System.out.println(jsonString);
 
             return Response.success(new JSONObject(jsonString), HttpHeaderParser.parseCacheHeaders(response));
+
         } catch (UnsupportedEncodingException e) {
             return Response.error(new ParseError(e));
         } catch (JSONException je) {
             return Response.error(new ParseError(je));
+        } catch(NullPointerException e){
+            return Response.error(new ParseError(e));
         }
     }
 

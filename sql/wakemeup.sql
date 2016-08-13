@@ -20,7 +20,7 @@ CREATE TABLE `alarm` (
   KEY `idUser` (`idUser`),
   KEY `idVoter` (`idVoter`),
   CONSTRAINT `alarm_ibfk_1` FOREIGN KEY (`idUser`) REFERENCES `members` (`id`) ON DELETE CASCADE,
-  CONSTRAINT `alarm_ibfk_2` FOREIGN KEY (`idVoter`) REFERENCES `alarm` (`id`) ON DELETE CASCADE
+  CONSTRAINT `alarm_ibfk_2` FOREIGN KEY (`idVoter`) REFERENCES `members` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 

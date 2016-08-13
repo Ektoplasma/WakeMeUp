@@ -10,7 +10,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -59,6 +61,7 @@ public final class Caller {
 
     public static void getBddAmi(){
 
+        if(Ami == null) Ami = new ArrayList<>();
         Map<String, String> params = new HashMap<>();
         params.put("cookie",cookieInstance);
 
@@ -66,20 +69,22 @@ public final class Caller {
             @Override
             public void onResponse(JSONObject response) {
                 try {
+
                     //JSONObject jsonResponse = response.getJSONObject("form");
                     JSONObject jsonResponse = response.getJSONObject("statut");
                     String succes = jsonResponse.getString("succes");
 
                     assert(succes != null);
                     if(succes.matches("true")) {
-                        JSONArray jsonAmis = jsonResponse.getJSONArray("amis");
-                        if (jsonAmis != null)
-                        {
-                            for (int i=0;i<jsonAmis.length();i++){
-                                Ami.add(jsonAmis.get(i).toString());
-                                System.out.println("Ami "+i+": "+Ami.get(i));
-                            }
+                        JSONObject jsonAmis = jsonResponse.getJSONObject("amis");
+                        Iterator x = jsonAmis.keys();
 
+                        int i = 0;
+                        while (x.hasNext()){
+                            String key = (String) x.next();
+                            Ami.add(jsonAmis.get(key).toString());
+                            System.out.println("Ami "+i+": "+Ami.get(i));
+                            i++;
                         }
                        // List<String> Ami = jsonResponse.
                         //masterLong = Float.valueOf(jsonResponse.getString("lon"));
