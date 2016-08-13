@@ -17,11 +17,12 @@
         </CheckBoxPreference>
 
         <ListPreference
-            android:key="prefSyncFrequency"
-            android:entries="@array/syncFrequency"
-            android:summary="@string/pref_sync_frequency_summary"
-            android:entryValues="@array/syncFrequencyValues"
-            android:title="@string/pref_sync_frequency" />
+            android:key="prefWhoWakeMe"
+            android:entries="@array/syncWhoWakeMe"
+            android:entryValues="@array/syncWhoWakeMeValues"
+            android:defaultValue="1"
+            android:summary="Tout le monde"
+            android:title="@string/pref_whowakeme" />
 
         <EditTextPreference
             android:title="@string/pref_reveil_default"

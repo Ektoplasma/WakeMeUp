@@ -2,7 +2,8 @@
     <string name="app_name">WakeMeUp</string>
     <string name="action_settings">Settings</string>
     <string name="section_format">Hello World from section: %1$d</string>
-    <string name="hostname_server">valoulou.ddns.net</string>
+   <!-- <string name="hostname_server">valoulou.ddns.net</string>-->
+    <string name="hostname_server">192.168.45.72</string>
 
     <string name="menu_settings">Settings</string>
     <string name="title_activity_main">MainActivity</string>
@@ -10,8 +11,8 @@
 
     <string name="pref_history">Historique de vote</string>
     <string name="pref_history_summary">Connaître qui a voté pour vous</string>
-    <string name="pref_sync_frequency">Activation du reveil</string>
-    <string name="pref_sync_frequency_summary">Frequence du reveil</string>
+    <string name="pref_whowakeme">Qui peut me réveiller</string>
+    <string name="pref_whowakeme_summary">Autorisation</string>
     <string name="pref_user_name">Nom utilisateur</string>
     <string name="pref_user_name_summary">Entrer le nom du profil</string>
     <string name="pref_reveil_default">Réveil par défault</string>
