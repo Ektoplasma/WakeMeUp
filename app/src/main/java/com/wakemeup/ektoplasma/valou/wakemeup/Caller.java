@@ -1,6 +1,7 @@
 package com.wakemeup.ektoplasma.valou.wakemeup;
 
 import android.content.Context;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -25,6 +26,25 @@ public final class Caller {
     private static String cookieInstance;
     private static List<String> Ami;
     private static Context ctx;
+    private static String currentLink;
+
+    private static String state;
+
+    public static String getState() {
+        return state;
+    }
+
+    public static void setState(String state) {
+        Caller.state = state;
+    }
+
+    public static String getCurrentLink() {
+        return currentLink;
+    }
+
+    public static void setCurrentLink(String currentLink) {
+        Caller.currentLink = currentLink;
+    }
 
     public static Context getCtx() {
         return ctx;
@@ -57,6 +77,49 @@ public final class Caller {
 
     public static void setAmi(List<String> ami) {
         Ami = ami;
+    }
+
+    public static void setClockSong(final String member){
+
+        Map<String, String> params = new HashMap<>();
+        params.put("cookie",cookieInstance);
+        params.put("member",member);
+        params.put("link",currentLink);
+
+        Response.Listener<JSONObject> reponseListener= new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+
+                    JSONObject jsonResponse = response.getJSONObject("statut");
+                    String succes = jsonResponse.getString("succes");
+
+                    assert(succes != null);
+                    if(succes.matches("true")) {
+                        System.out.println("Succes: "+succes);
+                        Toast.makeText(ctx, "a voté !", Toast.LENGTH_LONG).show();
+                    }
+                    else{
+                        System.out.println("Could not set alarm song to "+member);
+                        Toast.makeText(ctx, "echec...", Toast.LENGTH_LONG).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+
+        Response.ErrorListener errorListener = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+            }
+        };
+        DataRequest requestor = new DataRequest(Request.Method.POST, "http://"+ ctx.getResources().getString(R.string.hostname_server) +"/vote.php",params, reponseListener, errorListener);
+        //DataRequest requestor = new DataRequest(Request.Method.POST, "http://192.168.45.72/read.php",params, reponseListener, errorListener);
+
+        QueueSingleton.getInstance(ctx).addToRequestQueue(requestor);
+
     }
 
     public static void getBddAmi(){

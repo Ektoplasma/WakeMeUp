@@ -48,10 +48,9 @@ public class UsersList extends Fragment {
         ExpList.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-                /*TODO
-                * - Envoyer requête volley liant le lien youtube au réveil de la personne choisie
-                * */
-                Toast.makeText(getActivity(), "Nom de l'enfant :" + adapter.getChild(groupPosition, childPosition), Toast.LENGTH_LONG).show();
+                String name = adapter.getChild(groupPosition, childPosition).toString();
+                if(Caller.getCurrentLink() != null) Caller.setClockSong(name);
+                else Toast.makeText(getActivity(), "S'il vous plaît, partagez un lien Youtube avant de cliquer ici.", Toast.LENGTH_LONG).show();
                 return false;
             }
         });

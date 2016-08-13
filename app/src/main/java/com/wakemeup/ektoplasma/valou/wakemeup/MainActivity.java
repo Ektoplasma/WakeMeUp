@@ -104,8 +104,12 @@ public class MainActivity extends AppCompatActivity {
         String type = intent.getType();
 
         String sharedText = intent.getStringExtra(Intent.EXTRA_TEXT);
+
         if (sharedText != null) {
-            System.out.println(sharedText);
+            String currentLink = sharedText.split(".be/")[1];
+            assert(currentLink != null);
+            Caller.setCurrentLink(currentLink);
+
             viewPager.setCurrentItem(1);
         }
 
@@ -230,5 +234,6 @@ public class MainActivity extends AppCompatActivity {
             }
             return null;
         }
+
     }
 }
