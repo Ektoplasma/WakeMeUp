@@ -50,4 +50,6 @@ public class SettingsActivity extends PreferenceActivity implements
         }
     }
 
+    //TODO retourner valeur settings
+
 }
