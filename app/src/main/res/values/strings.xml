@@ -8,13 +8,20 @@
     <string name="title_activity_main">MainActivity</string>
 
 
-    <string name="pref_send_report">Envoyer rapport</string>
-    <string name="pref_send_report_summary">Aidez-nous à fixer les bugs</string>
+    <string name="pref_history">Historique de vote</string>
+    <string name="pref_history_summary">Connaître qui a voté pour vous</string>
     <string name="pref_sync_frequency">Activation du reveil</string>
     <string name="pref_sync_frequency_summary">Frequence du reveil</string>
     <string name="pref_user_name">Nom utilisateur</string>
     <string name="pref_user_name_summary">Entrer le nom du profil</string>
+    <string name="pref_reveil_default">Réveil par défault</string>
+    <string name="pref_reveil_default_summary">Lien YouTube</string>
+
+    <string name="pref_version">Version</string>
+    <string name="pref_version_summary">1.0</string>
 
     <string name="pref_user_profile">Profile Utilisateur</string>
     <string name="pref_update_setting">Paramètres reveil</string>
+    <string name="pref_about">A propos</string>
+
 </resources>
