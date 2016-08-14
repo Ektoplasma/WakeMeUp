@@ -19,7 +19,7 @@
         <ListPreference
             android:key="prefWhoWakeMe"
             android:entries="@array/syncWhoWakeMe"
-            android:entryValues="@array/syncWhoWakeMeValues"
+            android:entryValues="@array/syncWhoWakeMe"
             android:defaultValue="1"
             android:summary="Tout le monde"
             android:title="@string/pref_whowakeme" />

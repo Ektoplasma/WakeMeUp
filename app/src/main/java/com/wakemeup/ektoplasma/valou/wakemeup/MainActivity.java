@@ -4,6 +4,7 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.preference.PreferenceManager;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -22,6 +23,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.ToggleButton;
@@ -50,6 +52,8 @@ public class MainActivity extends AppCompatActivity {
     private static MainActivity inst;
     public ClockActivity ClockObject = new ClockActivity();
     protected Context ctx = this;
+    TabLayout tabLayout;
+    TabLayout.Tab tabreveil, tablist;
 
     public static MainActivity instance() {
         return inst;
@@ -64,9 +68,11 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
-        tabLayout.addTab(tabLayout.newTab().setText("Mon réveil"));
-        tabLayout.addTab(tabLayout.newTab().setText("Liste"));
+        tabLayout = (TabLayout) findViewById(R.id.tabs);
+        tabreveil = tabLayout.newTab().setText("Mon réveil");
+        tablist = tabLayout.newTab().setText("Liste");
+        tabLayout.addTab(tabreveil);
+        tabLayout.addTab(tablist);
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
         final ViewPager viewPager = (ViewPager) findViewById(R.id.container);
@@ -117,6 +123,25 @@ public class MainActivity extends AppCompatActivity {
 
         alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
 
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+
+        String value = PreferenceManager.getDefaultSharedPreferences(this).getString("prefWhoWakeMe", null);
+
+        System.out.println("Value -> "+value);
+
+        if(value.equals("Seulement moi") && tablist.getText() != null)
+        {
+            tabLayout.removeTab(tablist);
+        }
+        else if(tablist.getText() == null)
+        {
+            tablist = tabLayout.newTab().setText("Liste");
+            tabLayout.addTab(tablist);
+        }
     }
 
     public void onToggleClicked(View view) {

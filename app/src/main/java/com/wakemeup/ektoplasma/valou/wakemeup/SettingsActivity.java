@@ -22,6 +22,8 @@ public class SettingsActivity extends PreferenceActivity implements
         EditTextPreference editTextPref = (EditTextPreference) findPreference("prefReveilDefault");
         editTextPref
                 .setSummary(sp.getString("prefReveilDefault", "Lien YouTube"));
+        ListPreference lp = (ListPreference) findPreference("prefWhoWakeMe");
+        lp.setSummary(sp.getString("prefWhoWakeMe", "Tout le monde"));
 
     }
 
@@ -44,12 +46,10 @@ public class SettingsActivity extends PreferenceActivity implements
             EditTextPreference etp = (EditTextPreference) pref;
             pref.setSummary(etp.getText());
         }
-        else if (pref instanceof ListPreference) {
+        if (pref instanceof ListPreference) {
             ListPreference listp = (ListPreference) pref;
             pref.setSummary(listp.getEntry());
         }
     }
-
-    //TODO retourner valeur settings
 
 }
