@@ -1,9 +1,11 @@
 package com.wakemeup.ektoplasma.valou.wakemeup;
 
+import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,6 +30,7 @@ public class UsersList extends Fragment {
     List<String> ListUsers;
     private ExpandableListView ExpList;
     UsersAdapter adapter;
+    SearchView sv;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -56,6 +59,7 @@ public class UsersList extends Fragment {
                 return false;
             }
         });
+
         return view;
     }
 

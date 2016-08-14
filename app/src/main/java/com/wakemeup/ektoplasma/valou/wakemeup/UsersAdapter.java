@@ -2,19 +2,23 @@ package com.wakemeup.ektoplasma.valou.wakemeup;
 
 import android.content.Context;
 import android.graphics.Typeface;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 /**
  * Created by Valentin on 03/08/2016.
  */
-public class UsersAdapter extends BaseExpandableListAdapter{
+public class UsersAdapter extends BaseExpandableListAdapter {
 
     private Context ctx;
     private HashMap<String, List<String>> UsersCategory;
@@ -86,6 +90,8 @@ public class UsersAdapter extends BaseExpandableListAdapter{
         }
         TextView child_textview = (TextView) convertView.findViewById(R.id.ChildTxt);
         child_textview.setText(ChildTitle);
+
+        notifyDataSetChanged();
 
         return convertView;
     }
