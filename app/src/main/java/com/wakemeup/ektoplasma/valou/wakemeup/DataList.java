@@ -16,7 +16,7 @@ public class DataList {
         HashMap<String, List<String>> UsersDetails = new HashMap<String, List<String>>();
 
         //version avec volley : non testée donc en commentaire
-        Caller.setCookieInstance("def");
+        Caller.setCookieInstance("abc");
         Caller.getBddAmi();
         List<String> Amis = Caller.getAmi();
 

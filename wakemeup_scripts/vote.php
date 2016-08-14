@@ -41,6 +41,7 @@
 							$alarm->chosen = "false";
 
 							//if($alarm->Save() !== null) OK else KO;
+							$alarm->Save();
 						}
 
 						$alarm->idUser = $o_another["id"];
