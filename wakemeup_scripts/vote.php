@@ -31,12 +31,23 @@
 
 				foreach($found_member as $o_member){
 					foreach ($found_another as $o_another) {
+
+						$alarm->idUser = $o_another["id"];
+						$alarm->chosen = "true";
+						$found_clocksongs = $alarm->Search();
+
+						foreach ($found_clocksongs as $o_clocksongs) {
+							$alarm->id = $o_clocksongs["id"];
+							$alarm->chosen = "false";
+
+							//if($alarm->Save() !== null) OK else KO;
+						}
+
 						$alarm->idUser = $o_another["id"];
 						$alarm->idVoter = $o_member["id"];
 						$alarm->ytlink = $link;
 						$alarm->enabled = "true";
 						$alarm->chosen = "true";
-						//TODO tout le reste à false
 
 						$creation = $alarm->Create();
 
