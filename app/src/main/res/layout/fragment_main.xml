@@ -36,6 +36,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/ClockAlarmPicker"
         android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:layout_centerInParent="true"/>
 
 </RelativeLayout>

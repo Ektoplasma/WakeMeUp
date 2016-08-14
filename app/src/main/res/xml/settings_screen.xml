@@ -32,11 +32,11 @@
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/pref_about">
-        <EditTextPreference
-            android:title="@string/pref_version"
-            android:summary="@string/pref_version_summary"
-            android:editable="false"
-        />
+        <PreferenceScreen
+            android:title="Version"
+            android:key="version"
+            android:summary="1.0">
+        </PreferenceScreen>
     </PreferenceCategory>
 
 </PreferenceScreen>
