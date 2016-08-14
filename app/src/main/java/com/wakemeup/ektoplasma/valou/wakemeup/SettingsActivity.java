@@ -6,6 +6,7 @@ import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
+import android.preference.PreferenceManager;
 
 /**
  * Created by Valentin on 11/08/2016.
@@ -50,6 +51,11 @@ public class SettingsActivity extends PreferenceActivity implements
             ListPreference listp = (ListPreference) pref;
             pref.setSummary(listp.getEntry());
         }
+    }
+
+    public String getAutorisation()
+    {
+        return PreferenceManager.getDefaultSharedPreferences(this).getString("prefWhoWakeMe", null);
     }
 
 }

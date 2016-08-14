@@ -3,6 +3,7 @@ package com.wakemeup.ektoplasma.valou.wakemeup;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.widget.SearchView;
@@ -36,10 +37,7 @@ public class UsersList extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_list, container, false);
         ExpList = (ExpandableListView) view.findViewById(R.id.expandableListPerson);
-        UsersCategory = DataList.getData();
-        ListUsers = new ArrayList<String>(UsersCategory.keySet());
-        adapter = new UsersAdapter(getActivity(), UsersCategory, ListUsers);
-        ExpList.setAdapter(adapter);
+        setList();
 
         ExpList.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
             @Override
@@ -61,6 +59,22 @@ public class UsersList extends Fragment {
         });
 
         return view;
+    }
+
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+        setList();
+
+    }
+
+    private void setList()
+    {
+        UsersCategory = DataList.getData(PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("prefWhoWakeMe", null));
+        ListUsers = new ArrayList<String>(UsersCategory.keySet());
+        adapter = new UsersAdapter(getActivity(), UsersCategory, ListUsers);
+        ExpList.setAdapter(adapter);
     }
 
 }
