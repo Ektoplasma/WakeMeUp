@@ -36,6 +36,7 @@
 						$alarm->ytlink = $link;
 						$alarm->enabled = "true";
 						$alarm->chosen = "true";
+						//TODO tout le reste à false
 
 						$creation = $alarm->Create();
 

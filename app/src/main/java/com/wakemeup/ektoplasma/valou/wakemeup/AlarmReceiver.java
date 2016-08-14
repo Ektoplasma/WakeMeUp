@@ -23,9 +23,7 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
         ClockActivity essai = new ClockActivity();
         Log.d("AlarmReceiver", "Alarm sonne");
         essai.setAlarmText("Le reveil sonne");
-        intent = new Intent(context, YoutubeActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(intent);
+        Caller.getClockSong();
         //this will sound the alarm tone
         //this will sound the alarm once, if you wish to
         //raise alarm in loop continuously then use MediaPlayer and setLooping(true)

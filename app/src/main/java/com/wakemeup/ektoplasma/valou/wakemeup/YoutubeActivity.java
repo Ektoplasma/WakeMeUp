@@ -33,6 +33,8 @@ public class YoutubeActivity extends YouTubeBaseActivity {
 
     protected void onCreate(Bundle bundle) {
         super.onCreate(bundle);
+        final String link = getIntent().getStringExtra("YTLINK");
+        System.out.println(link);
         setContentView(R.layout.activity_youtube);
 
         youTubePlayerView = (YouTubePlayerView) findViewById(R.id.youtube_view);
@@ -41,7 +43,7 @@ public class YoutubeActivity extends YouTubeBaseActivity {
             @Override
             public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
                 MyouTubePlayer = youTubePlayer;
-                MyouTubePlayer.loadVideo("oavMtUWDBTM");
+                MyouTubePlayer.loadVideo(link);
 
             }
 

@@ -1,6 +1,7 @@
 package com.wakemeup.ektoplasma.valou.wakemeup;
 
 import android.content.Context;
+import android.content.Intent;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -120,6 +121,50 @@ public final class Caller {
 
         QueueSingleton.getInstance(ctx).addToRequestQueue(requestor);
 
+    }
+
+    public static void getClockSong(){
+        Map<String, String> params = new HashMap<>();
+        params.put("cookie",cookieInstance);
+
+        Response.Listener<JSONObject> reponseListener= new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+
+                    JSONObject jsonResponse = response.getJSONObject("statut");
+                    String succes = jsonResponse.getString("succes");
+
+                    assert(succes != null);
+                    if(succes.matches("true")) {
+                        System.out.println("Succes: "+succes);
+                        String link = jsonResponse.getString("link");
+                        Toast.makeText(ctx, "Good Morning ! (Message du voteur TODO)", Toast.LENGTH_LONG).show();
+                        Intent intent = new Intent(ctx, YoutubeActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        intent.putExtra("YTLINK", link);
+                        ctx.startActivity(intent);
+                    }
+                    else{
+                        System.out.println("Could not get alarm song.");
+                        Toast.makeText(ctx, "echec...", Toast.LENGTH_LONG).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+
+        Response.ErrorListener errorListener = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+            }
+        };
+        DataRequest requestor = new DataRequest(Request.Method.POST, "http://"+ ctx.getResources().getString(R.string.hostname_server) +"/awake.php",params, reponseListener, errorListener);
+        //DataRequest requestor = new DataRequest(Request.Method.POST, "http://192.168.45.72/read.php",params, reponseListener, errorListener);
+
+        QueueSingleton.getInstance(ctx).addToRequestQueue(requestor);
     }
 
     public static void getBddAmi(){

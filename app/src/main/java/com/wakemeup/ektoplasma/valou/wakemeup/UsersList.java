@@ -49,6 +49,8 @@ public class UsersList extends Fragment {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
                 String name = adapter.getChild(groupPosition, childPosition).toString();
+                /*TODO
+                        -message du voteur*/
                 if(Caller.getCurrentLink() != null) Caller.setClockSong(name);
                 else Toast.makeText(getActivity(), "S'il vous plaît, partagez un lien Youtube avant de cliquer ici.", Toast.LENGTH_LONG).show();
                 return false;
