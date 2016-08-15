@@ -31,6 +31,12 @@ public class UsersAdapter extends BaseExpandableListAdapter {
         this.ListUsers = ListUsers;
     }
 
+    public void updateUsersList(List<String> newlist) {
+        ListUsers.clear();
+        ListUsers.addAll(newlist);
+        this.notifyDataSetChanged();
+    }
+
     @Override
     public int getGroupCount() {
         return ListUsers.size();
@@ -91,8 +97,6 @@ public class UsersAdapter extends BaseExpandableListAdapter {
         TextView child_textview = (TextView) convertView.findViewById(R.id.ChildTxt);
         child_textview.setText(ChildTitle);
 
-        notifyDataSetChanged();
-
         return convertView;
     }
 
@@ -101,9 +105,4 @@ public class UsersAdapter extends BaseExpandableListAdapter {
         return true;
     }
 
-    public void refreshList(List<String> ListUsers) {
-        this.ListUsers.clear();
-        this.ListUsers.addAll(ListUsers);
-        notifyDataSetChanged();
-    }
 }

@@ -12,6 +12,7 @@ import java.util.List;
  */
 public class DataList {
 
+
     public static HashMap<String, List<String>> getData(String autorisation)
     {
         HashMap<String, List<String>> UsersDetails = new HashMap<String, List<String>>();
@@ -27,8 +28,6 @@ public class DataList {
         //List<String> Amis = new ArrayList<String>();
         //Amis.add("Valou");
         //Amis.add("Théo");
-
-        SettingsActivity settings = new SettingsActivity();
 
         UsersDetails.put("Amis", Amis);
 

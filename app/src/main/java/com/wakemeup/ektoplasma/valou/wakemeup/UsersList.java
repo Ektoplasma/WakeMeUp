@@ -39,16 +39,9 @@ public class UsersList extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_list, container, false);
         ExpList = (ExpandableListView) view.findViewById(R.id.expandableListPerson);
-        String autorisation = PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("prefWhoWakeMe", null);
-
-        if(autorisation != null)
-            UsersCategory = DataList.getData(autorisation);
-        else
-            UsersCategory = DataList.getData("Tout le monde");
-        ListUsers = new ArrayList<String>(UsersCategory.keySet());
+        setList();
         adapter = new UsersAdapter(getActivity(), UsersCategory, ListUsers);
         ExpList.setAdapter(adapter);
-        ((BaseAdapter) ExpList.getAdapter()).notifyDataSetChanged();
 
         ExpList.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
             @Override
@@ -86,6 +79,19 @@ public class UsersList extends Fragment {
     public void onResume()
     {
         super.onResume();
+       // adapter.notifyDataSetChanged();
+        setList();
+        adapter.updateUsersList(ListUsers);//clear
     }
 
+    private void setList()
+    {
+        String autorisation = PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("prefWhoWakeMe", null);
+
+        if(autorisation != null)
+            UsersCategory = DataList.getData(autorisation);
+        else
+            UsersCategory = DataList.getData("Tout le monde");
+        ListUsers = new ArrayList<String>(UsersCategory.keySet());
+    }
 }
