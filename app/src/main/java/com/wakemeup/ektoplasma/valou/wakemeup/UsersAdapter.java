@@ -100,4 +100,10 @@ public class UsersAdapter extends BaseExpandableListAdapter {
     public boolean isChildSelectable(int i, int i1) {
         return true;
     }
+
+    public void refreshList(List<String> ListUsers) {
+        this.ListUsers.clear();
+        this.ListUsers.addAll(ListUsers);
+        notifyDataSetChanged();
+    }
 }

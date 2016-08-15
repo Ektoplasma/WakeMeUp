@@ -131,17 +131,21 @@ public class MainActivity extends AppCompatActivity {
 
         String value = PreferenceManager.getDefaultSharedPreferences(this).getString("prefWhoWakeMe", null);
 
-        System.out.println("Value -> "+value);
+        System.out.println("Value pref main activity -> "+value);
 
-        if(value.equals("Seulement moi") && tablist.getText() != null)
+        if(value != null)
         {
-            tabLayout.removeTab(tablist);
+            if(value.equals("Seulement moi") && tablist.getText() != null)
+            {
+                tabLayout.removeTab(tablist);
+            }
+            else if(tablist.getText() == null)
+            {
+                tablist = tabLayout.newTab().setText("Liste");
+                tabLayout.addTab(tablist);
+            }
         }
-        else if(tablist.getText() == null)
-        {
-            tablist = tabLayout.newTab().setText("Liste");
-            tabLayout.addTab(tablist);
-        }
+
     }
 
     public void onToggleClicked(View view) {

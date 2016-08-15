@@ -20,7 +20,7 @@
             android:key="prefWhoWakeMe"
             android:entries="@array/syncWhoWakeMe"
             android:entryValues="@array/syncWhoWakeMe"
-            android:defaultValue="1"
+            android:defaultValue="Tout le monde"
             android:summary="Tout le monde"
             android:title="@string/pref_whowakeme" />
 
