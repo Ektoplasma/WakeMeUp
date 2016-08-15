@@ -24,6 +24,7 @@ import java.util.Map;
 public final class Caller {
 
     private static String username;
+    private static String pseudonyme;
     private static String cookieInstance;
     private static List<String> Ami;
     private static Context ctx;
@@ -55,7 +56,6 @@ public final class Caller {
         Caller.ctx = ctx;
     }
 
-
     public static String getUsername() {
         return username;
     }
@@ -68,9 +68,7 @@ public final class Caller {
         return cookieInstance;
     }
 
-    public static void setCookieInstance(String cookieInstance) {
-        Caller.cookieInstance = cookieInstance;
-    }
+    public static void setCookieInstance(String cookieInstance) { Caller.cookieInstance = cookieInstance; }
 
     public static List<String> getAmi() {
         return Ami;
@@ -78,6 +76,99 @@ public final class Caller {
 
     public static void setAmi(List<String> ami) {
         Ami = ami;
+    }
+
+    public static void signup(String user, String pseudo, String password){
+        Map<String, String> params = new HashMap<>();
+        params.put("user", user);
+        params.put("pseudonyme", pseudo);
+        params.put("password",password);
+
+        username = user;
+        pseudonyme = pseudo;
+
+        Response.Listener<JSONObject> reponseListener= new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    JSONObject jsonResponse = response.getJSONObject("statut");
+                    String succes = jsonResponse.getString("succes");
+
+                    System.out.println("Succes: "+succes);
+
+                    assert(succes != null);
+                    if(succes.matches("true")) {
+                        String cookie = jsonResponse.getString("cookie");
+                        System.out.println("Cookie: "+cookie);
+                        cookieInstance = cookie;
+                        Intent mapIntent = new Intent(ctx, MainActivity.class);
+                        ctx.startActivity(mapIntent);
+                    }
+                    else{
+                        username = "";
+                        pseudonyme = "";
+                        System.out.println("Try again please.");
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        Response.ErrorListener errorListener = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+            }
+        };
+        DataRequest requestor = new DataRequest(Request.Method.POST, "http://"+ ctx.getResources().getString(R.string.hostname_server) +"/create.php",params, reponseListener, errorListener);
+
+        QueueSingleton.getInstance(ctx).addToRequestQueue(requestor);
+    }
+
+    public static void signin(String user, String password){
+        Map<String, String> params = new HashMap<>();
+        params.put("user", user);
+        params.put("password",password);
+
+        username = user;
+
+        Response.Listener<JSONObject> reponseListener= new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    JSONObject jsonResponse = response.getJSONObject("statut");
+                    String succes = jsonResponse.getString("succes");
+
+                    System.out.println("Succes: "+succes);
+
+                    assert(succes != null);
+                    if(succes.matches("true")) {
+                        String cookie = jsonResponse.getString("cookie");
+                        String pseudo = jsonResponse.getString("pseudonyme");
+                        System.out.println("Cookie: "+cookie + " Pseudonyme: "+pseudo);
+                        cookieInstance = cookie;
+                        pseudonyme = pseudo;
+                        Intent mapIntent = new Intent(ctx, MainActivity.class);
+                        ctx.startActivity(mapIntent);
+                    }
+                    else{
+                        username = "";
+                        System.out.println("Try again please.");
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        Response.ErrorListener errorListener = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+            }
+        };
+        DataRequest requestor = new DataRequest(Request.Method.POST, "http://"+ ctx.getResources().getString(R.string.hostname_server) +"/login.php",params, reponseListener, errorListener);
+
+        QueueSingleton.getInstance(ctx).addToRequestQueue(requestor);
     }
 
     public static void setClockSong(final String member){
@@ -117,7 +208,6 @@ public final class Caller {
             }
         };
         DataRequest requestor = new DataRequest(Request.Method.POST, "http://"+ ctx.getResources().getString(R.string.hostname_server) +"/vote.php",params, reponseListener, errorListener);
-        //DataRequest requestor = new DataRequest(Request.Method.POST, "http://192.168.45.72/read.php",params, reponseListener, errorListener);
 
         QueueSingleton.getInstance(ctx).addToRequestQueue(requestor);
 
@@ -162,7 +252,6 @@ public final class Caller {
             }
         };
         DataRequest requestor = new DataRequest(Request.Method.POST, "http://"+ ctx.getResources().getString(R.string.hostname_server) +"/awake.php",params, reponseListener, errorListener);
-        //DataRequest requestor = new DataRequest(Request.Method.POST, "http://192.168.45.72/read.php",params, reponseListener, errorListener);
 
         QueueSingleton.getInstance(ctx).addToRequestQueue(requestor);
     }
@@ -178,7 +267,6 @@ public final class Caller {
             public void onResponse(JSONObject response) {
                 try {
 
-                    //JSONObject jsonResponse = response.getJSONObject("form");
                     JSONObject jsonResponse = response.getJSONObject("statut");
                     String succes = jsonResponse.getString("succes");
 
@@ -194,9 +282,6 @@ public final class Caller {
                             System.out.println("Ami "+i+": "+Ami.get(i));
                             i++;
                         }
-                       // List<String> Ami = jsonResponse.
-                        //masterLong = Float.valueOf(jsonResponse.getString("lon"));
-                        //masterLat = Float.valueOf(jsonResponse.getString("lat"));
 
                     }
                     else{
@@ -215,7 +300,6 @@ public final class Caller {
             }
         };
         DataRequest requestor = new DataRequest(Request.Method.POST, "http://"+ ctx.getResources().getString(R.string.hostname_server) +"/read.php",params, reponseListener, errorListener);
-        //DataRequest requestor = new DataRequest(Request.Method.POST, "http://192.168.45.72/read.php",params, reponseListener, errorListener);
 
         QueueSingleton.getInstance(ctx).addToRequestQueue(requestor);
 
