@@ -11,6 +11,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.BaseAdapter;
+import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.SimpleExpandableListAdapter;
 import android.widget.TextView;
@@ -31,13 +34,21 @@ public class UsersList extends Fragment {
     List<String> ListUsers;
     private ExpandableListView ExpList;
     UsersAdapter adapter;
-    SearchView sv;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_list, container, false);
         ExpList = (ExpandableListView) view.findViewById(R.id.expandableListPerson);
-        setList();
+        String autorisation = PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("prefWhoWakeMe", null);
+
+        if(autorisation != null)
+            UsersCategory = DataList.getData(autorisation);
+        else
+            UsersCategory = DataList.getData("Tout le monde");
+        ListUsers = new ArrayList<String>(UsersCategory.keySet());
+        adapter = new UsersAdapter(getActivity(), UsersCategory, ListUsers);
+        ExpList.setAdapter(adapter);
+        ((BaseAdapter) ExpList.getAdapter()).notifyDataSetChanged();
 
         ExpList.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
             @Override
@@ -58,6 +69,16 @@ public class UsersList extends Fragment {
             }
         });
 
+        ExpList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
+                                           int pos, long id) {
+                Toast.makeText(getActivity(), "Long click "+pos+" "+id, Toast.LENGTH_LONG).show();
+
+                return true;
+            }
+        });
+
         return view;
     }
 
@@ -65,16 +86,6 @@ public class UsersList extends Fragment {
     public void onResume()
     {
         super.onResume();
-        setList();
-
-    }
-
-    private void setList()
-    {
-        UsersCategory = DataList.getData(PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("prefWhoWakeMe", null));
-        ListUsers = new ArrayList<String>(UsersCategory.keySet());
-        adapter = new UsersAdapter(getActivity(), UsersCategory, ListUsers);
-        ExpList.setAdapter(adapter);
     }
 
 }

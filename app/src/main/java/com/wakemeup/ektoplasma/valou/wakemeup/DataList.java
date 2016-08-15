@@ -19,7 +19,9 @@ public class DataList {
         //version avec volley : non testée donc en commentaire
         Caller.setCookieInstance("abc");
         Caller.getBddAmi();
+
         List<String> Amis = Caller.getAmi();
+
         List<String> ToutLeMonde = new ArrayList<String>();
 
         //List<String> Amis = new ArrayList<String>();

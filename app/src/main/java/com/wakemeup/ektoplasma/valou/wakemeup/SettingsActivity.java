@@ -53,9 +53,4 @@ public class SettingsActivity extends PreferenceActivity implements
         }
     }
 
-    public String getAutorisation()
-    {
-        return PreferenceManager.getDefaultSharedPreferences(this).getString("prefWhoWakeMe", null);
-    }
-
 }
