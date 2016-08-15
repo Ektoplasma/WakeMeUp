@@ -81,7 +81,7 @@ public class UsersList extends Fragment {
         super.onResume();
        // adapter.notifyDataSetChanged();
         setList();
-        adapter.updateUsersList(ListUsers);
+        adapter.updateUsersList(ListUsers);//clear
     }
 
     private void setList()
