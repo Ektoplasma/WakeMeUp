@@ -23,11 +23,13 @@ public class DataList {
 
         List<String> Amis = Caller.getAmi();
 
+        System.out.println("Liste -> "+Amis);
+
         List<String> ToutLeMonde = new ArrayList<String>();
 
-        //List<String> Amis = new ArrayList<String>();
-        //Amis.add("Valou");
-        //Amis.add("Théo");
+      /*  List<String> Amis = new ArrayList<String>();
+        Amis.add("Valou");
+        Amis.add("Théo");*/
 
         UsersDetails.put("Amis", Amis);
 

@@ -8,7 +8,11 @@ import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -34,14 +38,17 @@ public class UsersList extends Fragment {
     List<String> ListUsers;
     private ExpandableListView ExpList;
     UsersAdapter adapter;
+    //private String[] Userstring;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_list, container, false);
         ExpList = (ExpandableListView) view.findViewById(R.id.expandableListPerson);
+       // Userstring = getResources().getStringArray(R.array.);
         setList();
         adapter = new UsersAdapter(getActivity(), UsersCategory, ListUsers);
         ExpList.setAdapter(adapter);
+        registerForContextMenu(ExpList);
 
         ExpList.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
             @Override
@@ -59,16 +66,6 @@ public class UsersList extends Fragment {
                 if(Caller.getCurrentLink() != null) Caller.setClockSong(name);
                 else Toast.makeText(getActivity(), "S'il vous plaît, partagez un lien Youtube avant de cliquer ici.", Toast.LENGTH_LONG).show();
                 return false;
-            }
-        });
-
-        ExpList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
-                                           int pos, long id) {
-                Toast.makeText(getActivity(), "Long click "+pos+" "+id, Toast.LENGTH_LONG).show();
-
-                return true;
             }
         });
 
@@ -93,5 +90,27 @@ public class UsersList extends Fragment {
         else
             UsersCategory = DataList.getData("Tout le monde");
         ListUsers = new ArrayList<String>(UsersCategory.keySet());
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+
+        MenuInflater inflater = this.getActivity().getMenuInflater();
+        inflater.inflate(R.menu.menu_context, menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+
+            case R.id.quitter:
+                System.out.println("Bonjour");
+                return true;
+
+            default:
+                return super.onContextItemSelected(item);
+        }
     }
 }
