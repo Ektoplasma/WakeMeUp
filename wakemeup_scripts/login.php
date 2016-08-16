@@ -8,7 +8,7 @@
 
    if (isset($_POST["user"]) && isset($_POST["password"])) {
 
-   	$user = filter_var($_POST["user"],FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+	$user = filter_var($_POST["user"],FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 	$mdp = filter_var($_POST["password"],FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
 	if(!empty($user) && !empty($mdp)){
@@ -26,23 +26,24 @@
 				if (password_verify($mdp, $o_member["password"])) {
 
 					$once = true;
-			                          $salt = openssl_random_pseudo_bytes(32);
-			                          $cookie = hash('sha256', $user.$o_member["pseudonyme"].$o_member["password"].$salt);
+					$pseudo = $o_member["pseudonyme"];
+					$salt = openssl_random_pseudo_bytes(32);
+					$cookie = hash('sha256', $user.$o_member["pseudonyme"].$o_member["password"].$salt);
 					$members->id = $o_member["id"];
 					$members->cookie = $cookie;
 					$members->Save();
 
-					$response["statut"] = array("succes"=>"true","cookie"=>$cookie);
+					$response["statut"] = array("succes"=>"true","cookie"=>$cookie, "pseudonyme"=>$pseudo);
 
 					header('Content-Type: application/json;charset=utf-8');
 					echo json_encode($response, JSON_FORCE_OBJECT | JSON_PRETTY_PRINT);
 				}
 			}
 			if($once === false){
-	                        		$response["statut"] = array("succes"=>"false", "error"=>"sql match error");
-	                        		header('Content-Type: application/json;charset=utf-8');
-	                        		echo json_encode($response, JSON_FORCE_OBJECT | JSON_PRETTY_PRINT); 
-	                 	 }
+				$response["statut"] = array("succes"=>"false", "error"=>"sql match error");
+				header('Content-Type: application/json;charset=utf-8');
+				echo json_encode($response, JSON_FORCE_OBJECT | JSON_PRETTY_PRINT); 
+			}
 		}
 		else {
 			$response["statut"] = array("succes"=>"false","error"=>"sql match error");
