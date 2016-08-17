@@ -109,13 +109,14 @@ public class UsersList extends Fragment {
 
         } else if (type == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
             menu.setHeaderTitle(selection);
+            menu.add(0, 1, 1, "Réveiller");
             if(adapter.getGroup(groupPosition).toString() == "Tous les utilisateurs")
             {
-                menu.add(0, 1, 1, "Ajouter");
+                menu.add(1, 2, 2, "Ajouter");
             }
             else
             {
-                menu.add(0, 2, 2, "Supprimer");
+                menu.add(1, 3, 3, "Supprimer");
             }
 
         }
@@ -125,15 +126,21 @@ public class UsersList extends Fragment {
     public boolean onContextItemSelected(MenuItem item)
     {
 
-        if(item.getItemId() == 1)//Click sur ajouter
+        switch (item.getItemId())
         {
-            Toast.makeText(getActivity(), "Demande d'ajout envoyée", Toast.LENGTH_LONG).show();
-        }
-        else // Click sur supprimer
-        {
-            Toast.makeText(getActivity(), "Ami retiré de la liste", Toast.LENGTH_LONG).show();
+            case 1://Lancement App YouTube
+                Intent LaunchIntent =  getActivity().getPackageManager().getLaunchIntentForPackage("com.google.android.youtube");
+                startActivity(LaunchIntent);
+                break;
+            case 2://Ajout d'ami
+                Toast.makeText(getActivity(), "Demande d'ajout envoyée", Toast.LENGTH_LONG).show();
+                break;
+            case 3://Supression ami
+                Toast.makeText(getActivity(), "Ami retiré de la liste", Toast.LENGTH_LONG).show();
+                break;
         }
         return super.onContextItemSelected(item);
     }
+
 
 }
