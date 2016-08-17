@@ -79,6 +79,7 @@ public class UsersList extends Fragment {
        // adapter.notifyDataSetChanged();
         setList();
         adapter.updateUsersList(ListUsers);//clear
+        registerForContextMenu(ExpList);
     }
 
     private void setList()
@@ -96,21 +97,43 @@ public class UsersList extends Fragment {
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
 
-        MenuInflater inflater = this.getActivity().getMenuInflater();
-        inflater.inflate(R.menu.menu_context, menu);
+        ExpandableListView.ExpandableListContextMenuInfo info = (ExpandableListView.ExpandableListContextMenuInfo) menuInfo;
+
+        int type = ExpandableListView.getPackedPositionType(info.packedPosition);
+        int groupPosition = ExpandableListView.getPackedPositionGroup(info.packedPosition);
+        int childPosition = ExpandableListView.getPackedPositionChild(info.packedPosition);
+
+        String selection = adapter.getChild(groupPosition, childPosition).toString();
+
+        if (type == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
+
+        } else if (type == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
+            menu.setHeaderTitle(selection);
+            if(adapter.getGroup(groupPosition).toString() == "Tous les utilisateurs")
+            {
+                menu.add(0, 1, 1, "Ajouter");
+            }
+            else
+            {
+                menu.add(0, 2, 2, "Supprimer");
+            }
+
+        }
     }
 
     @Override
-    public boolean onContextItemSelected(MenuItem item) {
+    public boolean onContextItemSelected(MenuItem item)
+    {
 
-        switch (item.getItemId()) {
-
-            case R.id.quitter:
-                System.out.println("Bonjour");
-                return true;
-
-            default:
-                return super.onContextItemSelected(item);
+        if(item.getItemId() == 1)//Click sur ajouter
+        {
+            Toast.makeText(getActivity(), "Demande d'ajout envoyée", Toast.LENGTH_LONG).show();
         }
+        else // Click sur supprimer
+        {
+            Toast.makeText(getActivity(), "Ami retiré de la liste", Toast.LENGTH_LONG).show();
+        }
+        return super.onContextItemSelected(item);
     }
+
 }
