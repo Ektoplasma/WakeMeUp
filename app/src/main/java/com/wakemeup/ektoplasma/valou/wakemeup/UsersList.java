@@ -41,7 +41,6 @@ public class UsersList extends Fragment {
     List<String> ListUsers;
     private ExpandableListView ExpList;
     UsersAdapter adapter;
-    Lock lock = new ReentrantLock();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -91,6 +90,7 @@ public class UsersList extends Fragment {
 
     private void setList()
     {
+        //TODO : setList threadé
         String autorisation = PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("prefWhoWakeMe", null);
 
         if(autorisation != null)
@@ -151,7 +151,7 @@ public class UsersList extends Fragment {
         return super.onContextItemSelected(item);
     }
 
-    private synchronized HashMap<String, List<String>> getData(String autorisation)
+    private HashMap<String, List<String>> getData(String autorisation)
     {
 
         HashMap<String, List<String>> UsersDetails = new HashMap<String, List<String>>();
@@ -159,12 +159,15 @@ public class UsersList extends Fragment {
         //version avec volley : non testée donc en commentaire
         Caller.setCookieInstance("abc");
 
-        Caller.getBddAmi(lock);
+        Caller.getBddAmi();
 
-        lock.lock();
         List<String> Amis = Caller.getAmi();
-        lock.unlock();
 
+        try {
+            wait();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         System.out.println("Liste -> "+Amis);
 
 

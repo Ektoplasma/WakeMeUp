@@ -33,16 +33,8 @@ public final class Caller {
     private static List<String> Ami;
     private static Context ctx;
     private static String currentLink;
-    private static AtomicBoolean produced = new AtomicBoolean();
 
     private static String state;
-
-    public static AtomicBoolean getProduced() { return produced; }
-
-    public static void setProduced(boolean b_produced)
-    {
-        produced.set(b_produced);
-    }
 
     public static String getState() {
         return state;
@@ -268,12 +260,11 @@ public final class Caller {
         QueueSingleton.getInstance(ctx).addToRequestQueue(requestor);
     }
 
-    public static void getBddAmi(final Lock lock){
+    public static void getBddAmi(){
 
         if(Ami == null)Ami = new ArrayList<>();
         Map<String, String> params = new HashMap<>();
         params.put("cookie",cookieInstance);
-        lock.lock();
 
         Response.Listener<JSONObject> reponseListener= new Response.Listener<JSONObject>() {
             @Override
@@ -300,13 +291,12 @@ public final class Caller {
                         hs.addAll(Ami);
                         Ami.clear();
                         Ami.addAll(hs);
-                        lock.unlock();
 
                     }
                     else{
                         System.out.println("Could not fetch friends");
                     }
-                    produced.set(true);
+
 
                 } catch (JSONException e) {
                     e.printStackTrace();
