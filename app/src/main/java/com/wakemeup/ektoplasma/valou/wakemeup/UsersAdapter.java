@@ -125,14 +125,12 @@ public class UsersAdapter extends BaseExpandableListAdapter {
                 {
                     if(UsersCategory.get(OriginalListUsers.get(groupPosition)).get(childPosition).toString().contains(query))
                     {
+                        System.out.println("Bonjour -> "+UsersCategory.get(OriginalListUsers.get(groupPosition)).get(childPosition).toString());
                         ListUsers.add(UsersCategory.get(OriginalListUsers.get(groupPosition)).get(childPosition).toString());
-                        //test
                     }
                 }
-
             }
         }
-
         notifyDataSetChanged();
     }
 
