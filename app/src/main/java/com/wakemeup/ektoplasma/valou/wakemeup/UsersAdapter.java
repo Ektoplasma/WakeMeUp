@@ -126,6 +126,7 @@ public class UsersAdapter extends BaseExpandableListAdapter {
                     if(UsersCategory.get(OriginalListUsers.get(groupPosition)).get(childPosition).toString().contains(query))
                     {
                         ListUsers.add(UsersCategory.get(OriginalListUsers.get(groupPosition)).get(childPosition).toString());
+                        //test
                     }
                 }
 
