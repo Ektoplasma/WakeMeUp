@@ -103,9 +103,9 @@ public class UsersList extends Fragment {
         String autorisation = PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("prefWhoWakeMe", null);
 
         if(autorisation != null)
-            UsersCategory = DataList.getData(autorisation);
+            UsersCategory = getData(autorisation);
         else
-            UsersCategory = DataList.getData("Tout le monde");
+            UsersCategory = getData("Tout le monde");
         ListUsers = new ArrayList<String>(UsersCategory.keySet());
     }
 
@@ -156,6 +156,48 @@ public class UsersList extends Fragment {
                 break;
         }
         return super.onContextItemSelected(item);
+    }
+
+    private HashMap<String, List<String>> getData(String autorisation)
+    {
+
+        HashMap<String, List<String>> UsersDetails = new HashMap<String, List<String>>();
+
+        //version avec volley : non testée donc en commentaire
+        Caller.setCookieInstance("abc");
+
+        Caller.getBddAmi();
+
+        List<String> Amis = Caller.getAmi();
+
+        try {
+            wait();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println("Liste -> "+Amis);
+
+
+
+        while(UsersDetails.containsKey("Amis")) UsersDetails.remove("Amis");
+        UsersDetails.put("Amis", Amis);
+
+        List<String> ToutLeMonde = new ArrayList<String>();
+
+        if(autorisation.equals("Tout le monde"))
+        {
+            ToutLeMonde.add("Jean");
+            ToutLeMonde.add("Billy");
+            ToutLeMonde.add("Il est drole lui");
+            UsersDetails.put("Tous les utilisateurs", ToutLeMonde);
+        }
+        else if(UsersDetails.get(ToutLeMonde) != null)
+        {
+            UsersDetails.remove(ToutLeMonde);
+        }
+        System.out.println(UsersDetails.values());
+
+        return UsersDetails;
     }
 
 }
