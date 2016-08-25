@@ -170,14 +170,7 @@ public class UsersList extends Fragment {
 
         List<String> Amis = Caller.getAmi();
 
-        try {
-            wait();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         System.out.println("Liste -> "+Amis);
-
-
 
         while(UsersDetails.containsKey("Amis")) UsersDetails.remove("Amis");
         UsersDetails.put("Amis", Amis);
