@@ -14,9 +14,13 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.locks.Lock;
 
 /**
  * Created by ektoplasma on 06/08/16.
@@ -258,7 +262,7 @@ public final class Caller {
 
     public static void getBddAmi(){
 
-        if(Ami == null) Ami = new ArrayList<>();
+        if(Ami == null)Ami = new ArrayList<>();
         Map<String, String> params = new HashMap<>();
         params.put("cookie",cookieInstance);
 
@@ -276,20 +280,28 @@ public final class Caller {
                         Iterator x = jsonAmis.keys();
 
                         int i = 0;
+
                         while (x.hasNext()){
                             String key = (String) x.next();
                             Ami.add(jsonAmis.get(key).toString());
                             System.out.println("Ami "+i+": "+Ami.get(i));
                             i++;
                         }
+                        Set<String> hs = new HashSet<>();
+                        hs.addAll(Ami);
+                        Ami.clear();
+                        Ami.addAll(hs);
 
                     }
                     else{
                         System.out.println("Could not fetch friends");
                     }
+
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+
             }
         };
 
