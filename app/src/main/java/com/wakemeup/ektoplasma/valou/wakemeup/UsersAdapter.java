@@ -22,16 +22,23 @@ public class UsersAdapter extends BaseExpandableListAdapter {
 
     private Context ctx;
     private HashMap<String, List<String>> UsersCategory;
+    private HashMap<String, List<String>> OriginalUsersCategory;
     private List<String> ListUsers;
     private List<String> OriginalListUsers;
+    private List<String> OriginalAllUser;
+    private List<String> OriginalFriends;
 
 
     public UsersAdapter(Context ctx, HashMap<String, List<String>> UsersCategory, List<String> ListUsers)
     {
         this.ctx = ctx;
         this.UsersCategory = UsersCategory;
+        this.OriginalUsersCategory = UsersCategory;
         this.ListUsers = ListUsers;
         this.OriginalListUsers = ListUsers;
+        this.OriginalAllUser =  new ArrayList<String>();
+        this.OriginalFriends = new ArrayList<String>();
+
     }
 
     public void updateUsersList(List<String> newlist) {
@@ -112,23 +119,40 @@ public class UsersAdapter extends BaseExpandableListAdapter {
 
     public void filterData(String query)
     {
-        ListUsers.clear();
-        System.out.println("Bonjour -> "+query);
+        //ListUsers.clear();
+       // System.out.println("Bonjour -> "+UsersCategory.remove(ListUsers.get(0)));
 
         if(query.isEmpty())
         {
-            ListUsers.addAll(OriginalListUsers);
+            UsersCategory.put("Amis", OriginalFriends);
+            UsersCategory.put("Tous les utilisateurs", OriginalAllUser);
         } else {
+
+            if(OriginalFriends.isEmpty())
+                OriginalFriends.clear();
+            if(OriginalAllUser.isEmpty())
+                OriginalAllUser.clear();
+
             for(int groupPosition=0; groupPosition<OriginalListUsers.size(); groupPosition++)
             {
+                List<String> temp = new ArrayList<String>();
                 for(int childPosition = 0; childPosition <  UsersCategory.get(OriginalListUsers.get(groupPosition)).size() ; childPosition++)
                 {
+                    if(groupPosition == 0)
+                        OriginalFriends.add(UsersCategory.get(OriginalListUsers.get(groupPosition)).get(childPosition).toString());
+                    else
+                        OriginalAllUser.add(UsersCategory.get(OriginalListUsers.get(groupPosition)).get(childPosition).toString());
                     if(UsersCategory.get(OriginalListUsers.get(groupPosition)).get(childPosition).toString().contains(query))
                     {
-                        System.out.println("Bonjour -> "+UsersCategory.get(OriginalListUsers.get(groupPosition)).get(childPosition).toString());
-                        ListUsers.add(UsersCategory.get(OriginalListUsers.get(groupPosition)).get(childPosition).toString());
+                       // System.out.println("Bonjour -> "+UsersCategory.get(OriginalListUsers.get(groupPosition)).get(childPosition).toString());
+                       temp.add(UsersCategory.get(OriginalListUsers.get(groupPosition)).get(childPosition).toString());
                     }
+
                 }
+                if(groupPosition == 0)
+                    UsersCategory.put("Amis", temp);
+                else
+                    UsersCategory.put("Tous les utilisateurs", temp);
             }
         }
         notifyDataSetChanged();
