@@ -6,28 +6,20 @@ import android.content.Intent;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.support.v7.widget.SearchView;
-import android.util.Log;
+import android.app.SearchManager;
+import android.widget.SearchView;
+import android.widget.SearchView.OnQueryTextListener;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.BaseAdapter;
-import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
-import android.widget.SimpleExpandableListAdapter;
-import android.widget.TextView;
-import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Valentin on 03/08/2016.
@@ -38,6 +30,7 @@ public class UsersList extends Fragment {
     List<String> ListUsers;
     private ExpandableListView ExpList;
     UsersAdapter adapter;
+    private SearchView searchV;
     //private String[] Userstring;
 
     @Override
@@ -49,6 +42,10 @@ public class UsersList extends Fragment {
         adapter = new UsersAdapter(getActivity(), UsersCategory, ListUsers);
         ExpList.setAdapter(adapter);
         registerForContextMenu(ExpList);
+
+        /*******************************************************
+         * Listener pour le click sur la liste
+         ******************************************************/
 
         ExpList.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
             @Override
@@ -68,6 +65,25 @@ public class UsersList extends Fragment {
                 return false;
             }
         });
+
+        SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
+        searchV = (SearchView) view.findViewById(R.id.inputSearch);
+        searchV.setSearchableInfo(searchManager
+                .getSearchableInfo(getActivity().getComponentName()));
+        searchV.setIconifiedByDefault(false);
+        searchV.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                adapter.filterData(query);
+                return false;
+            }
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                adapter.filterData(newText);
+                return false;
+            }
+        });
+       //searchV.setOnCloseListener(this);
 
         return view;
     }
@@ -141,6 +157,5 @@ public class UsersList extends Fragment {
         }
         return super.onContextItemSelected(item);
     }
-
 
 }

@@ -4,6 +4,10 @@
     android:layout_height="match_parent"
     android:weightSum="1">
 
+    <SearchView android:id="@+id/inputSearch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
     <ExpandableListView
         android:id="@+id/expandableListPerson"
         android:layout_width="match_parent"

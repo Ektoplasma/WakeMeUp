@@ -23,17 +23,22 @@ public class UsersAdapter extends BaseExpandableListAdapter {
     private Context ctx;
     private HashMap<String, List<String>> UsersCategory;
     private List<String> ListUsers;
+    private List<String> OriginalListUsers;
+
 
     public UsersAdapter(Context ctx, HashMap<String, List<String>> UsersCategory, List<String> ListUsers)
     {
         this.ctx = ctx;
         this.UsersCategory = UsersCategory;
         this.ListUsers = ListUsers;
+        this.OriginalListUsers = ListUsers;
     }
 
     public void updateUsersList(List<String> newlist) {
         ListUsers.clear();
-        ListUsers.addAll(newlist);
+        OriginalListUsers.clear();
+        ListUsers = newlist;
+        OriginalListUsers.addAll(newlist);
         this.notifyDataSetChanged();
     }
 
@@ -103,6 +108,31 @@ public class UsersAdapter extends BaseExpandableListAdapter {
     @Override
     public boolean isChildSelectable(int i, int i1) {
         return true;
+    }
+
+    public void filterData(String query)
+    {
+        ListUsers.clear();
+        System.out.println("Bonjour -> "+query);
+
+        if(query.isEmpty())
+        {
+            ListUsers.addAll(OriginalListUsers);
+        } else {
+            for(int groupPosition=0; groupPosition<OriginalListUsers.size(); groupPosition++)
+            {
+                for(int childPosition = 0; childPosition <  UsersCategory.get(OriginalListUsers.get(groupPosition)).size() ; childPosition++)
+                {
+                    if(UsersCategory.get(OriginalListUsers.get(groupPosition)).get(childPosition).toString().contains(query))
+                    {
+                        ListUsers.add(UsersCategory.get(OriginalListUsers.get(groupPosition)).get(childPosition).toString());
+                    }
+                }
+
+            }
+        }
+
+        notifyDataSetChanged();
     }
 
 }
