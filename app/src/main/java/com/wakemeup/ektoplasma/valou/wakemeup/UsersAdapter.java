@@ -131,7 +131,7 @@ public class UsersAdapter extends BaseExpandableListAdapter {
             if(OriginalFriends.isEmpty())
                 OriginalFriends.clear();
             if(OriginalAllUser.isEmpty())
-                OriginalAllUser.clear();
+                OriginalAllUser.clear();//test
 
             for(int groupPosition=0; groupPosition<OriginalListUsers.size(); groupPosition++)
             {
