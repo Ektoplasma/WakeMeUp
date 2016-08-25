@@ -28,6 +28,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * Created by Valentin on 03/08/2016.
@@ -38,14 +41,16 @@ public class UsersList extends Fragment {
     List<String> ListUsers;
     private ExpandableListView ExpList;
     UsersAdapter adapter;
-    //private String[] Userstring;
+    Lock lock = new ReentrantLock();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_list, container, false);
         ExpList = (ExpandableListView) view.findViewById(R.id.expandableListPerson);
        // Userstring = getResources().getStringArray(R.array.);
+
         setList();
+
         adapter = new UsersAdapter(getActivity(), UsersCategory, ListUsers);
         ExpList.setAdapter(adapter);
         registerForContextMenu(ExpList);
@@ -77,7 +82,9 @@ public class UsersList extends Fragment {
     {
         super.onResume();
        // adapter.notifyDataSetChanged();
+
         setList();
+
         adapter.updateUsersList(ListUsers);//clear
         registerForContextMenu(ExpList);
     }
@@ -87,10 +94,12 @@ public class UsersList extends Fragment {
         String autorisation = PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("prefWhoWakeMe", null);
 
         if(autorisation != null)
-            UsersCategory = DataList.getData(autorisation);
+            UsersCategory = getData(autorisation);
         else
-            UsersCategory = DataList.getData("Tout le monde");
+            UsersCategory = getData("Tout le monde");
         ListUsers = new ArrayList<String>(UsersCategory.keySet());
+        System.out.println("ici userscategory : " + UsersCategory);
+        System.out.println("ici listusers : " + ListUsers);
     }
 
     @Override
@@ -142,5 +151,43 @@ public class UsersList extends Fragment {
         return super.onContextItemSelected(item);
     }
 
+    private synchronized HashMap<String, List<String>> getData(String autorisation)
+    {
+
+        HashMap<String, List<String>> UsersDetails = new HashMap<String, List<String>>();
+
+        //version avec volley : non testée donc en commentaire
+        Caller.setCookieInstance("abc");
+
+        Caller.getBddAmi(lock);
+
+        lock.lock();
+        List<String> Amis = Caller.getAmi();
+        lock.unlock();
+
+        System.out.println("Liste -> "+Amis);
+
+
+
+        while(UsersDetails.containsKey("Amis")) UsersDetails.remove("Amis");
+        UsersDetails.put("Amis", Amis);
+
+        List<String> ToutLeMonde = new ArrayList<String>();
+
+        if(autorisation.equals("Tout le monde"))
+        {
+            ToutLeMonde.add("Jean");
+            ToutLeMonde.add("Billy");
+            ToutLeMonde.add("Il est drole lui");
+            UsersDetails.put("Tous les utilisateurs", ToutLeMonde);
+        }
+        else if(UsersDetails.get(ToutLeMonde) != null)
+        {
+            UsersDetails.remove(ToutLeMonde);
+        }
+        System.out.println(UsersDetails.values());
+
+        return UsersDetails;
+    }
 
 }

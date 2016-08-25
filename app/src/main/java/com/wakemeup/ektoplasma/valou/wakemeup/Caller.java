@@ -14,9 +14,13 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.locks.Lock;
 
 /**
  * Created by ektoplasma on 06/08/16.
@@ -29,8 +33,16 @@ public final class Caller {
     private static List<String> Ami;
     private static Context ctx;
     private static String currentLink;
+    private static AtomicBoolean produced = new AtomicBoolean();
 
     private static String state;
+
+    public static AtomicBoolean getProduced() { return produced; }
+
+    public static void setProduced(boolean b_produced)
+    {
+        produced.set(b_produced);
+    }
 
     public static String getState() {
         return state;
@@ -256,11 +268,12 @@ public final class Caller {
         QueueSingleton.getInstance(ctx).addToRequestQueue(requestor);
     }
 
-    public static void getBddAmi(){
+    public static void getBddAmi(final Lock lock){
 
-        if(Ami == null) Ami = new ArrayList<>();
+        if(Ami == null)Ami = new ArrayList<>();
         Map<String, String> params = new HashMap<>();
         params.put("cookie",cookieInstance);
+        lock.lock();
 
         Response.Listener<JSONObject> reponseListener= new Response.Listener<JSONObject>() {
             @Override
@@ -276,20 +289,29 @@ public final class Caller {
                         Iterator x = jsonAmis.keys();
 
                         int i = 0;
+
                         while (x.hasNext()){
                             String key = (String) x.next();
                             Ami.add(jsonAmis.get(key).toString());
                             System.out.println("Ami "+i+": "+Ami.get(i));
                             i++;
                         }
+                        Set<String> hs = new HashSet<>();
+                        hs.addAll(Ami);
+                        Ami.clear();
+                        Ami.addAll(hs);
+                        lock.unlock();
 
                     }
                     else{
                         System.out.println("Could not fetch friends");
                     }
+                    produced.set(true);
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+
             }
         };
 
