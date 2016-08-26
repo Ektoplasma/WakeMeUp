@@ -16,16 +16,19 @@
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
-                <category android:name="android.intent.category.LAUNCHER" />
-                <action android:name="android.intent.action.MAIN"/>
-            </intent-filter>
-            <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />
                 <action android:name="android.intent.action.SEND" />
                 <data android:mimeType="text/plain" />
             </intent-filter>
         </activity>
-
+        <activity android:name=".SignActivity" android:label="WakeMeUp" android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.MAIN"/>
+            </intent-filter>
+        </activity>
+        <activity android:name=".RegisterActivity" android:label="WakeMeUp" android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".LoginActivity" android:label="WakeMeUp" android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".SettingsActivity"
             android:screenOrientation="nosensor">
             <intent-filer>

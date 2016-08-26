@@ -1,5 +1,6 @@
 package com.wakemeup.ektoplasma.valou.wakemeup;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +13,9 @@ import android.widget.Toast;
  * Created by ektoplasma on 25/08/16.
  */
 public class RegisterActivity extends AppCompatActivity{
+
+    Context ctx = this;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +47,7 @@ public class RegisterActivity extends AppCompatActivity{
                         }
                         else
                         {
+                            Caller.setCtx(ctx);
                             Caller.signup(checkuser, checkpseudo, checkmdp);
                         }
                     }

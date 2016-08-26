@@ -105,8 +105,8 @@ public final class Caller {
                         String cookie = jsonResponse.getString("cookie");
                         System.out.println("Cookie: "+cookie);
                         cookieInstance = cookie;
-                        Intent mapIntent = new Intent(ctx, MainActivity.class);
-                        ctx.startActivity(mapIntent);
+                        Intent mainIntent = new Intent(ctx, MainActivity.class);
+                        ctx.startActivity(mainIntent);
                     }
                     else{
                         username = "";
@@ -152,8 +152,8 @@ public final class Caller {
                         System.out.println("Cookie: "+cookie + " Pseudonyme: "+pseudo);
                         cookieInstance = cookie;
                         pseudonyme = pseudo;
-                        Intent mapIntent = new Intent(ctx, MainActivity.class);
-                        ctx.startActivity(mapIntent);
+                        Intent mainIntent = new Intent(ctx, MainActivity.class);
+                        ctx.startActivity(mainIntent);
                     }
                     else{
                         username = "";

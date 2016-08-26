@@ -63,6 +63,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if(Caller.getCookieInstance() == null)
+        {
+            Intent signIntent = new Intent(ctx, SignActivity.class);
+            ctx.startActivity(signIntent);
+        }
         setContentView(R.layout.activity_main);
         Caller.setCtx(ctx.getApplicationContext());
 
