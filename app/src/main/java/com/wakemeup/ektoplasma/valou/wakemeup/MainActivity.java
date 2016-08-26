@@ -64,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        Caller.storePersistantCookieString();
         if(Caller.getCookieInstance() == null)
         {
             Intent signIntent = new Intent(ctx, SignActivity.class);

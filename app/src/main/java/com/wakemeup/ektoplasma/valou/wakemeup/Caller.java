@@ -2,6 +2,7 @@ package com.wakemeup.ektoplasma.valou.wakemeup;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -35,6 +36,25 @@ public final class Caller {
     private static String currentLink;
 
     private static String state;
+
+    private final static String PREFS_NAME = "COOKIE_WMU";
+    private final static String PREF_SESSION_COOKIE = "session_cookie";
+    private final static String PREF_DEFAULT_STRING = "";
+
+
+
+    private static SharedPreferences getPrefs() {
+        return ctx.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+    }
+
+    public static void storePersistantCookieString() {
+        String sessionCookie = getPrefs().getString(PREF_SESSION_COOKIE, PREF_DEFAULT_STRING);
+
+        if(!sessionCookie.equals(PREF_DEFAULT_STRING))
+        {
+            cookieInstance = sessionCookie;
+        }
+    }
 
     public static String getState() {
         return state;
@@ -107,6 +127,9 @@ public final class Caller {
                         cookieInstance = cookie;
                         Intent mainIntent = new Intent(ctx, MainActivity.class);
                         ctx.startActivity(mainIntent);
+                        SharedPreferences.Editor editor = getPrefs().edit();
+                        editor.putString(PREF_SESSION_COOKIE, cookieInstance);
+                        editor.apply();
                     }
                     else{
                         username = "";
@@ -154,6 +177,9 @@ public final class Caller {
                         pseudonyme = pseudo;
                         Intent mainIntent = new Intent(ctx, MainActivity.class);
                         ctx.startActivity(mainIntent);
+                        SharedPreferences.Editor editor = getPrefs().edit();
+                        editor.putString(PREF_SESSION_COOKIE, cookieInstance);
+                        editor.apply();
                     }
                     else{
                         username = "";
