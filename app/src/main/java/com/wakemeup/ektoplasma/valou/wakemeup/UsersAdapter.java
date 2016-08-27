@@ -38,6 +38,7 @@ public class UsersAdapter extends BaseExpandableListAdapter {
         this.OriginalListUsers = ListUsers;
         this.OriginalAllUser =  new ArrayList<String>();
         this.OriginalFriends = new ArrayList<String>();
+        saveList();
 
     }
 
@@ -46,6 +47,7 @@ public class UsersAdapter extends BaseExpandableListAdapter {
         OriginalListUsers.clear();
         ListUsers = newlist;
         OriginalListUsers.addAll(newlist);
+        saveList();
         this.notifyDataSetChanged();
     }
 
@@ -117,34 +119,36 @@ public class UsersAdapter extends BaseExpandableListAdapter {
         return true;
     }
 
+    private void saveList()
+    {
+        OriginalAllUser.clear();
+        OriginalFriends.clear();
+
+        for(int groupPosition=0; groupPosition<OriginalListUsers.size(); groupPosition++) {
+            List<String> temp = new ArrayList<String>();
+            for (int childPosition = 0; childPosition < UsersCategory.get(OriginalListUsers.get(groupPosition)).size(); childPosition++) {
+                if (groupPosition == 0)
+                    OriginalFriends.add(UsersCategory.get(OriginalListUsers.get(groupPosition)).get(childPosition).toString());
+                else
+                    OriginalAllUser.add(UsersCategory.get(OriginalListUsers.get(groupPosition)).get(childPosition).toString());
+            }
+        }
+    }
+
     public void filterData(String query)
     {
-        //ListUsers.clear();
-       // System.out.println("Bonjour -> "+UsersCategory.remove(ListUsers.get(0)));
-
         if(query.isEmpty())
         {
             UsersCategory.put("Amis", OriginalFriends);
             UsersCategory.put("Tous les utilisateurs", OriginalAllUser);
         } else {
-
-            if(OriginalFriends.isEmpty())
-                OriginalFriends.clear();
-            if(OriginalAllUser.isEmpty())
-                OriginalAllUser.clear();//test
-
             for(int groupPosition=0; groupPosition<OriginalListUsers.size(); groupPosition++)
             {
                 List<String> temp = new ArrayList<String>();
                 for(int childPosition = 0; childPosition <  UsersCategory.get(OriginalListUsers.get(groupPosition)).size() ; childPosition++)
                 {
-                    if(groupPosition == 0)
-                        OriginalFriends.add(UsersCategory.get(OriginalListUsers.get(groupPosition)).get(childPosition).toString());
-                    else
-                        OriginalAllUser.add(UsersCategory.get(OriginalListUsers.get(groupPosition)).get(childPosition).toString());
                     if(UsersCategory.get(OriginalListUsers.get(groupPosition)).get(childPosition).toString().contains(query))
                     {
-                       // System.out.println("Bonjour -> "+UsersCategory.get(OriginalListUsers.get(groupPosition)).get(childPosition).toString());
                        temp.add(UsersCategory.get(OriginalListUsers.get(groupPosition)).get(childPosition).toString());
                     }
 
