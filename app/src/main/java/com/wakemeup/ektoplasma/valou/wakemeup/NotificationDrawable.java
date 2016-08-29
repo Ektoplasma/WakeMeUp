@@ -14,8 +14,6 @@ import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 
-import com.wakemeup.ektoplasma.valou.wakemeup.R;
-
 public class NotificationDrawable extends Drawable {
 
     private Paint mBadgePaint;
