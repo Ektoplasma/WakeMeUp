@@ -32,4 +32,6 @@
     <string name="hint_pseudo">nickname</string>
     <string name="nom_pseudo">Pseudonyme</string>
 
+    <string name="search_hint">Search</string>
+
 </resources>
