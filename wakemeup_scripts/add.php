@@ -2,27 +2,24 @@
 
    require("Friends.class.php");
    require("Members.class.php");
-   require("Alarm.class.php");
 	
    $friends = new Friends();
    $members  = new Members();
-   $alarm = new Alarm();
    $response = array();
 
-   if (isset($_POST["cookie"]) && isset($_POST["member"]) && isset($_POST["link"])) {
+   if (isset($_POST["cookie"]) && isset($_POST["friend"])) {
 
    	$cookie = filter_var($_POST["cookie"],FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-	$to_member = filter_var($_POST["member"],FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-	$link = filter_var($_POST["link"],FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+	$new_friend = filter_var($_POST["friend"],FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
-	if(!empty($cookie) && !empty($to_member) && !empty($link)){
+	if(!empty($cookie) && !empty($new_friend)){
 
 		$members->cookie = $cookie;
 		$found_member = $members->Search();
 
 		if(!empty($found_member)){
 
-			$members->pseudonyme = $to_member;
+			$members->pseudonyme = $new_friend;
 			$found_another = $members->Search();
 
 			if(!empty($found_another)){
@@ -30,25 +27,14 @@
 				foreach($found_member as $o_member){
 					foreach ($found_another as $o_another) {
 
-						$alarm->idUser = $o_another["id"];
-						$alarm->chosen = "true";
-						$found_clocksongs = $alarm->Search();
+						$friends->idUser = $o_member["id"];
+						$friends->idAmi = $o_another["id"];
+						$friends->Create();
 
-						foreach ($found_clocksongs as $o_clocksongs) {
-							$alarm->id = $o_clocksongs["id"];
-							$alarm->chosen = "false";
-
-							//if($alarm->Save() !== null) OK else KO;
-							$alarm->Save();
-						}
-
-						$alarm->idUser = $o_another["id"];
-						$alarm->idVoter = $o_member["id"];
-						$alarm->ytlink = $link;
-						$alarm->enabled = "true";
-						$alarm->chosen = "true";
-
-						$creation = $alarm->Create();
+						$friends->idUser = $o_another["id"];
+						$friends->idAmi = $o_member["id"];
+						$friends->pending = "true";
+						$friends->Create();
 
 						$response["statut"] = array("succes"=>"true");
 
