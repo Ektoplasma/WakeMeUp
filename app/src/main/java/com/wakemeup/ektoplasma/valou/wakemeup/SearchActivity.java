@@ -23,7 +23,7 @@ public class SearchActivity extends Activity implements SearchView.OnQueryTextLi
 
     @Override
     public boolean onQueryTextChange(String newText) {
-
+    System.out.println("On ecrit");
         return false;
     }
 
