@@ -1,12 +1,11 @@
 <?php 
 
-   require("Friends.class.php");
    require("Members.class.php");
 
-   $friends = new Friends();
    $members  = new Members();
    $response = array();
-   $arr_friends = array();
+   $arr_world = array();
+   $requestor = "";
 
    if (isset($_POST["cookie"])) {
 
@@ -21,35 +20,30 @@
 
 			foreach($found_member as $o_member){
 
-	   			 $members->id = $o_member["id"];
+	   			 $requestor = $o_member["id"];
+	   		}
 
-	   			 $friends->idUser = $o_member["id"];
-	   			 $found_friends = $friends->Search();
+	   		$members->mode = "world";
+	   		$world_member = $members->Search();
 
-				if (!empty($found_friends)) {
+	   		if(!empty($world_member)){
 
-					foreach($found_friends as $o_friend){
+				foreach($world_member as $o_world){
+					 if ($o_world["id"] !== $requestor) {
+					 	$arr_world[] = $o_world["pseudonyme"];
+					 } 
+				}
 
-						$members->id = $o_friend["idAmi"];
-					 	$members->find();
+				$response["statut"] = array("succes"=>"true", "world"=>$arr_world);
 
-					 	if ($members !== null) {
-					 		$arr_friends[] = $members->pseudonyme;
-					 	} 
-					 	//else... TODO
+				header('Content-Type: application/json;charset=utf-8');
+				echo json_encode($response, JSON_FORCE_OBJECT | JSON_PRETTY_PRINT);
 
-					}
-
-					$response["statut"] = array("succes"=>"true", "amis"=>$arr_friends);
-
-					header('Content-Type: application/json;charset=utf-8');
-					echo json_encode($response, JSON_FORCE_OBJECT | JSON_PRETTY_PRINT);
-
-				} else {
+			}
+			else {
 					$response["statut"] = array("succes"=>"false","error"=>"sql read error");
 					header('Content-Type: application/json;charset=utf-8');
 					echo json_encode($response, JSON_FORCE_OBJECT | JSON_PRETTY_PRINT);
-				}
 			}
 
 		}

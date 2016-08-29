@@ -149,6 +149,7 @@ public class UsersList extends Fragment {
                 startActivity(LaunchIntent);
                 break;
             case 2://Ajout d'ami
+
                 Toast.makeText(getActivity(), "Demande d'ajout envoyée", Toast.LENGTH_LONG).show();
                 break;
             case 3://Supression ami
@@ -166,26 +167,19 @@ public class UsersList extends Fragment {
         //version avec volley : non testée donc en commentaire
         Caller.getBddAmi();
 
+
         List<String> Amis = Caller.getAmi();
-
         System.out.println("Liste -> "+Amis);
-
-        while(UsersDetails.containsKey("Amis")) UsersDetails.remove("Amis");
         UsersDetails.put("Amis", Amis);
-
-        List<String> ToutLeMonde = new ArrayList<String>();
 
         if(autorisation.equals("Tout le monde"))
         {
-            ToutLeMonde.add("Jean");
-            ToutLeMonde.add("Billy");
-            ToutLeMonde.add("Il est drole lui");
+            Caller.getBddWorld();
+
+            List<String> ToutLeMonde = Caller.getWorld();
             UsersDetails.put("Tous les utilisateurs", ToutLeMonde);
         }
-        else if(UsersDetails.get(ToutLeMonde) != null)
-        {
-            UsersDetails.remove(ToutLeMonde);
-        }
+
         System.out.println(UsersDetails.values());
 
         return UsersDetails;

@@ -34,9 +34,9 @@ public final class Caller {
     private static List<String> Ami;
     private static Context ctx;
     private static String currentLink;
-    private static boolean instance = false;
-
     private static String state;
+    private static boolean instance = false;
+    private static List<String> World;
 
     private final static String PREFS_NAME = "COOKIE_WMU";
     private final static String PREF_SESSION_COOKIE = "session_cookie";
@@ -102,6 +102,14 @@ public final class Caller {
 
     public static void setAmi(List<String> ami) {
         Ami = ami;
+    }
+
+    public static List<String> getWorld() {
+        return World;
+    }
+
+    public static void setWorld(List<String> world) {
+        World = world;
     }
 
     private static SharedPreferences getPrefs() {
@@ -404,6 +412,63 @@ public final class Caller {
             }
         };
         DataRequest requestor = new DataRequest(Request.Method.POST, "http://"+ ctx.getResources().getString(R.string.hostname_server) +"/read.php",params, reponseListener, errorListener);
+
+        QueueSingleton.getInstance(ctx).addToRequestQueue(requestor);
+
+    }
+
+    public static void getBddWorld(){
+
+        if(World == null)World = new ArrayList<>();
+        Map<String, String> params = new HashMap<>();
+        params.put("cookie",cookieInstance);
+
+        Response.Listener<JSONObject> reponseListener= new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+
+                    JSONObject jsonResponse = response.getJSONObject("statut");
+                    String succes = jsonResponse.getString("succes");
+
+                    assert(succes != null);
+                    if(succes.matches("true")) {
+                        JSONObject jsonWorld = jsonResponse.getJSONObject("world");
+                        Iterator x = jsonWorld.keys();
+
+                        int i = 0;
+
+                        while (x.hasNext()){
+                            String key = (String) x.next();
+                            World.add(jsonWorld.get(key).toString());
+                            System.out.println("World "+i+": "+World.get(i));
+                            i++;
+                        }
+                        Set<String> hs = new HashSet<>();
+                        hs.addAll(World);
+                        World.clear();
+                        World.addAll(hs);
+
+                    }
+                    else{
+                        System.out.println("Could not fetch world");
+                    }
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        };
+
+        Response.ErrorListener errorListener = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+            }
+        };
+        DataRequest requestor = new DataRequest(Request.Method.POST, "http://"+ ctx.getResources().getString(R.string.hostname_server) +"/world.php",params, reponseListener, errorListener);
 
         QueueSingleton.getInstance(ctx).addToRequestQueue(requestor);
 
