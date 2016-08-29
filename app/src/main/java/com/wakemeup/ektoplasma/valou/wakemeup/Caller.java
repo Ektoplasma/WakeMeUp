@@ -34,6 +34,7 @@ public final class Caller {
     private static List<String> Ami;
     private static Context ctx;
     private static String currentLink;
+    private static boolean instance = false;
 
     private static String state;
 
@@ -41,19 +42,20 @@ public final class Caller {
     private final static String PREF_SESSION_COOKIE = "session_cookie";
     private final static String PREF_DEFAULT_STRING = "";
 
-
-
-    private static SharedPreferences getPrefs() {
-        return ctx.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+    public static String getPseudonyme() {
+        return pseudonyme;
     }
 
-    public static void storePersistantCookieString() {
-        String sessionCookie = getPrefs().getString(PREF_SESSION_COOKIE, PREF_DEFAULT_STRING);
+    public static void setPseudonyme(String pseudonyme) {
+        Caller.pseudonyme = pseudonyme;
+    }
 
-        if(!sessionCookie.equals(PREF_DEFAULT_STRING))
-        {
-            cookieInstance = sessionCookie;
-        }
+    public static boolean isInstance() {
+        return instance;
+    }
+
+    public static void setInstance(boolean instance) {
+        Caller.instance = instance;
     }
 
     public static String getState() {
@@ -102,6 +104,70 @@ public final class Caller {
         Ami = ami;
     }
 
+    private static SharedPreferences getPrefs() {
+        return ctx.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+    }
+
+    public static void storePersistantCookieString() {
+        String sessionCookie = getPrefs().getString(PREF_SESSION_COOKIE, PREF_DEFAULT_STRING);
+
+        if(!sessionCookie.equals(PREF_DEFAULT_STRING))
+        {
+            cookieInstance = sessionCookie;
+        }
+    }
+
+    public static void checkCookie()
+    {
+        Map<String, String> params = new HashMap<>();
+        params.put("cookie", cookieInstance);
+        Response.Listener<JSONObject> reponseListener= new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    JSONObject jsonResponse = response.getJSONObject("statut");
+                    String succes = jsonResponse.getString("succes");
+
+                    System.out.println("Succes: "+succes);
+
+                    assert(succes != null);
+                    if(succes.matches("true")) {
+                        String pseudo = jsonResponse.getString("pseudo");
+                        System.out.println("Pseudonyme: "+pseudo);
+                        pseudonyme = pseudo;
+                        Intent mainIntent = new Intent(ctx, MainActivity.class);
+                        mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        ctx.startActivity(mainIntent);
+                    }
+                    else{
+                        SharedPreferences.Editor editor = getPrefs().edit();
+                        editor.putString(PREF_SESSION_COOKIE, PREF_DEFAULT_STRING);
+                        editor.apply();
+                        cookieInstance = "";
+                        pseudonyme = "";
+                        System.out.println("Try again please.");
+                        Intent signIntent = new Intent(ctx, SignActivity.class);
+                        signIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        ctx.startActivity(signIntent);
+
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        Response.ErrorListener errorListener = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+            }
+        };
+        DataRequest requestor = new DataRequest(Request.Method.POST, "http://"+ ctx.getResources().getString(R.string.hostname_server) +"/check.php",params, reponseListener, errorListener);
+
+        QueueSingleton.getInstance(ctx).addToRequestQueue(requestor);
+
+    }
+
     public static void signup(String user, String pseudo, String password){
         Map<String, String> params = new HashMap<>();
         params.put("user", user);
@@ -125,11 +191,11 @@ public final class Caller {
                         String cookie = jsonResponse.getString("cookie");
                         System.out.println("Cookie: "+cookie);
                         cookieInstance = cookie;
-                        Intent mainIntent = new Intent(ctx, MainActivity.class);
-                        ctx.startActivity(mainIntent);
                         SharedPreferences.Editor editor = getPrefs().edit();
                         editor.putString(PREF_SESSION_COOKIE, cookieInstance);
                         editor.apply();
+                        Intent mainIntent = new Intent(ctx, MainActivity.class);
+                        ctx.startActivity(mainIntent);
                     }
                     else{
                         username = "";

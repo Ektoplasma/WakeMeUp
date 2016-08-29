@@ -14,16 +14,7 @@ public class SignActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Caller.setCtx(this.getApplicationContext());
-        Caller.storePersistantCookieString();
-        if(Caller.getCookieInstance() != null)
-        {
-            Intent mainIntent = new Intent(this, MainActivity.class);
-            this.startActivity(mainIntent);
-        }
-
         setContentView(R.layout.activity_sign);
-
     }
 
     @Override
