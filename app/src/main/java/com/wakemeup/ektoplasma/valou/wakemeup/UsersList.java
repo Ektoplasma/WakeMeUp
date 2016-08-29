@@ -145,14 +145,31 @@ public class UsersList extends Fragment {
         switch (item.getItemId())
         {
             case 1://Lancement App YouTube
+                ExpandableListView.ExpandableListContextMenuInfo info = (ExpandableListView.ExpandableListContextMenuInfo) item.getMenuInfo();
+                int type = ExpandableListView.getPackedPositionType(info.packedPosition);
+                int groupPosition = ExpandableListView.getPackedPositionGroup(info.packedPosition);
+                int childPosition = ExpandableListView.getPackedPositionChild(info.packedPosition);
+
+                String selection = adapter.getChild(groupPosition, childPosition).toString();
                 Intent LaunchIntent =  getActivity().getPackageManager().getLaunchIntentForPackage("com.google.android.youtube");
                 startActivity(LaunchIntent);
                 break;
             case 2://Ajout d'ami
+                info = (ExpandableListView.ExpandableListContextMenuInfo) item.getMenuInfo();
+                type = ExpandableListView.getPackedPositionType(info.packedPosition);
+                groupPosition = ExpandableListView.getPackedPositionGroup(info.packedPosition);
+                childPosition = ExpandableListView.getPackedPositionChild(info.packedPosition);
 
-                Toast.makeText(getActivity(), "Demande d'ajout envoyée", Toast.LENGTH_LONG).show();
+                selection = adapter.getChild(groupPosition, childPosition).toString();
+                Caller.addFriend(selection);
                 break;
             case 3://Supression ami
+                info = (ExpandableListView.ExpandableListContextMenuInfo) item.getMenuInfo();
+                type = ExpandableListView.getPackedPositionType(info.packedPosition);
+                groupPosition = ExpandableListView.getPackedPositionGroup(info.packedPosition);
+                childPosition = ExpandableListView.getPackedPositionChild(info.packedPosition);
+
+                selection = adapter.getChild(groupPosition, childPosition).toString();
                 Toast.makeText(getActivity(), "Ami retiré de la liste", Toast.LENGTH_LONG).show();
                 break;
         }
@@ -164,7 +181,6 @@ public class UsersList extends Fragment {
 
         HashMap<String, List<String>> UsersDetails = new HashMap<String, List<String>>();
 
-        //version avec volley : non testée donc en commentaire
         Caller.getBddAmi();
 
 

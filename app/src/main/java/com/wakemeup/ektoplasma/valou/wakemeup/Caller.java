@@ -474,4 +474,47 @@ public final class Caller {
 
     }
 
+    public static void addFriend(final String friend)
+    {
+
+        Map<String, String> params = new HashMap<>();
+        params.put("cookie",cookieInstance);
+        params.put("friend", friend);
+
+        Response.Listener<JSONObject> reponseListener= new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+
+                    JSONObject jsonResponse = response.getJSONObject("statut");
+                    String succes = jsonResponse.getString("succes");
+
+                    assert(succes != null);
+                    if(succes.matches("true")) {
+                        Toast.makeText(ctx, "Demande d'ajout envoyée.", Toast.LENGTH_LONG).show();
+                    }
+                    else{
+                        System.out.println("Could not send invite to "+friend+".");
+                        Toast.makeText(ctx, "echec...", Toast.LENGTH_LONG).show();
+                    }
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        };
+
+        Response.ErrorListener errorListener = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+            }
+        };
+        DataRequest requestor = new DataRequest(Request.Method.POST, "http://"+ ctx.getResources().getString(R.string.hostname_server) +"/add.php",params, reponseListener, errorListener);
+
+        QueueSingleton.getInstance(ctx).addToRequestQueue(requestor);
+    }
+
 }
