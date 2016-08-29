@@ -22,7 +22,6 @@ public class UsersAdapter extends BaseExpandableListAdapter {
 
     private Context ctx;
     private HashMap<String, List<String>> UsersCategory;
-    private HashMap<String, List<String>> OriginalUsersCategory;
     private List<String> ListUsers;
     private List<String> OriginalListUsers;
     private List<String> OriginalAllUser;
@@ -33,7 +32,6 @@ public class UsersAdapter extends BaseExpandableListAdapter {
     {
         this.ctx = ctx;
         this.UsersCategory = UsersCategory;
-        this.OriginalUsersCategory = UsersCategory;
         this.ListUsers = ListUsers;
         this.OriginalListUsers = ListUsers;
         this.OriginalAllUser =  new ArrayList<String>();
@@ -42,9 +40,12 @@ public class UsersAdapter extends BaseExpandableListAdapter {
 
     }
 
-    public void updateUsersList(List<String> newlist) {
-        ListUsers.clear();
-        OriginalListUsers.clear();
+    public void updateUsersList(List<String> newlist, HashMap<String, List<String>> newhash) {
+        if(!ListUsers.isEmpty())
+            ListUsers.clear();
+        if(!OriginalListUsers.isEmpty())
+            OriginalListUsers.clear();
+        UsersCategory = newhash;
         ListUsers = newlist;
         OriginalListUsers.addAll(newlist);
         saveList();
@@ -121,45 +122,51 @@ public class UsersAdapter extends BaseExpandableListAdapter {
 
     private void saveList()
     {
-        OriginalAllUser.clear();
-        OriginalFriends.clear();
+        if(!OriginalAllUser.isEmpty())
+            OriginalAllUser.clear();
+        if(!OriginalFriends.isEmpty())
+            OriginalFriends.clear();
 
         for(int groupPosition=0; groupPosition<OriginalListUsers.size(); groupPosition++) {
-            List<String> temp = new ArrayList<String>();
-            for (int childPosition = 0; childPosition < UsersCategory.get(OriginalListUsers.get(groupPosition)).size(); childPosition++) {
-                if (groupPosition == 0)
-                    OriginalFriends.add(UsersCategory.get(OriginalListUsers.get(groupPosition)).get(childPosition).toString());
-                else
-                    OriginalAllUser.add(UsersCategory.get(OriginalListUsers.get(groupPosition)).get(childPosition).toString());
-            }
+
+                for (int childPosition = 0; childPosition < UsersCategory.get(OriginalListUsers.get(groupPosition)).size(); childPosition++) {
+                    if (groupPosition == 0)
+                        OriginalFriends.add(UsersCategory.get(OriginalListUsers.get(groupPosition)).get(childPosition).toString());
+                    else
+                        OriginalAllUser.add(UsersCategory.get(OriginalListUsers.get(groupPosition)).get(childPosition).toString());
+                }
         }
     }
 
     public void filterData(String query)
     {
-        if(query.isEmpty())
+        if(!OriginalListUsers.isEmpty())
         {
-            UsersCategory.put("Amis", OriginalFriends);
-            UsersCategory.put("Tous les utilisateurs", OriginalAllUser);
-        } else {
-            for(int groupPosition=0; groupPosition<OriginalListUsers.size(); groupPosition++)
+            if(query.isEmpty())
             {
-                List<String> temp = new ArrayList<String>();
-                for(int childPosition = 0; childPosition <  UsersCategory.get(OriginalListUsers.get(groupPosition)).size() ; childPosition++)
+                UsersCategory.put("Amis", OriginalFriends);
+                UsersCategory.put("Tous les utilisateurs", OriginalAllUser);
+            } else {
+                for(int groupPosition=0; groupPosition<OriginalListUsers.size(); groupPosition++)
                 {
-                    if(UsersCategory.get(OriginalListUsers.get(groupPosition)).get(childPosition).toString().contains(query))
+                    List<String> temp = new ArrayList<String>();
+                    for(int childPosition = 0; childPosition <  UsersCategory.get(OriginalListUsers.get(groupPosition)).size() ; childPosition++)
                     {
-                       temp.add(UsersCategory.get(OriginalListUsers.get(groupPosition)).get(childPosition).toString());
-                    }
+                        if(UsersCategory.get(OriginalListUsers.get(groupPosition)).get(childPosition).toString().contains(query))
+                        {
+                            temp.add(UsersCategory.get(OriginalListUsers.get(groupPosition)).get(childPosition).toString());
+                        }
 
+                    }
+                    if(groupPosition == 0)
+                        UsersCategory.put("Amis", temp);
+                    else
+                        UsersCategory.put("Tous les utilisateurs", temp);
                 }
-                if(groupPosition == 0)
-                    UsersCategory.put("Amis", temp);
-                else
-                    UsersCategory.put("Tous les utilisateurs", temp);
             }
+            notifyDataSetChanged();
         }
-        notifyDataSetChanged();
+
     }
 
 

@@ -94,7 +94,7 @@ public class UsersList extends Fragment {
         super.onResume();
        // adapter.notifyDataSetChanged();
         setList();
-        adapter.updateUsersList(ListUsers);//clear
+        adapter.updateUsersList(ListUsers, UsersCategory);//clear
         registerForContextMenu(ExpList);
     }
 
