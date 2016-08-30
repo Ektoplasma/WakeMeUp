@@ -34,6 +34,7 @@ import android.widget.TimePicker;
 import android.widget.ToggleButton;
 
 import java.util.Calendar;
+import java.util.zip.Inflater;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -54,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
 
     AlarmManager alarmManager;
     private PendingIntent pendingIntent;
+    private static Menu menu;
     private static MainActivity inst;
     public ClockActivity ClockObject = new ClockActivity();
     protected Context ctx = this;
@@ -183,25 +185,45 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
+
+        super.onCreateOptionsMenu(menu);
+        this.menu = menu;
+
         getMenuInflater().inflate(R.menu.menu_main, menu);
-        MenuItem itemBell = menu.findItem(R.id.action_bell);
-        LayerDrawable icon = (LayerDrawable) itemBell.getIcon();
-        setBadgeCount(this, icon, "9");
 
         SearchActivity search = new SearchActivity();
         MenuItem searchItem = menu.findItem(R.id.search);
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
         searchView.setOnQueryTextListener(search);
+
+        setBadgeCount(this, "1", "friend");
+
+        setBadgeCount(this, "20", "message");
+
+
         return true;
     }
 
-    public static void setBadgeCount(Context context, LayerDrawable icon, String count) {
+    public static void setBadgeCount(Context context, String count, String badge_a_modifier) {
 
         NotificationDrawable badge;
+        Drawable reuse = null;
+        MenuItem item = null;
+        LayerDrawable icon = null;
 
-        // Reuse drawable if possible
-        Drawable reuse = icon.findDrawableByLayerId(R.id.ic_badge);
+        if(badge_a_modifier == "friend")
+        {
+            item = menu.findItem(R.id.action_friends);
+            icon = (LayerDrawable) item.getIcon();
+            reuse = icon.findDrawableByLayerId(R.id.ic_badge_friend);
+        }
+        else if (badge_a_modifier == "message")
+        {
+            item = menu.findItem(R.id.action_message);
+            icon = (LayerDrawable) item.getIcon();
+            reuse = icon.findDrawableByLayerId(R.id.ic_badge_message);
+        }
+
         if (reuse != null && reuse instanceof NotificationDrawable) {
             badge = (NotificationDrawable) reuse;
         } else {
@@ -210,7 +232,16 @@ public class MainActivity extends AppCompatActivity {
 
         badge.setCount(count);
         icon.mutate();
-        icon.setDrawableByLayerId(R.id.ic_badge, badge);
+
+        if(badge_a_modifier == "friend")
+        {
+            icon.setDrawableByLayerId(R.id.ic_badge_friend, badge);
+        }
+        else if (badge_a_modifier == "message")
+        {
+            icon.setDrawableByLayerId(R.id.ic_badge_message, badge);
+        }
+
     }
 
     @Override

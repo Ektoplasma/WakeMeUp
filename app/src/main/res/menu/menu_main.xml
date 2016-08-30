@@ -9,16 +9,27 @@
         android:title="@string/action_settings"
         app:showAsAction="never" />
 
-    <item android:id="@+id/search"
-        android:title="Search"
-        android:icon="@android:drawable/ic_menu_search"
-        app:showAsAction="collapseActionView|ifRoom"
-        app:actionViewClass="android.support.v7.widget.SearchView" />
+    <item
+        android:id="@+id/action_message"
+        android:icon="@drawable/ic_message_notif"
+        android:title="@string/action_cart"
+        android:orderInCategory="2"
+        app:showAsAction="always" />
 
     <item
-        android:id="@+id/action_bell"
-        android:icon="@drawable/ic_menu_notification"
+        android:id="@+id/action_friends"
+        android:icon="@drawable/ic_friend_notif"
         android:title="@string/action_cart"
+        android:orderInCategory="3"
         app:showAsAction="always" />
+
+
+    <item android:id="@+id/search"
+        android:title="Search"
+        android:icon="@drawable/ic_search"
+        android:orderInCategory="1"
+        app:actionViewClass="android.support.v7.widget.SearchView"
+        app:showAsAction="always"/>
+
 
 </menu>
