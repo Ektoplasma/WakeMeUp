@@ -204,7 +204,7 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-    public static void setBadgeCount(Context context, String count, String badge_a_modifier) {
+    public static void setBadgeCount(Context context, String count, String badge_a_modifier) {//Change badge count
 
         NotificationDrawable badge;
         Drawable reuse = null;
