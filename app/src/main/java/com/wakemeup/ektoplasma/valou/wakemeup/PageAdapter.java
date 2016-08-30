@@ -26,6 +26,7 @@ public class PageAdapter extends FragmentStatePagerAdapter {
             case 1:
                 UsersList tab2 = new UsersList();
                 return tab2;
+
             default:
                 return null;
         }
