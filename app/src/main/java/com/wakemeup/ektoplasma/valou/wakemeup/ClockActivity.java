@@ -3,6 +3,7 @@ package com.wakemeup.ektoplasma.valou.wakemeup;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.app.Fragment;
@@ -43,4 +44,6 @@ public class ClockActivity extends Fragment {
         //ToggleButton SetAlarmButton = (ToggleButton) getView().findViewById(R.id.SetAlarmButton);
         return view;
     }
+
+
 }
