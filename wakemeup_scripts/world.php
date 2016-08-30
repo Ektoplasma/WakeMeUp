@@ -1,7 +1,9 @@
 <?php 
 
    require("Members.class.php");
+   require("Friends.class.php");
 
+   $friends = new Friends();
    $members  = new Members();
    $response = array();
    $arr_world = array();
@@ -27,10 +29,16 @@
 	   		$world_member = $members->Search();
 
 	   		if(!empty($world_member)){
-
 				foreach($world_member as $o_world){
 					 if ($o_world["id"] !== $requestor) {
-					 	$arr_world[] = $o_world["pseudonyme"];
+
+					 	$friends->idUser = $requestor;
+					 	$friends->idAmi = $o_world["id"];
+					 	$friend_member = $friends->Search();
+					 	if(empty($friend_member))
+					 	{
+					 		$arr_world[] = $o_world["pseudonyme"];
+					 	}
 					 } 
 				}
 
