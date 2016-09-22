@@ -29,7 +29,8 @@
 				if (!empty($found_friends)) {
 
 					foreach($found_friends as $o_friend){
-						if($o_friend["hasAccepted"] === "true")
+
+						if($o_friend["pending"] === "true")
 						{
 							$members->id = $o_friend["idAmi"];
 						 	$members->find();
@@ -38,8 +39,6 @@
 						 		$arr_friends[] = $members->pseudonyme;
 						 	} 
 						}
-
-					 	//else... TODO
 
 					}
 

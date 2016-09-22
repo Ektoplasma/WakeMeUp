@@ -32,6 +32,7 @@ public final class Caller {
     private static String pseudonyme;
     private static String cookieInstance;
     private static List<String> Ami;
+    private static List<String> NewAmi;
     private static Context ctx;
     private static String currentLink;
     private static String state;
@@ -41,6 +42,10 @@ public final class Caller {
     private final static String PREFS_NAME = "COOKIE_WMU";
     private final static String PREF_SESSION_COOKIE = "session_cookie";
     private final static String PREF_DEFAULT_STRING = "";
+
+    public static List<String> getNewAmi() { return NewAmi; }
+
+    public static void setNewAmi(List<String> newAmi) { NewAmi = newAmi; }
 
     public static String getPseudonyme() {
         return pseudonyme;
@@ -517,4 +522,145 @@ public final class Caller {
         QueueSingleton.getInstance(ctx).addToRequestQueue(requestor);
     }
 
+    public static void getNotif()
+    {
+        if(NewAmi == null)NewAmi = new ArrayList<>();
+        Map<String, String> params = new HashMap<>();
+        params.put("cookie",cookieInstance);
+
+        Response.Listener<JSONObject> reponseListener= new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+
+                    JSONObject jsonResponse = response.getJSONObject("statut");
+                    String succes = jsonResponse.getString("succes");
+
+                    assert(succes != null);
+                    if(succes.matches("true")) {
+                        JSONObject jsonAmis = jsonResponse.getJSONObject("amis");
+                        Iterator x = jsonAmis.keys();
+
+                        int i = 0;
+
+                        while (x.hasNext()){
+                            String key = (String) x.next();
+                            NewAmi.add(jsonAmis.get(key).toString());
+                            System.out.println("NewAmi "+i+": "+NewAmi.get(i));
+                            i++;
+                        }
+                        Set<String> hs = new HashSet<>();
+                        hs.addAll(NewAmi);
+                        NewAmi.clear();
+                        NewAmi.addAll(hs);
+                        //MainActivity.setBadgeCount(ctx, String.valueOf(i), "friends");
+                    }
+                    else{
+                        System.out.println("Echec ou pas de notification.");
+                    }
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        };
+
+        Response.ErrorListener errorListener = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+            }
+        };
+        DataRequest requestor = new DataRequest(Request.Method.POST, "http://"+ ctx.getResources().getString(R.string.hostname_server) +"/notif.php",params, reponseListener, errorListener);
+
+        QueueSingleton.getInstance(ctx).addToRequestQueue(requestor);
+    }
+
+    public static void acceptFriend(final String friend)
+    {
+
+        Map<String, String> params = new HashMap<>();
+        params.put("cookie",cookieInstance);
+        params.put("friend", friend);
+
+        Response.Listener<JSONObject> reponseListener= new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+
+                    JSONObject jsonResponse = response.getJSONObject("statut");
+                    String succes = jsonResponse.getString("succes");
+
+                    assert(succes != null);
+                    if(succes.matches("true")) {
+                        Toast.makeText(ctx, "Ami ajouté.", Toast.LENGTH_LONG).show();
+                    }
+                    else{
+                        System.out.println("Could not accept friend "+friend+".");
+                        Toast.makeText(ctx, "echec...", Toast.LENGTH_LONG).show();
+                    }
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        };
+
+        Response.ErrorListener errorListener = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+            }
+        };
+        DataRequest requestor = new DataRequest(Request.Method.POST, "http://"+ ctx.getResources().getString(R.string.hostname_server) +"/accept.php",params, reponseListener, errorListener);
+
+        QueueSingleton.getInstance(ctx).addToRequestQueue(requestor);
+    }
+
+    public static void refuseFriend(final String friend)
+    {
+
+        Map<String, String> params = new HashMap<>();
+        params.put("cookie",cookieInstance);
+        params.put("friend", friend);
+
+        Response.Listener<JSONObject> reponseListener= new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+
+                    JSONObject jsonResponse = response.getJSONObject("statut");
+                    String succes = jsonResponse.getString("succes");
+
+                    assert(succes != null);
+                    if(succes.matches("true")) {
+                        Toast.makeText(ctx, "Ami refusé.", Toast.LENGTH_LONG).show();
+                    }
+                    else{
+                        System.out.println("Could not refuse friend "+friend+".");
+                        Toast.makeText(ctx, "echec...", Toast.LENGTH_LONG).show();
+                    }
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        };
+
+        Response.ErrorListener errorListener = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+            }
+        };
+        DataRequest requestor = new DataRequest(Request.Method.POST, "http://"+ ctx.getResources().getString(R.string.hostname_server) +"/refuse.php",params, reponseListener, errorListener);
+
+        QueueSingleton.getInstance(ctx).addToRequestQueue(requestor);
+    }
 }

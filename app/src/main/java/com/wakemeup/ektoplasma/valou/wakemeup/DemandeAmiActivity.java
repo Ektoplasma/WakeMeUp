@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Valentin on 30/08/2016.
@@ -23,10 +24,11 @@ public class DemandeAmiActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.demande_ami);
+        ArrayList<String> list;
 
-        ArrayList<String> list = new ArrayList<String>();
-        list.add("Valou");
-        list.add("Théo");
+        if(Caller.getNewAmi() != null)
+            list = new ArrayList<String>(Caller.getNewAmi());
+        else list = new ArrayList<String>();
 
         CustomAdapterDemandeAmi adapter = new CustomAdapterDemandeAmi(list, this);
 

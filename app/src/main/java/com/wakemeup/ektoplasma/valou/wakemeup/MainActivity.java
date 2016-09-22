@@ -37,6 +37,8 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import java.util.Calendar;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.zip.Inflater;
 
 public class MainActivity extends AppCompatActivity {
@@ -65,6 +67,15 @@ public class MainActivity extends AppCompatActivity {
     TabLayout tabLayout;
     TabLayout.Tab tabreveil, tablist;
 
+    TimerTask task = new TimerTask() {
+        @Override
+        public void run() {
+            Caller.getNotif();
+        }
+    };
+
+    Timer timer = new Timer();
+
     public static MainActivity instance() {
         return inst;
     }
@@ -79,11 +90,15 @@ public class MainActivity extends AppCompatActivity {
             Intent signIntent = new Intent(ctx, SignActivity.class);
             ctx.startActivity(signIntent);
         }
+
+
         setContentView(R.layout.activity_main);
         Caller.setCtx(ctx.getApplicationContext());
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        timer.schedule(task, 4000, 20000);
 
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabreveil = tabLayout.newTab().setText("Mon réveil");
@@ -345,4 +360,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
+
+
 }

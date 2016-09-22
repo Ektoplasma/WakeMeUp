@@ -50,7 +50,7 @@ public class CustomAdapterDemandeAmi extends BaseAdapter implements ListAdapter 
             view = inflater.inflate(R.layout.demande_ami_row, null);
         }
 
-        TextView listItemText = (TextView)view.findViewById(R.id.string_text);
+        final TextView listItemText = (TextView)view.findViewById(R.id.string_text);
         listItemText.setText(list.get(position));
 
         Button deleteBtn = (Button)view.findViewById(R.id.delete_btn);
@@ -59,6 +59,7 @@ public class CustomAdapterDemandeAmi extends BaseAdapter implements ListAdapter 
         deleteBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
+                Caller.refuseFriend((String) listItemText.getText());
                 list.remove(position);
                 notifyDataSetChanged();
             }
@@ -66,6 +67,7 @@ public class CustomAdapterDemandeAmi extends BaseAdapter implements ListAdapter 
         addBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
+                Caller.acceptFriend((String) listItemText.getText());
                 notifyDataSetChanged();
             }
         });
