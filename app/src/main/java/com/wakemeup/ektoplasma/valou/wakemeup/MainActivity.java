@@ -3,6 +3,7 @@ package com.wakemeup.ektoplasma.valou.wakemeup;
 import android.app.AlarmManager;
 import android.app.FragmentTransaction;
 import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -373,6 +374,19 @@ public class MainActivity extends AppCompatActivity {
             return null;
         }
 
+    }
+
+    private final class BadgeBroadcastReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Bundle extra = intent.getExtras();
+            if(extra != null)
+            {
+                String count = extra.getString("COUNT");
+                String type = extra.getString("TYPE");
+                setBadgeCount(context, count, type);
+            }
+        }
     }
 
 

@@ -553,7 +553,10 @@ public final class Caller {
                         hs.addAll(NewAmi);
                         NewAmi.clear();
                         NewAmi.addAll(hs);
-                        //MainActivity.setBadgeCount(ctx, String.valueOf(i), "friends");
+                        Intent broadcast = new Intent("ekto.valou.badgebroadcast");
+                        broadcast.putExtra("TYPE","friend");
+                        broadcast.putExtra("COUNT",String.valueOf(i));
+                        ctx.sendBroadcast(broadcast);
                     }
                     else{
                         System.out.println("Echec ou pas de notification.");
