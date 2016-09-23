@@ -29,6 +29,6 @@
         android:layout_toLeftOf="@id/delete_btn"
         android:layout_centerVertical="true"
         android:layout_marginRight="10dp"
-        android:text="Accetper" />
+        android:text="Accepter" />
 
 </RelativeLayout>

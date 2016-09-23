@@ -68,6 +68,7 @@ public class CustomAdapterDemandeAmi extends BaseAdapter implements ListAdapter 
             @Override
             public void onClick(View v) {
                 Caller.acceptFriend((String) listItemText.getText());
+                list.remove(position);
                 notifyDataSetChanged();
             }
         });
