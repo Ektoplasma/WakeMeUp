@@ -5,6 +5,7 @@ import android.app.FragmentTransaction;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
@@ -65,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
     public ClockActivity ClockObject = new ClockActivity();
     protected Context ctx = this;
     TabLayout tabLayout;
-    TabLayout.Tab tabreveil, tablist;
+    TabLayout.Tab tabreveil, tablist, tabhistory;
 
     TimerTask task = new TimerTask() {
         @Override
@@ -103,6 +104,8 @@ public class MainActivity extends AppCompatActivity {
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabreveil = tabLayout.newTab().setText("Mon réveil");
         tablist = tabLayout.newTab().setText("Liste");
+        tabhistory = tabLayout.newTab().setText("Historique");
+        tabLayout.addTab(tabhistory);
         tabLayout.addTab(tabreveil);
         tabLayout.addTab(tablist);
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
@@ -112,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
                 (getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(adapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-        //viewPager.setCurrentItem(1);//Choix du tab que l'on veut voir au lancement de l'app
+        viewPager.setCurrentItem(1);//Choix du tab que l'on veut voir au lancement de l'app
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -161,13 +164,13 @@ public class MainActivity extends AppCompatActivity {
     public void onResume(){
         super.onResume();
 
-        String value = PreferenceManager.getDefaultSharedPreferences(this).getString("prefWhoWakeMe", null);
+        String valueAutorisation = PreferenceManager.getDefaultSharedPreferences(this).getString("prefWhoWakeMe", null);
 
-        System.out.println("Value pref main activity -> "+value);
+        SharedPreferences myPreference=PreferenceManager.getDefaultSharedPreferences(this);
 
-        if(value != null)
+        if(valueAutorisation != null)
         {
-            if(value.equals("Seulement moi") && tablist.getText() != null)
+            if(valueAutorisation.equals("Seulement moi") && tablist.getText() != null)
             {
                 tabLayout.removeTab(tablist);
             }
@@ -175,6 +178,17 @@ public class MainActivity extends AppCompatActivity {
             {
                 tablist = tabLayout.newTab().setText("Liste");
                 tabLayout.addTab(tablist);
+            }
+
+
+            if(!myPreference.getBoolean("prefHistory", false))
+            {
+                tabLayout.removeTab(tabhistory);
+            }
+            else if(tabhistory.getText() == null)
+            {
+                tabhistory = tabLayout.newTab().setText("Historique");
+                tabLayout.addTab(tabhistory);
             }
         }
 

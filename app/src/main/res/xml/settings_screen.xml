@@ -10,7 +10,7 @@
 
     <PreferenceCategory android:title="@string/pref_update_setting" >
         <CheckBoxPreference
-            android:defaultValue="enable"
+            android:defaultValue="true"
             android:key="prefHistory"
             android:summary="@string/pref_history_summary"
             android:title="@string/pref_history" >

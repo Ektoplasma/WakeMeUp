@@ -21,9 +21,12 @@ public class PageAdapter extends FragmentStatePagerAdapter {
 
         switch (position) {
             case 0:
+                HistoryActivity tab0 = new HistoryActivity();
+                return tab0;
+            case 1:
                 ClockActivity tab1 = new ClockActivity();
                 return tab1;
-            case 1:
+            case 2:
                 UsersList tab2 = new UsersList();
                 return tab2;
 

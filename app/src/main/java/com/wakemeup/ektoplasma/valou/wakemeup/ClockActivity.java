@@ -11,6 +11,8 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.ToggleButton;
 
+import org.json.JSONObject;
+
 /**
  * Created by Valentin on 24/07/2016.
  */
@@ -38,7 +40,7 @@ public class ClockActivity extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
         AlarmTextView = (TextView) view.findViewById(R.id.AlarmText);
-        AlarmTextView.setText("Bonjour");
+        //AlarmTextView.setText(mavideo.getTitleQuietly("Sw9uicEGjGw"));
         alarmTimePicker = (TimePicker) view.findViewById(R.id.ClockAlarmPicker);
         alarmTimePicker.setIs24HourView(true);
         //ToggleButton SetAlarmButton = (ToggleButton) getView().findViewById(R.id.SetAlarmButton);
