@@ -349,8 +349,12 @@ public final class Caller {
                         ctx.startActivity(intent);
                     }
                     else{
-                        System.out.println("Could not get alarm song.");
-                        Toast.makeText(ctx, "echec...", Toast.LENGTH_LONG).show();
+                        System.out.println("Could not get alarm song.");//er416Ad3R1g
+                        Toast.makeText(ctx, "Good Morning ! (Réveil de base)", Toast.LENGTH_LONG).show();
+                        Intent intent = new Intent(ctx, YoutubeActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        intent.putExtra("YTLINK", "er416Ad3R1g");
+                        ctx.startActivity(intent);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -557,14 +561,12 @@ public final class Caller {
                         broadcast.putExtra("TYPE","friend");
                         broadcast.putExtra("COUNT",String.valueOf(i));
                         ctx.sendBroadcast(broadcast);
-                        System.out.println("Broadcast envoyé");
                     }
                     else{
                         Intent broadcast = new Intent("ekto.valou.badgebroadcast");
                         broadcast.putExtra("TYPE","friend");
                         broadcast.putExtra("COUNT",String.valueOf(0));
                         ctx.sendBroadcast(broadcast);
-                        System.out.println("Broadcast envoyé");
                     }
 
 
@@ -624,14 +626,12 @@ public final class Caller {
                         broadcast.putExtra("TYPE","message");
                         broadcast.putExtra("COUNT",String.valueOf(i));
                         ctx.sendBroadcast(broadcast);
-                        System.out.println("Broadcast envoyé");
                     }
                     else{
                         Intent broadcast = new Intent("ekto.valou.badgebroadcast");
                         broadcast.putExtra("TYPE","message");
                         broadcast.putExtra("COUNT",String.valueOf(0));
                         ctx.sendBroadcast(broadcast);
-                        System.out.println("Broadcast envoyé");
                     }
 
 

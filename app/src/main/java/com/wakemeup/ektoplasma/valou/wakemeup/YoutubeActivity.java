@@ -1,5 +1,6 @@
 package com.wakemeup.ektoplasma.valou.wakemeup;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -94,6 +95,9 @@ public class YoutubeActivity extends YouTubeBaseActivity {
     }
 
     public void stopButtonClick(View view) {
+        Intent broadcast = new Intent("ekto.valou.ytbroadcast");
+        sendBroadcast(broadcast);
+        System.out.println("YTBroadcast envoyé");
         finish();
     }
 

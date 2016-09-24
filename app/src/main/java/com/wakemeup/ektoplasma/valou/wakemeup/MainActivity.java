@@ -96,7 +96,10 @@ public class MainActivity extends AppCompatActivity {
 
         IntentFilter filter = new IntentFilter();
         filter.addAction("ekto.valou.badgebroadcast");
+        IntentFilter ytfilter = new IntentFilter();
+        ytfilter.addAction("ekto.valou.ytbroadcast");
         registerReceiver(receiver, filter);
+        registerReceiver(ytreceiver, ytfilter);
 
         setContentView(R.layout.activity_main);
         Caller.setCtx(ctx.getApplicationContext());
@@ -183,7 +186,7 @@ public class MainActivity extends AppCompatActivity {
                 tabLayout.addTab(tablist);
             }
 
-            /*
+            /* TODO : ICI CA PLANTE SUR RESUME
             if(!myPreference.getBoolean("prefHistory", false))
             {
                 tabLayout.removeTab(tabhistory);
@@ -201,6 +204,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         unregisterReceiver(receiver);
+        unregisterReceiver(ytreceiver);
     }
 
     @Override
@@ -392,17 +396,22 @@ public class MainActivity extends AppCompatActivity {
     private BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            System.out.println("Broadcast reçu");
             Bundle extra = intent.getExtras();
             if(extra != null)
             {
                 String count = extra.getString("COUNT");
                 String type = extra.getString("TYPE");
-                System.out.println("COUNT "+count+" TYPE "+type);
                 setBadgeCount(ctx, count, type);
             }
         }
     };
 
+    private BroadcastReceiver ytreceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Log.d("MainActivity","Broadcast recu YT");
+            Toast.makeText(ctx, (CharSequence) "ICI BROADCASTRECEIVER DANS MAIN ACTIVITY ET JE SORS DE YOUTUBEACTIVITY", Toast.LENGTH_LONG).show();
+        }
+    };
 
 }
