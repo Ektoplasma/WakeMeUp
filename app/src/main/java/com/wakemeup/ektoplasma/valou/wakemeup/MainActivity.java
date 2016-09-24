@@ -6,6 +6,7 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
@@ -93,6 +94,9 @@ public class MainActivity extends AppCompatActivity {
             ctx.startActivity(signIntent);
         }
 
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("ekto.valou.badgebroadcast");
+        registerReceiver(receiver, filter);
 
         setContentView(R.layout.activity_main);
         Caller.setCtx(ctx.getApplicationContext());
@@ -181,7 +185,7 @@ public class MainActivity extends AppCompatActivity {
                 tabLayout.addTab(tablist);
             }
 
-
+            /*
             if(!myPreference.getBoolean("prefHistory", false))
             {
                 tabLayout.removeTab(tabhistory);
@@ -190,9 +194,20 @@ public class MainActivity extends AppCompatActivity {
             {
                 tabhistory = tabLayout.newTab().setText("Historique");
                 tabLayout.addTab(tabhistory);
-            }
+            }*/
         }
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(receiver);
+    }
+
+    @Override
+    public void onBackPressed() {
+        moveTaskToBack(true);
     }
 
     public void onToggleClicked(View view) {
@@ -229,9 +244,9 @@ public class MainActivity extends AppCompatActivity {
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
         searchView.setOnQueryTextListener(search);
 
-        setBadgeCount(this, "1", "friend");
+        setBadgeCount(this, "0", "friend");
 
-        setBadgeCount(this, "20", "message");
+        setBadgeCount(this, "0", "message");
 
 
         return true;
@@ -244,13 +259,13 @@ public class MainActivity extends AppCompatActivity {
         MenuItem item = null;
         LayerDrawable icon = null;
 
-        if(badge_a_modifier == "friend")
+        if(badge_a_modifier.equals("friend"))
         {
             item = menu.findItem(R.id.action_friends);
             icon = (LayerDrawable) item.getIcon();
             reuse = icon.findDrawableByLayerId(R.id.ic_badge_friend);
         }
-        else if (badge_a_modifier == "message")
+        else if (badge_a_modifier.equals("message"))
         {
             item = menu.findItem(R.id.action_message);
             icon = (LayerDrawable) item.getIcon();
@@ -266,11 +281,11 @@ public class MainActivity extends AppCompatActivity {
         badge.setCount(count);
         icon.mutate();
 
-        if(badge_a_modifier == "friend")
+        if(badge_a_modifier.equals("friend"))
         {
             icon.setDrawableByLayerId(R.id.ic_badge_friend, badge);
         }
-        else if (badge_a_modifier == "message")
+        else if (badge_a_modifier.equals("message"))
         {
             icon.setDrawableByLayerId(R.id.ic_badge_message, badge);
         }
@@ -376,18 +391,20 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private final class BadgeBroadcastReceiver extends BroadcastReceiver {
+    private BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
+            System.out.println("Broadcast reçu");
             Bundle extra = intent.getExtras();
             if(extra != null)
             {
                 String count = extra.getString("COUNT");
                 String type = extra.getString("TYPE");
-                setBadgeCount(context, count, type);
+                System.out.println("COUNT "+count+" TYPE "+type);
+                setBadgeCount(ctx, count, type);
             }
         }
-    }
+    };
 
 
 }

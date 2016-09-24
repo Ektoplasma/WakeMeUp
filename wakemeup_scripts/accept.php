@@ -34,6 +34,7 @@
 						foreach ($found_relation as $o_relation) {
 							$friends->id = $o_relation["id"];
 							$friends->hasAccepted = "true";
+							$friends->pending = "false";
 							$friends->Save();
 						}
 

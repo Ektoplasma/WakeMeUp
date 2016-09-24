@@ -34,6 +34,8 @@
 
 					 	$friends->idUser = $requestor;
 					 	$friends->idAmi = $o_world["id"];
+					 	$friends->pending = "false";
+					 	$friends->hasAccepted = "true";
 					 	$friend_member = $friends->Search();
 					 	if(empty($friend_member))
 					 	{

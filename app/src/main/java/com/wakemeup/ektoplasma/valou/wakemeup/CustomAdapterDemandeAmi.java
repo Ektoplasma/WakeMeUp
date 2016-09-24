@@ -1,6 +1,7 @@
 package com.wakemeup.ektoplasma.valou.wakemeup;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,6 +60,11 @@ public class CustomAdapterDemandeAmi extends BaseAdapter implements ListAdapter 
         deleteBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
+                Intent broadcast = new Intent("ekto.valou.badgebroadcast");
+                broadcast.putExtra("TYPE","friend");
+                broadcast.putExtra("COUNT",String.valueOf(getCount()-1));
+                Caller.getCtx().sendBroadcast(broadcast);
+                System.out.println("Broadcast envoyé");
                 Caller.refuseFriend((String) listItemText.getText());
                 list.remove(position);
                 notifyDataSetChanged();
@@ -67,6 +73,11 @@ public class CustomAdapterDemandeAmi extends BaseAdapter implements ListAdapter 
         addBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
+                Intent broadcast = new Intent("ekto.valou.badgebroadcast");
+                broadcast.putExtra("TYPE","friend");
+                broadcast.putExtra("COUNT",String.valueOf(getCount()-1));
+                Caller.getCtx().sendBroadcast(broadcast);
+                System.out.println("Broadcast envoyé");
                 Caller.acceptFriend((String) listItemText.getText());
                 list.remove(position);
                 notifyDataSetChanged();

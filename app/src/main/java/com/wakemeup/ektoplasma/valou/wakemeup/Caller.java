@@ -557,9 +557,14 @@ public final class Caller {
                         broadcast.putExtra("TYPE","friend");
                         broadcast.putExtra("COUNT",String.valueOf(i));
                         ctx.sendBroadcast(broadcast);
+                        System.out.println("Broadcast envoyé");
                     }
                     else{
-                        System.out.println("Echec ou pas de notification.");
+                        Intent broadcast = new Intent("ekto.valou.badgebroadcast");
+                        broadcast.putExtra("TYPE","friend");
+                        broadcast.putExtra("COUNT",String.valueOf(0));
+                        ctx.sendBroadcast(broadcast);
+                        System.out.println("Broadcast envoyé");
                     }
 
 
