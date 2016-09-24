@@ -6,6 +6,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * Created by Valentin on 30/08/2016.
@@ -19,12 +20,30 @@ public class MessageActivity  extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.message);
+        ArrayList<String> listMsg;
+        ArrayList<String> listSender;
         mainListView = (ListView) findViewById( R.id.listMessage );
         ArrayList<String> messagelist = new ArrayList<String>();
         listAdapter = new ArrayAdapter<String>(this, R.layout.message_row, messagelist);
-        listAdapter.add( "Paul : Pas mal ton reveil" );
-        listAdapter.add( "Pluto : Mec... Really ?" );
 
+        if(Caller.getNewMessages() != null)
+            listMsg = new ArrayList<String>(Caller.getNewMessages());
+        else listMsg = new ArrayList<String>();
+
+        if(Caller.getNewSenders() != null)
+            listSender = new ArrayList<String>(Caller.getNewSenders());
+        else listSender = new ArrayList<String>();
+
+        Iterator<String> x = listMsg.iterator();
+        Iterator<String> y = listSender.iterator();
+
+        while (x.hasNext() && y.hasNext())
+        {
+            String message = (String) x.next();
+            String pseudo = (String) y.next();
+            listAdapter.add( pseudo + " : " + message );
+        }
+        
         mainListView.setAdapter( listAdapter );
     }
 }

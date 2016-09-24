@@ -584,6 +584,7 @@ public final class Caller {
         DataRequest requestor = new DataRequest(Request.Method.POST, "http://"+ ctx.getResources().getString(R.string.hostname_server) +"/notif.php",params, reponseListener, errorListener);
         /* ----- */
         NewMessages = new ArrayList<>();
+        NewSenders = new ArrayList<>();
         Map<String, String> params2 = new HashMap<>();
         params2.put("cookie",cookieInstance);
 
@@ -611,14 +612,14 @@ public final class Caller {
                             System.out.println("NewMessages "+i+": "+NewMessages.get(i)+" from : "+NewSenders.get(i));
                             i++;
                         }
-                        Set<String> hs = new HashSet<>();
+                        /*Set<String> hs = new HashSet<>();
                         hs.addAll(NewMessages);
                         NewMessages.clear();
                         NewMessages.addAll(hs);
                         Set<String> hs_m = new HashSet<>();
                         hs_m.addAll(NewSenders);
                         NewSenders.clear();
-                        NewSenders.addAll(hs_m);
+                        NewSenders.addAll(hs_m);*/
                         Intent broadcast = new Intent("ekto.valou.badgebroadcast");
                         broadcast.putExtra("TYPE","message");
                         broadcast.putExtra("COUNT",String.valueOf(i));
