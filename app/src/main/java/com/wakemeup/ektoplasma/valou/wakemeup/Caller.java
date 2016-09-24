@@ -5,11 +5,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
+import com.android.volley.*;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -20,8 +17,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.locks.Lock;
 
 /**
  * Created by ektoplasma on 06/08/16.
@@ -43,7 +38,7 @@ public final class Caller {
     private final static String PREF_SESSION_COOKIE = "session_cookie";
     private final static String PREF_DEFAULT_STRING = "";
 
-    public static List<String> getNewAmi() { return NewAmi; }
+    static List<String> getNewAmi() { return NewAmi; }
 
     public static void setNewAmi(List<String> newAmi) { NewAmi = newAmi; }
 
@@ -71,19 +66,19 @@ public final class Caller {
         Caller.state = state;
     }
 
-    public static String getCurrentLink() {
+    static String getCurrentLink() {
         return currentLink;
     }
 
-    public static void setCurrentLink(String currentLink) {
+    static void setCurrentLink(String currentLink) {
         Caller.currentLink = currentLink;
     }
 
-    public static Context getCtx() {
+    static Context getCtx() {
         return ctx;
     }
 
-    public static void setCtx(Context ctx) {
+    static void setCtx(Context ctx) {
         Caller.ctx = ctx;
     }
 
@@ -95,13 +90,13 @@ public final class Caller {
         Caller.username = username;
     }
 
-    public static String getCookieInstance() {
+    static String getCookieInstance() {
         return cookieInstance;
     }
 
     public static void setCookieInstance(String cookieInstance) { Caller.cookieInstance = cookieInstance; }
 
-    public static List<String> getAmi() {
+    static List<String> getAmi() {
         return Ami;
     }
 
@@ -109,7 +104,7 @@ public final class Caller {
         Ami = ami;
     }
 
-    public static List<String> getWorld() {
+    static List<String> getWorld() {
         return World;
     }
 
@@ -121,7 +116,7 @@ public final class Caller {
         return ctx.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
     }
 
-    public static void storePersistantCookieString() {
+    static void storePersistantCookieString() {
         String sessionCookie = getPrefs().getString(PREF_SESSION_COOKIE, PREF_DEFAULT_STRING);
 
         if(!sessionCookie.equals(PREF_DEFAULT_STRING))
@@ -130,7 +125,7 @@ public final class Caller {
         }
     }
 
-    public static void checkCookie()
+    static void checkCookie()
     {
         Map<String, String> params = new HashMap<>();
         params.put("cookie", cookieInstance);
@@ -143,8 +138,7 @@ public final class Caller {
 
                     System.out.println("Succes: "+succes);
 
-                    assert(succes != null);
-                    if(succes.matches("true")) {
+                    if(succes != null && succes.matches("true")) {
                         String pseudo = jsonResponse.getString("pseudo");
                         System.out.println("Pseudonyme: "+pseudo);
                         pseudonyme = pseudo;
@@ -181,7 +175,7 @@ public final class Caller {
 
     }
 
-    public static void signup(String user, String pseudo, String password){
+    static void signup(String user, String pseudo, String password){
         Map<String, String> params = new HashMap<>();
         params.put("user", user);
         params.put("pseudonyme", pseudo);
@@ -199,8 +193,7 @@ public final class Caller {
 
                     System.out.println("Succes: "+succes);
 
-                    assert(succes != null);
-                    if(succes.matches("true")) {
+                    if(succes != null && succes.matches("true")) {
                         String cookie = jsonResponse.getString("cookie");
                         System.out.println("Cookie: "+cookie);
                         cookieInstance = cookie;
@@ -231,7 +224,7 @@ public final class Caller {
         QueueSingleton.getInstance(ctx).addToRequestQueue(requestor);
     }
 
-    public static void signin(String user, String password){
+    static void signin(String user, String password){
         Map<String, String> params = new HashMap<>();
         params.put("user", user);
         params.put("password",password);
@@ -247,8 +240,7 @@ public final class Caller {
 
                     System.out.println("Succes: "+succes);
 
-                    assert(succes != null);
-                    if(succes.matches("true")) {
+                    if(succes != null && succes.matches("true")) {
                         String cookie = jsonResponse.getString("cookie");
                         String pseudo = jsonResponse.getString("pseudonyme");
                         System.out.println("Cookie: "+cookie + " Pseudonyme: "+pseudo);
@@ -280,7 +272,7 @@ public final class Caller {
         QueueSingleton.getInstance(ctx).addToRequestQueue(requestor);
     }
 
-    public static void setClockSong(final String member){
+    static void setClockSong(final String member){
 
         Map<String, String> params = new HashMap<>();
         params.put("cookie",cookieInstance);
@@ -295,8 +287,7 @@ public final class Caller {
                     JSONObject jsonResponse = response.getJSONObject("statut");
                     String succes = jsonResponse.getString("succes");
 
-                    assert(succes != null);
-                    if(succes.matches("true")) {
+                    if(succes != null && succes.matches("true")) {
                         System.out.println("Succes: "+succes);
                         Toast.makeText(ctx, "a voté !", Toast.LENGTH_LONG).show();
                     }
@@ -322,7 +313,7 @@ public final class Caller {
 
     }
 
-    public static void getClockSong(){
+    static void getClockSong(){
         Map<String, String> params = new HashMap<>();
         params.put("cookie",cookieInstance);
 
@@ -334,8 +325,7 @@ public final class Caller {
                     JSONObject jsonResponse = response.getJSONObject("statut");
                     String succes = jsonResponse.getString("succes");
 
-                    assert(succes != null);
-                    if(succes.matches("true")) {
+                    if(succes != null && succes.matches("true")) {
                         System.out.println("Succes: "+succes);
                         String link = jsonResponse.getString("link");
                         Toast.makeText(ctx, "Good Morning ! (Message du voteur TODO)", Toast.LENGTH_LONG).show();
@@ -365,7 +355,7 @@ public final class Caller {
         QueueSingleton.getInstance(ctx).addToRequestQueue(requestor);
     }
 
-    public static void getBddAmi(){
+    static void getBddAmi(){
 
         if(Ami == null)Ami = new ArrayList<>();
         Map<String, String> params = new HashMap<>();
@@ -379,8 +369,7 @@ public final class Caller {
                     JSONObject jsonResponse = response.getJSONObject("statut");
                     String succes = jsonResponse.getString("succes");
 
-                    assert(succes != null);
-                    if(succes.matches("true")) {
+                    if(succes != null && succes.matches("true")) {
                         JSONObject jsonAmis = jsonResponse.getJSONObject("amis");
                         Iterator x = jsonAmis.keys();
 
@@ -422,7 +411,7 @@ public final class Caller {
 
     }
 
-    public static void getBddWorld(){
+    static void getBddWorld(){
 
         if(World == null)World = new ArrayList<>();
         Map<String, String> params = new HashMap<>();
@@ -436,8 +425,7 @@ public final class Caller {
                     JSONObject jsonResponse = response.getJSONObject("statut");
                     String succes = jsonResponse.getString("succes");
 
-                    assert(succes != null);
-                    if(succes.matches("true")) {
+                    if(succes != null && succes.matches("true")) {
                         JSONObject jsonWorld = jsonResponse.getJSONObject("world");
                         Iterator x = jsonWorld.keys();
 
@@ -479,7 +467,7 @@ public final class Caller {
 
     }
 
-    public static void addFriend(final String friend)
+    static void addFriend(final String friend)
     {
 
         Map<String, String> params = new HashMap<>();
@@ -494,8 +482,7 @@ public final class Caller {
                     JSONObject jsonResponse = response.getJSONObject("statut");
                     String succes = jsonResponse.getString("succes");
 
-                    assert(succes != null);
-                    if(succes.matches("true")) {
+                    if(succes != null && succes.matches("true")) {
                         Toast.makeText(ctx, "Demande d'ajout envoyée.", Toast.LENGTH_LONG).show();
                     }
                     else{
@@ -522,7 +509,7 @@ public final class Caller {
         QueueSingleton.getInstance(ctx).addToRequestQueue(requestor);
     }
 
-    public static void getNotif()
+    static void getNotif()
     {
         if(NewAmi == null)NewAmi = new ArrayList<>();
         Map<String, String> params = new HashMap<>();
@@ -536,8 +523,7 @@ public final class Caller {
                     JSONObject jsonResponse = response.getJSONObject("statut");
                     String succes = jsonResponse.getString("succes");
 
-                    assert(succes != null);
-                    if(succes.matches("true")) {
+                    if(succes != null && succes.matches("true")) {
                         JSONObject jsonAmis = jsonResponse.getJSONObject("amis");
                         Iterator x = jsonAmis.keys();
 
@@ -586,7 +572,7 @@ public final class Caller {
         QueueSingleton.getInstance(ctx).addToRequestQueue(requestor);
     }
 
-    public static void acceptFriend(final String friend)
+    static void acceptFriend(final String friend)
     {
 
         Map<String, String> params = new HashMap<>();
@@ -601,8 +587,7 @@ public final class Caller {
                     JSONObject jsonResponse = response.getJSONObject("statut");
                     String succes = jsonResponse.getString("succes");
 
-                    assert(succes != null);
-                    if(succes.matches("true")) {
+                    if(succes != null && succes.matches("true")) {
                         Toast.makeText(ctx, "Ami ajouté.", Toast.LENGTH_LONG).show();
                     }
                     else{
@@ -629,7 +614,7 @@ public final class Caller {
         QueueSingleton.getInstance(ctx).addToRequestQueue(requestor);
     }
 
-    public static void refuseFriend(final String friend)
+    static void refuseFriend(final String friend)
     {
 
         Map<String, String> params = new HashMap<>();
@@ -644,8 +629,7 @@ public final class Caller {
                     JSONObject jsonResponse = response.getJSONObject("statut");
                     String succes = jsonResponse.getString("succes");
 
-                    assert(succes != null);
-                    if(succes.matches("true")) {
+                    if(succes != null && succes.matches("true")) {
                         Toast.makeText(ctx, "Ami refusé.", Toast.LENGTH_LONG).show();
                     }
                     else{

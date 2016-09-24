@@ -171,8 +171,6 @@ public class MainActivity extends AppCompatActivity {
 
         String valueAutorisation = PreferenceManager.getDefaultSharedPreferences(this).getString("prefWhoWakeMe", null);
 
-        SharedPreferences myPreference=PreferenceManager.getDefaultSharedPreferences(this);
-
         if(valueAutorisation != null)
         {
             if(valueAutorisation.equals("Seulement moi") && tablist.getText() != null)
@@ -225,7 +223,6 @@ public class MainActivity extends AppCompatActivity {
         } else {
             alarmManager.cancel(pendingIntent);
             ClockObject.setAlarmText("");
-            AlarmReceiver alarme = new AlarmReceiver();
             Log.d("MyActivity", "Alarm Off");
         }
     }
@@ -235,7 +232,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
 
         super.onCreateOptionsMenu(menu);
-        this.menu = menu;
+        MainActivity.menu = menu;
 
         getMenuInflater().inflate(R.menu.menu_main, menu);
 
@@ -256,7 +253,7 @@ public class MainActivity extends AppCompatActivity {
 
         NotificationDrawable badge;
         Drawable reuse = null;
-        MenuItem item = null;
+        MenuItem item;
         LayerDrawable icon = null;
 
         if(badge_a_modifier.equals("friend"))
@@ -279,6 +276,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         badge.setCount(count);
+        assert icon != null;
         icon.mutate();
 
         if(badge_a_modifier.equals("friend"))
