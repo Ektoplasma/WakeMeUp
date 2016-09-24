@@ -28,6 +28,8 @@ public final class Caller {
     private static String cookieInstance;
     private static List<String> Ami;
     private static List<String> NewAmi;
+    private static List<String> NewMessages;
+    private static List<String> NewSenders;
     private static Context ctx;
     private static String currentLink;
     private static String state;
@@ -37,6 +39,18 @@ public final class Caller {
     private final static String PREFS_NAME = "COOKIE_WMU";
     private final static String PREF_SESSION_COOKIE = "session_cookie";
     private final static String PREF_DEFAULT_STRING = "";
+
+    public static List<String> getNewSenders() {
+        return NewSenders;
+    }
+
+    public static void setNewSenders(List<String> newSenders) {
+        NewSenders = newSenders;
+    }
+
+    public static List<String> getNewMessages() { return NewMessages; }
+
+    public static void setNewMessages(List<String> newMessages) { NewMessages = newMessages; }
 
     static List<String> getNewAmi() { return NewAmi; }
 
@@ -357,7 +371,7 @@ public final class Caller {
 
     static void getBddAmi(){
 
-        if(Ami == null)Ami = new ArrayList<>();
+        Ami = new ArrayList<>();
         Map<String, String> params = new HashMap<>();
         params.put("cookie",cookieInstance);
 
@@ -413,7 +427,7 @@ public final class Caller {
 
     static void getBddWorld(){
 
-        if(World == null)World = new ArrayList<>();
+        World = new ArrayList<>();
         Map<String, String> params = new HashMap<>();
         params.put("cookie",cookieInstance);
 
@@ -511,7 +525,7 @@ public final class Caller {
 
     static void getNotif()
     {
-        if(NewAmi == null)NewAmi = new ArrayList<>();
+        NewAmi = new ArrayList<>();
         Map<String, String> params = new HashMap<>();
         params.put("cookie",cookieInstance);
 
@@ -568,8 +582,75 @@ public final class Caller {
             }
         };
         DataRequest requestor = new DataRequest(Request.Method.POST, "http://"+ ctx.getResources().getString(R.string.hostname_server) +"/notif.php",params, reponseListener, errorListener);
+        /* ----- */
+        NewMessages = new ArrayList<>();
+        Map<String, String> params2 = new HashMap<>();
+        params2.put("cookie",cookieInstance);
+
+        Response.Listener<JSONObject> reponseListener2= new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+
+                    JSONObject jsonResponse = response.getJSONObject("statut");
+                    String succes = jsonResponse.getString("succes");
+
+                    if(succes != null && succes.matches("true")) {
+                        JSONObject jsonMessages = jsonResponse.getJSONObject("messages");
+                        JSONObject jsonSenders = jsonResponse.getJSONObject("senders");
+                        Iterator x = jsonMessages.keys();
+                        Iterator y = jsonSenders.keys();
+
+                        int i = 0;
+
+                        while (x.hasNext() && y.hasNext()){
+                            String key = (String) x.next();
+                            String key_s = (String) y.next();
+                            NewMessages.add(jsonMessages.get(key).toString());
+                            NewSenders.add(jsonSenders.get(key_s).toString());
+                            System.out.println("NewMessages "+i+": "+NewMessages.get(i)+" from : "+NewSenders.get(i));
+                            i++;
+                        }
+                        Set<String> hs = new HashSet<>();
+                        hs.addAll(NewMessages);
+                        NewMessages.clear();
+                        NewMessages.addAll(hs);
+                        Set<String> hs_m = new HashSet<>();
+                        hs_m.addAll(NewSenders);
+                        NewSenders.clear();
+                        NewSenders.addAll(hs_m);
+                        Intent broadcast = new Intent("ekto.valou.badgebroadcast");
+                        broadcast.putExtra("TYPE","message");
+                        broadcast.putExtra("COUNT",String.valueOf(i));
+                        ctx.sendBroadcast(broadcast);
+                        System.out.println("Broadcast envoyé");
+                    }
+                    else{
+                        Intent broadcast = new Intent("ekto.valou.badgebroadcast");
+                        broadcast.putExtra("TYPE","message");
+                        broadcast.putExtra("COUNT",String.valueOf(0));
+                        ctx.sendBroadcast(broadcast);
+                        System.out.println("Broadcast envoyé");
+                    }
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        };
+
+        Response.ErrorListener errorListener2 = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+            }
+        };
+        DataRequest requestor2 = new DataRequest(Request.Method.POST, "http://"+ ctx.getResources().getString(R.string.hostname_server) +"/notif_msg.php",params2, reponseListener2, errorListener2);
 
         QueueSingleton.getInstance(ctx).addToRequestQueue(requestor);
+        QueueSingleton.getInstance(ctx).addToRequestQueue(requestor2);
     }
 
     static void acceptFriend(final String friend)
