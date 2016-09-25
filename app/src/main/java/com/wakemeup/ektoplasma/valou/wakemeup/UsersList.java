@@ -1,12 +1,19 @@
 package com.wakemeup.ektoplasma.valou.wakemeup;
 
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.DialogFragment;
 import android.os.Bundle;
 import android.app.SearchManager;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.widget.SearchView;
 import android.widget.SearchView.OnQueryTextListener;
 import android.view.ContextMenu;
@@ -60,7 +67,13 @@ public class UsersList extends Fragment {
                 String name = adapter.getChild(groupPosition, childPosition).toString();
                 /*TODO
                         -message du voteur*/
-                if(Caller.getCurrentLink() != null) Caller.setClockSong(name);
+                if(Caller.getCurrentLink() != null)
+                {
+                   // Caller.setClockSong(name);
+                    System.out.println("YOLOLILO");
+                    DialogFragmentMessage dialog = DialogFragmentMessage.newInstance();
+                    dialog.show(getFragmentManager(), "fragmentDialog");
+                }
                 else Toast.makeText(getActivity(), "S'il vous plaît, partagez un lien Youtube avant de cliquer ici.", Toast.LENGTH_LONG).show();
                 return false;
             }
@@ -86,6 +99,27 @@ public class UsersList extends Fragment {
        //searchV.setOnCloseListener(this);
 
         return view;
+    }
+
+
+    protected Dialog onCreateDialog(int id) {
+
+        final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+
+        builder.setView(inflater.inflate(R.layout.send_message, null))
+                .setPositiveButton(R.string.send, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+
+                    }
+                })
+                .setNegativeButton(R.string.notsend, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.dismiss();
+                    }
+                });
+        return builder.create();
     }
 
     @Override

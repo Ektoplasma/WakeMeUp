@@ -36,7 +36,7 @@ public class HistoryActivity extends Fragment {
     public void onResume()
     {
         super.onResume();
-        list = new ArrayList<String>();
+        /*list = new ArrayList<String>();
         NameYouTubeVideo jParser = new NameYouTubeVideo();
         String[] urls = new String[1];
         urls[0] = "https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=Sw9uicEGjGw&format=json";
@@ -46,6 +46,6 @@ public class HistoryActivity extends Fragment {
         CustomAdapterHistory adapter = new CustomAdapterHistory(list, getActivity());
 
         ListView lView = (ListView)view.findViewById(R.id.ListHistory);
-        lView.setAdapter(adapter);
+        lView.setAdapter(adapter);*/
     }
 }
