@@ -15,15 +15,6 @@ import android.widget.EditText;
 
 public class DialogFragmentMessage extends DialogFragment {
 
-   /* @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.send_message, container,
-                    false);
-            //getDialog().setTitle("Envoyer un message avec le réveil");
-            return rootView;
-        }
-*/
    @Override
    public Dialog onCreateDialog(Bundle savedInstanceState) {
        AlertDialog.Builder createProjectAlert = new AlertDialog.Builder(getActivity());
