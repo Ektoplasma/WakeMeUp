@@ -17,13 +17,13 @@ public class DialogFragmentMessage extends DialogFragment {
 
    @Override
    public Dialog onCreateDialog(Bundle savedInstanceState) {
-       AlertDialog.Builder createProjectAlert = new AlertDialog.Builder(getActivity());
+       AlertDialog.Builder messageAlter = new AlertDialog.Builder(getActivity());
 
-       createProjectAlert.setTitle("Voulez-vous envoyer un message ?");
+       messageAlter.setTitle("Voulez-vous envoyer un message ?");
 
        LayoutInflater inflater = getActivity().getLayoutInflater();
 
-       createProjectAlert.setView(inflater.inflate(R.layout.send_message, null))
+       messageAlter.setView(inflater.inflate(R.layout.send_message, null))
 
                .setNegativeButton(R.string.notsend, new DialogInterface.OnClickListener() {
 
@@ -42,7 +42,7 @@ public class DialogFragmentMessage extends DialogFragment {
                     }
                 });
 
-       return createProjectAlert.create();
+       return messageAlter.create();
 
    }
     public static DialogFragmentMessage newInstance() {

@@ -39,4 +39,6 @@
     <string name="send">Envoyer</string>
     <string name="notsend">Rien envoyer</string>
 
+    <string name="close">Fermer</string>
+
 </resources>
