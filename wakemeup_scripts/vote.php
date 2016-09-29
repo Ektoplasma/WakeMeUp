@@ -9,13 +9,16 @@
    $alarm = new Alarm();
    $response = array();
 
-   if (isset($_POST["cookie"]) && isset($_POST["member"]) && isset($_POST["link"])) {
+   if (isset($_POST["cookie"]) && isset($_POST["member"]) && isset($_POST["link"]) && isset($_POST["message"])) {
 
    	$cookie = filter_var($_POST["cookie"],FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 	$to_member = filter_var($_POST["member"],FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 	$link = filter_var($_POST["link"],FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+	$msg = filter_var($_POST["message"],FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
-	if(!empty($cookie) && !empty($to_member) && !empty($link)){
+	$msg = (strlen($msg) > 139) ? substr($msg,0,136).'...' : $msg;
+
+	if(!empty($cookie) && !empty($to_member) && !empty($link) && !empty($msg)){
 
 		$members->cookie = $cookie;
 		$found_member = $members->Search();
@@ -45,6 +48,7 @@
 						$alarm->idUser = $o_another["id"];
 						$alarm->idVoter = $o_member["id"];
 						$alarm->ytlink = $link;
+						$alarm->msg = $msg;
 						$alarm->enabled = "true";
 						$alarm->chosen = "true";
 

@@ -31,8 +31,17 @@
 					foreach($found_alarm as $o_alarm){
 
 						$link = $o_alarm["ytlink"];
+						$message = $o_alarm["msg"];
 
-						$response["statut"] = array("succes"=>"true", "link"=>$link);
+						$members->id = $o_alarm["idVoter"];
+						$members->find();
+
+						 if ($members !== null) {
+						 	$pseudonyme = $members->pseudonyme;
+						 }
+						 else $pseudonyme = "";
+
+						$response["statut"] = array("succes"=>"true", "link"=>$link, "message"=>$message, "voter"=>$pseudonyme);
 					}
 
 					header('Content-Type: application/json;charset=utf-8');

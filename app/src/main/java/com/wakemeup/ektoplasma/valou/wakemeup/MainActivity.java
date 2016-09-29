@@ -69,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
     protected Context ctx = this;
     TabLayout tabLayout;
     TabLayout.Tab tabreveil, tablist, tabhistory;
+    private boolean waitingMsg = false;
 
     TimerTask task = new TimerTask() {
         @Override
@@ -174,6 +175,7 @@ public class MainActivity extends AppCompatActivity {
 
         String valueAutorisation = PreferenceManager.getDefaultSharedPreferences(this).getString("prefWhoWakeMe", null);
 
+
         if(valueAutorisation != null)
         {
             if(valueAutorisation.equals("Seulement moi") && tablist.getText() != null)
@@ -196,6 +198,13 @@ public class MainActivity extends AppCompatActivity {
                 tabhistory = tabLayout.newTab().setText("Historique");
                 tabLayout.addTab(tabhistory);
             }*/
+        }
+
+        if(waitingMsg == true)
+        {
+            DialogFragmentMessageReveil dialog = DialogFragmentMessageReveil.newInstance();
+            dialog.show(getSupportFragmentManager(),"fragmentDialog");
+            waitingMsg = false;
         }
 
     }
@@ -409,9 +418,10 @@ public class MainActivity extends AppCompatActivity {
     private BroadcastReceiver ytreceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            Log.d("MainActivity","Broadcast recu YT");
+            Log.d("MainActivity", "Broadcast recu YT");
             //TODO afficher le message
-            Toast.makeText(ctx, (CharSequence) "ICI BROADCASTRECEIVER DANS MAIN ACTIVITY ET JE SORS DE YOUTUBEACTIVITY", Toast.LENGTH_LONG).show();
+            if(!Caller.getCurrentMessage().equals("")) waitingMsg = true;
+
         }
     };
 

@@ -36,10 +36,28 @@ public final class Caller {
     private static boolean instance = false;
     private static List<String> World;
     private static String currentReceiver;
+    private static String currentMessage;
+    private static String currentVoter;
 
     private final static String PREFS_NAME = "COOKIE_WMU";
     private final static String PREF_SESSION_COOKIE = "session_cookie";
     private final static String PREF_DEFAULT_STRING = "";
+
+    public static String getCurrentVoter() {
+        return currentVoter;
+    }
+
+    public static void setCurrentVoter(String currentVoter) {
+        Caller.currentVoter = currentVoter;
+    }
+
+    public static String getCurrentMessage() {
+        return currentMessage;
+    }
+
+    public static void setCurrentMessage(String currentMessage) {
+        Caller.currentMessage = currentMessage;
+    }
 
     public static String getCurrentReceiver() {
         return currentReceiver;
@@ -295,12 +313,13 @@ public final class Caller {
         QueueSingleton.getInstance(ctx).addToRequestQueue(requestor);
     }
 
-    static void setClockSong(final String member){
+    static void setClockSong(final String message){
 
         Map<String, String> params = new HashMap<>();
         params.put("cookie",cookieInstance);
-        params.put("member",member);
+        params.put("member",currentReceiver);
         params.put("link",currentLink);
+        params.put("message", message);
 
         Response.Listener<JSONObject> reponseListener= new Response.Listener<JSONObject>() {
             @Override
@@ -312,10 +331,10 @@ public final class Caller {
 
                     if(succes != null && succes.matches("true")) {
                         System.out.println("Succes: "+succes);
-                        Toast.makeText(ctx, "a voté !", Toast.LENGTH_LONG).show();
+                        Toast.makeText(ctx, "Vidéo envoyée.", Toast.LENGTH_LONG).show();
                     }
                     else{
-                        System.out.println("Could not set alarm song to "+member);
+                        System.out.println("Could not set alarm song to "+currentReceiver);
                         Toast.makeText(ctx, "echec...", Toast.LENGTH_LONG).show();
                     }
                 } catch (JSONException e) {
@@ -351,7 +370,8 @@ public final class Caller {
                     if(succes != null && succes.matches("true")) {
                         System.out.println("Succes: "+succes);
                         String link = jsonResponse.getString("link");
-                        Toast.makeText(ctx, "Good Morning ! (Message du voteur TODO)", Toast.LENGTH_LONG).show();
+                        currentMessage = jsonResponse.getString("message");
+                        currentVoter = jsonResponse.getString("voter");
                         Intent intent = new Intent(ctx, YoutubeActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         intent.putExtra("YTLINK", link);
@@ -359,7 +379,7 @@ public final class Caller {
                     }
                     else{
                         System.out.println("Could not get alarm song.");//er416Ad3R1g
-                        Toast.makeText(ctx, "Good Morning ! (Réveil de base)", Toast.LENGTH_LONG).show();
+                        currentMessage = "Good Morning ! (réveil par défaut)";
                         Intent intent = new Intent(ctx, YoutubeActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         intent.putExtra("YTLINK", "er416Ad3R1g");
@@ -536,13 +556,13 @@ public final class Caller {
         QueueSingleton.getInstance(ctx).addToRequestQueue(requestor);
     }
 
-    static void sendMessage(final String message)
+    static void sendMessage(final String message, final String voteur)
     {
 
         Map<String, String> params = new HashMap<>();
         params.put("cookie",cookieInstance);
         params.put("message", message);
-        params.put("person", currentReceiver);
+        params.put("person", voteur);
         //TODO security
 
         Response.Listener<JSONObject> reponseListener= new Response.Listener<JSONObject>() {
@@ -557,7 +577,7 @@ public final class Caller {
                         Toast.makeText(ctx, "Message envoyé.", Toast.LENGTH_LONG).show();
                     }
                     else{
-                        System.out.println("Could not send message "+message+" to "+currentReceiver+".");
+                        System.out.println("Could not send message "+message+" to "+voteur+".");
                         Toast.makeText(ctx, "echec...", Toast.LENGTH_LONG).show();
                     }
 

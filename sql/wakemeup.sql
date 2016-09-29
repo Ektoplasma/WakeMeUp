@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.5.4.1deb2ubuntu2
+-- version 4.2.12deb2+deb8u2
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Sep 22, 2016 at 12:47 PM
--- Server version: 5.7.15-0ubuntu0.16.04.1
--- PHP Version: 7.0.8-0ubuntu0.16.04.2
+-- Generation Time: Sep 29, 2016 at 02:27 PM
+-- Server version: 5.5.52-0+deb8u1
+-- PHP Version: 5.6.24-0+deb8u1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -14,7 +14,7 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
+/*!40101 SET NAMES utf8 */;
 
 --
 -- Database: `wakemeup`
@@ -26,15 +26,16 @@ SET time_zone = "+00:00";
 -- Table structure for table `alarm`
 --
 
-CREATE TABLE `alarm` (
-  `id` bigint(20) UNSIGNED ZEROFILL NOT NULL,
-  `idUser` bigint(20) UNSIGNED ZEROFILL NOT NULL,
+CREATE TABLE IF NOT EXISTS `alarm` (
+`id` bigint(20) unsigned zerofill NOT NULL,
+  `idUser` bigint(20) unsigned zerofill NOT NULL,
   `enabled` varchar(10) CHARACTER SET utf8 NOT NULL DEFAULT 'false',
-  `idVoter` bigint(20) UNSIGNED ZEROFILL NOT NULL,
+  `idVoter` bigint(20) unsigned zerofill NOT NULL,
   `ytlink` varchar(20) CHARACTER SET utf8 NOT NULL,
+  `msg` varchar(140) COLLATE latin1_general_ci NOT NULL,
   `chosen` varchar(10) CHARACTER SET utf8 NOT NULL DEFAULT 'false',
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 -- --------------------------------------------------------
 
@@ -42,13 +43,21 @@ CREATE TABLE `alarm` (
 -- Table structure for table `friends`
 --
 
-CREATE TABLE `friends` (
-  `id` bigint(20) UNSIGNED ZEROFILL NOT NULL,
-  `idUser` bigint(20) UNSIGNED ZEROFILL NOT NULL,
-  `idAmi` bigint(20) UNSIGNED ZEROFILL NOT NULL,
+CREATE TABLE IF NOT EXISTS `friends` (
+`id` bigint(20) unsigned zerofill NOT NULL,
+  `idUser` bigint(20) unsigned zerofill NOT NULL,
+  `idAmi` bigint(20) unsigned zerofill NOT NULL,
   `pending` varchar(10) CHARACTER SET utf8 NOT NULL DEFAULT 'false',
   `hasAccepted` varchar(10) CHARACTER SET utf8 NOT NULL DEFAULT 'false'
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+
+--
+-- Dumping data for table `friends`
+--
+
+INSERT INTO `friends` (`id`, `idUser`, `idAmi`, `pending`, `hasAccepted`) VALUES
+(00000000000000000001, 00000000000000000004, 00000000000000000005, 'false', 'true'),
+(00000000000000000002, 00000000000000000005, 00000000000000000004, 'true', 'true');
 
 -- --------------------------------------------------------
 
@@ -56,15 +65,23 @@ CREATE TABLE `friends` (
 -- Table structure for table `members`
 --
 
-CREATE TABLE `members` (
-  `id` bigint(20) UNSIGNED ZEROFILL NOT NULL,
+CREATE TABLE IF NOT EXISTS `members` (
+`id` bigint(20) unsigned zerofill NOT NULL,
   `username` varchar(20) CHARACTER SET utf8 NOT NULL,
   `password` varchar(255) CHARACTER SET utf8 NOT NULL,
   `cookie` varchar(255) CHARACTER SET utf8 NOT NULL,
   `mode` varchar(10) CHARACTER SET utf8 NOT NULL DEFAULT 'world',
   `pseudonyme` varchar(16) CHARACTER SET utf8 NOT NULL,
   `date_creation` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+
+--
+-- Dumping data for table `members`
+--
+
+INSERT INTO `members` (`id`, `username`, `password`, `cookie`, `mode`, `pseudonyme`, `date_creation`) VALUES
+(00000000000000000004, 'Theo', '$2y$10$85EEE87bRJ1HAQMWgB7.ROx6N.4mq/s2X8NgrqKNDkUgejOE7pBWW', '8c9655c777c2a91782a825147d3781aa5c901f92cbd868069085c6080d9c202c', 'world', 'Theo', '2016-09-22 13:32:03'),
+(00000000000000000005, 'valou', '$2y$10$4tZ.Q2lqbYIzu2YirAnth.iS4b3qJedAEUfhH/GkpmZ7mpBwWWDka', 'e33833b204e36114a9c9be3706c46effca3706e2f522ce60f68b99a9a6aac24a', 'world', 'valou', '2016-09-22 13:36:31');
 
 -- --------------------------------------------------------
 
@@ -72,12 +89,19 @@ CREATE TABLE `members` (
 -- Table structure for table `message`
 --
 
-CREATE TABLE `message` (
-  `id` bigint(20) UNSIGNED ZEROFILL NOT NULL,
-  `idSender` bigint(20) UNSIGNED ZEROFILL NOT NULL,
-  `idReceiver` bigint(20) UNSIGNED ZEROFILL NOT NULL,
+CREATE TABLE IF NOT EXISTS `message` (
+`id` bigint(20) unsigned zerofill NOT NULL,
+  `idSender` bigint(20) unsigned zerofill NOT NULL,
+  `idReceiver` bigint(20) unsigned zerofill NOT NULL,
   `msg` varchar(140) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `message`
+--
+
+INSERT INTO `message` (`id`, `idSender`, `idReceiver`, `msg`) VALUES
+(00000000000000000001, 00000000000000000004, 00000000000000000005, 'Celui qui lit ce message est un con.');
 
 --
 -- Indexes for dumped tables
@@ -87,33 +111,25 @@ CREATE TABLE `message` (
 -- Indexes for table `alarm`
 --
 ALTER TABLE `alarm`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `idUser` (`idUser`),
-  ADD KEY `idVoter` (`idVoter`);
+ ADD PRIMARY KEY (`id`), ADD KEY `idUser` (`idUser`), ADD KEY `idVoter` (`idVoter`);
 
 --
 -- Indexes for table `friends`
 --
 ALTER TABLE `friends`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `idUser` (`idUser`),
-  ADD KEY `idAmi` (`idAmi`);
+ ADD PRIMARY KEY (`id`), ADD KEY `idUser` (`idUser`), ADD KEY `idAmi` (`idAmi`);
 
 --
 -- Indexes for table `members`
 --
 ALTER TABLE `members`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `username` (`username`),
-  ADD UNIQUE KEY `pseudonyme` (`pseudonyme`);
+ ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `username` (`username`), ADD UNIQUE KEY `pseudonyme` (`pseudonyme`);
 
 --
 -- Indexes for table `message`
 --
 ALTER TABLE `message`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `idSender` (`idSender`),
-  ADD KEY `idReceiver` (`idReceiver`);
+ ADD PRIMARY KEY (`id`), ADD KEY `idSender` (`idSender`), ADD KEY `idReceiver` (`idReceiver`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -123,22 +139,22 @@ ALTER TABLE `message`
 -- AUTO_INCREMENT for table `alarm`
 --
 ALTER TABLE `alarm`
-  MODIFY `id` bigint(20) UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT;
+MODIFY `id` bigint(20) unsigned zerofill NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `friends`
 --
 ALTER TABLE `friends`
-  MODIFY `id` bigint(20) UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT;
+MODIFY `id` bigint(20) unsigned zerofill NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `members`
 --
 ALTER TABLE `members`
-  MODIFY `id` bigint(20) UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+MODIFY `id` bigint(20) unsigned zerofill NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT for table `message`
 --
 ALTER TABLE `message`
-  MODIFY `id` bigint(20) UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT;
+MODIFY `id` bigint(20) unsigned zerofill NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- Constraints for dumped tables
 --
@@ -147,22 +163,22 @@ ALTER TABLE `message`
 -- Constraints for table `alarm`
 --
 ALTER TABLE `alarm`
-  ADD CONSTRAINT `alarm_ibfk_1` FOREIGN KEY (`idUser`) REFERENCES `members` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `alarm_ibfk_2` FOREIGN KEY (`idVoter`) REFERENCES `members` (`id`) ON DELETE CASCADE;
+ADD CONSTRAINT `alarm_ibfk_1` FOREIGN KEY (`idUser`) REFERENCES `members` (`id`) ON DELETE CASCADE,
+ADD CONSTRAINT `alarm_ibfk_2` FOREIGN KEY (`idVoter`) REFERENCES `members` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `friends`
 --
 ALTER TABLE `friends`
-  ADD CONSTRAINT `friends_ibfk_1` FOREIGN KEY (`idUser`) REFERENCES `members` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `friends_ibfk_3` FOREIGN KEY (`idAmi`) REFERENCES `members` (`id`) ON DELETE CASCADE;
+ADD CONSTRAINT `friends_ibfk_1` FOREIGN KEY (`idUser`) REFERENCES `members` (`id`) ON DELETE CASCADE,
+ADD CONSTRAINT `friends_ibfk_3` FOREIGN KEY (`idAmi`) REFERENCES `members` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `message`
 --
 ALTER TABLE `message`
-  ADD CONSTRAINT `message_ibfk_1` FOREIGN KEY (`idSender`) REFERENCES `members` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `message_ibfk_2` FOREIGN KEY (`idReceiver`) REFERENCES `members` (`id`) ON DELETE CASCADE;
+ADD CONSTRAINT `message_ibfk_1` FOREIGN KEY (`idSender`) REFERENCES `members` (`id`) ON DELETE CASCADE,
+ADD CONSTRAINT `message_ibfk_2` FOREIGN KEY (`idReceiver`) REFERENCES `members` (`id`) ON DELETE CASCADE;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

@@ -18,14 +18,13 @@ public class DialogFragmentMessageReveil extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder reveilAlert = new AlertDialog.Builder(getActivity());
 
-        //String nomutilisateur =;
-        //String message = ;
+        String message = Caller.getCurrentMessage();
+        final String voteur = Caller.getCurrentVoter();
 
-        //reveilAlert.setTitle("Reveil proposé par " + nomutilisateur);
-        reveilAlert.setTitle("Wake Up!");
+        reveilAlert.setTitle("Reveil proposé par " +voteur+" !");
 
         LayoutInflater inflater = getActivity().getLayoutInflater();
-
+        //TODO : POUR ENVOYER REPONSE : Caller.sendMessage(reponse, voteur);
         reveilAlert.setView(inflater.inflate(R.layout.send_message, null))
 
                 .setNegativeButton(R.string.close, new DialogInterface.OnClickListener() {
@@ -35,14 +34,13 @@ public class DialogFragmentMessageReveil extends DialogFragment {
                         dialog.dismiss();
                     }
                 })
-                .setMessage("Bonjour");
-                //.setMessage(message);
+                .setMessage(message);
 
         return reveilAlert.create();
 
     }
-    public static DialogFragmentMessage newInstance() {
-        DialogFragmentMessage f = new DialogFragmentMessage();
+    public static DialogFragmentMessageReveil newInstance() {
+        DialogFragmentMessageReveil f = new DialogFragmentMessageReveil();
         return f;
     }
 }

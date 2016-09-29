@@ -6,5 +6,6 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/wake_message" />
+        android:id="@+id/wake_message"
+        />
 </LinearLayout>
