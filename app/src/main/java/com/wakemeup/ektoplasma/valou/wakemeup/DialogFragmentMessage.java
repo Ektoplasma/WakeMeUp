@@ -39,6 +39,7 @@ public class DialogFragmentMessage extends DialogFragment {
                     public void onClick(DialogInterface dialog, int id) {
                         EditText message = (EditText) getDialog().findViewById(R.id.message);
                         System.out.println("Le beau message -> " + message.getText());
+                        Caller.sendMessage(String.valueOf(message.getText()));
                     }
                 });
 

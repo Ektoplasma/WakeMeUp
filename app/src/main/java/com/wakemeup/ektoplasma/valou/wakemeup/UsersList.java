@@ -69,8 +69,9 @@ public class UsersList extends Fragment {
                         -message du voteur*/
                 if(Caller.getCurrentLink() != null)
                 {
-                   // Caller.setClockSong(name);
+                    Caller.setClockSong(name);
                     System.out.println("YOLOLILO");
+                    Caller.setCurrentReceiver(name);
                     DialogFragmentMessage dialog = DialogFragmentMessage.newInstance();
                     dialog.show(getFragmentManager(), "fragmentDialog");
                 }

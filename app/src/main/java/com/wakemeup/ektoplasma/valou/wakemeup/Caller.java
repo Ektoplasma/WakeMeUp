@@ -35,10 +35,19 @@ public final class Caller {
     private static String state;
     private static boolean instance = false;
     private static List<String> World;
+    private static String currentReceiver;
 
     private final static String PREFS_NAME = "COOKIE_WMU";
     private final static String PREF_SESSION_COOKIE = "session_cookie";
     private final static String PREF_DEFAULT_STRING = "";
+
+    public static String getCurrentReceiver() {
+        return currentReceiver;
+    }
+
+    public static void setCurrentReceiver(String currentReceiver) {
+        Caller.currentReceiver = currentReceiver;
+    }
 
     public static List<String> getNewSenders() {
         return NewSenders;
@@ -523,6 +532,50 @@ public final class Caller {
             }
         };
         DataRequest requestor = new DataRequest(Request.Method.POST, "http://"+ ctx.getResources().getString(R.string.hostname_server) +"/add.php",params, reponseListener, errorListener);
+
+        QueueSingleton.getInstance(ctx).addToRequestQueue(requestor);
+    }
+
+    static void sendMessage(final String message)
+    {
+
+        Map<String, String> params = new HashMap<>();
+        params.put("cookie",cookieInstance);
+        params.put("message", message);
+        params.put("person", currentReceiver);
+        //TODO security
+
+        Response.Listener<JSONObject> reponseListener= new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+
+                    JSONObject jsonResponse = response.getJSONObject("statut");
+                    String succes = jsonResponse.getString("succes");
+
+                    if(succes != null && succes.matches("true")) {
+                        Toast.makeText(ctx, "Message envoyé.", Toast.LENGTH_LONG).show();
+                    }
+                    else{
+                        System.out.println("Could not send message "+message+" to "+currentReceiver+".");
+                        Toast.makeText(ctx, "echec...", Toast.LENGTH_LONG).show();
+                    }
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        };
+
+        Response.ErrorListener errorListener = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+            }
+        };
+        DataRequest requestor = new DataRequest(Request.Method.POST, "http://"+ ctx.getResources().getString(R.string.hostname_server) +"/send_msg.php",params, reponseListener, errorListener);
 
         QueueSingleton.getInstance(ctx).addToRequestQueue(requestor);
     }

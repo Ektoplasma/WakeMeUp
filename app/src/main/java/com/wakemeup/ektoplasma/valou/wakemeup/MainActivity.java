@@ -410,6 +410,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             Log.d("MainActivity","Broadcast recu YT");
+            //TODO afficher le message
             Toast.makeText(ctx, (CharSequence) "ICI BROADCASTRECEIVER DANS MAIN ACTIVITY ET JE SORS DE YOUTUBEACTIVITY", Toast.LENGTH_LONG).show();
         }
     };
