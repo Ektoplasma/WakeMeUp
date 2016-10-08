@@ -810,4 +810,37 @@ public final class Caller {
 
         QueueSingleton.getInstance(ctx).addToRequestQueue(requestor);
     }
+
+    public static void nameYTvideo(String idVideo){
+        Map<String, String> params = new HashMap<>();
+
+        Response.Listener<JSONObject> reponseListener= new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    String title = response.getString("title");
+                    if(title != null) {
+                        Toast.makeText(ctx, "Nom de la vidéo :"+title, Toast.LENGTH_LONG).show();
+                    }
+                    else{
+                        System.out.println("Could not fetch video name.");
+                        Toast.makeText(ctx, "echec...", Toast.LENGTH_LONG).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+
+        Response.ErrorListener errorListener = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+            }
+        };
+        DataRequest requestor = new DataRequest(Request.Method.GET, "https://www.youtube.com/oembed?url=https://www.youtu.be/watch?v="+idVideo+"&format=json",params, reponseListener, errorListener);
+
+        QueueSingleton.getInstance(ctx).addToRequestQueue(requestor);
+
+    }
 }

@@ -224,6 +224,7 @@ public class MainActivity extends AppCompatActivity {
     public void onToggleClicked(View view) {
         if (((ToggleButton) view).isChecked()) {
             Log.d("MyActivity", "Alarm On");
+            Caller.nameYTvideo("5Fp1viiRJnw");
             Calendar calendar = Calendar.getInstance();
             ClockObject.setAlarmText("YOLOPPOELDORK");
             Log.d("MyActivity", "Alarm heure : "+ClockObject.GetHours()+":"+ClockObject.GetMinutes());
