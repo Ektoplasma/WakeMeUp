@@ -25,9 +25,20 @@ public class DialogFragmentMessageReveil extends DialogFragment {
 
         LayoutInflater inflater = getActivity().getLayoutInflater();
         //TODO : POUR ENVOYER REPONSE : Caller.sendMessage(reponse, voteur);
+
         reveilAlert.setView(inflater.inflate(R.layout.send_message, null))
 
-                .setNegativeButton(R.string.close, new DialogInterface.OnClickListener() {
+                .setPositiveButton(R.string.answer, new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        EditText reponse = (EditText) getDialog().findViewById(R.id.message_answer);
+                        Caller.sendMessage(String.valueOf(reponse.getText()), voteur);
+                        dialog.dismiss();
+                    }
+                })
+
+                .setNegativeButton(R.string.no_answer, new DialogInterface.OnClickListener() {
 
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
