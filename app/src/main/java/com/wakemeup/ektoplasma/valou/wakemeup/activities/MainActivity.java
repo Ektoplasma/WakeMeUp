@@ -30,6 +30,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
+import com.wakemeup.ektoplasma.valou.wakemeup.fragments.ClockActivity;
 import com.wakemeup.ektoplasma.valou.wakemeup.receivers.AlarmReceiver;
 import com.wakemeup.ektoplasma.valou.wakemeup.utilities.Caller;
 import com.wakemeup.ektoplasma.valou.wakemeup.drawables.NotificationDrawable;

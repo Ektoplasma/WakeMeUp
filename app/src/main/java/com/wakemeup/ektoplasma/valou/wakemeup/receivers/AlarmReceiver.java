@@ -12,7 +12,7 @@ import android.util.Log;
 
 import com.wakemeup.ektoplasma.valou.wakemeup.services.AlarmService;
 import com.wakemeup.ektoplasma.valou.wakemeup.utilities.Caller;
-import com.wakemeup.ektoplasma.valou.wakemeup.activities.ClockActivity;
+import com.wakemeup.ektoplasma.valou.wakemeup.fragments.ClockActivity;
 import com.wakemeup.ektoplasma.valou.wakemeup.activities.MainActivity;
 
 public class AlarmReceiver extends WakefulBroadcastReceiver {

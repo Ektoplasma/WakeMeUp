@@ -1,4 +1,4 @@
-package com.wakemeup.ektoplasma.valou.wakemeup.activities;
+package com.wakemeup.ektoplasma.valou.wakemeup.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;

@@ -8,8 +8,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import com.wakemeup.ektoplasma.valou.wakemeup.activities.ClockActivity;
-import com.wakemeup.ektoplasma.valou.wakemeup.activities.HistoryActivity;
+import com.wakemeup.ektoplasma.valou.wakemeup.fragments.ClockActivity;
+import com.wakemeup.ektoplasma.valou.wakemeup.fragments.HistoryActivity;
 import com.wakemeup.ektoplasma.valou.wakemeup.fragments.UsersList;
 
 public class PageAdapter extends FragmentStatePagerAdapter {
