@@ -35,18 +35,45 @@ public final class Caller {
     private static List<String> NewAmi;
     private static List<String> NewMessages;
     private static List<String> NewSenders;
+    private static List<String> World;
+    private static List<String> HistoryVoter;
+    private static List<String> HistoryLink;
     private static Context ctx;
     private static String currentLink;
     private static String state;
     private static boolean instance = false;
-    private static List<String> World;
     private static String currentReceiver;
     private static String currentMessage;
     private static String currentVoter;
+    private static String currentVideoName;
 
     private final static String PREFS_NAME = "COOKIE_WMU";
     private final static String PREF_SESSION_COOKIE = "session_cookie";
     private final static String PREF_DEFAULT_STRING = "";
+
+    public static String getCurrentVideoName() {
+        return currentVideoName;
+    }
+
+    public static void setCurrentVideoName(String currentVideoName) {
+        Caller.currentVideoName = currentVideoName;
+    }
+
+    public static List<String> getHistoryVoter() {
+        return HistoryVoter;
+    }
+
+    public static void setHistoryVoter(List<String> historyVoter) {
+        HistoryVoter = historyVoter;
+    }
+
+    public static List<String> getHistoryLink() {
+        return HistoryLink;
+    }
+
+    public static void setHistoryLink(List<String> historyLink) {
+        HistoryLink = historyLink;
+    }
 
     public static String getCurrentVoter() {
         return currentVoter;
@@ -519,6 +546,63 @@ public final class Caller {
 
     }
 
+    public static void getBddHistory(){
+
+        HistoryVoter = new ArrayList<>();
+        HistoryLink = new ArrayList<>();
+        Map<String, String> params = new HashMap<>();
+        params.put("cookie",cookieInstance);
+
+        Response.Listener<JSONObject> reponseListener= new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+
+                    JSONObject jsonResponse = response.getJSONObject("statut");
+                    String succes = jsonResponse.getString("succes");
+
+                    if(succes != null && succes.matches("true")) {
+                        JSONObject jsonVoters = jsonResponse.getJSONObject("voters");
+                        JSONObject jsonLinks = jsonResponse.getJSONObject("ytlinks");
+                        Iterator x = jsonVoters.keys();
+                        Iterator y = jsonLinks.keys();
+
+                        int i = 0;
+
+                        while (x.hasNext() && y.hasNext()){
+                            String key = (String) x.next();
+                            String key_s = (String) y.next();
+                            HistoryVoter.add(jsonVoters.get(key).toString());
+                            HistoryLink.add(jsonLinks.get(key_s).toString());
+                            System.out.println("HistoryVoter "+i+": "+HistoryVoter.get(i)+" link : "+HistoryLink.get(i));
+                            i++;
+                        }
+
+                    }
+                    else{
+                        System.out.println("Could not fetch history");
+                    }
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        };
+
+        Response.ErrorListener errorListener = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+            }
+        };
+        DataRequest requestor = new DataRequest(Request.Method.POST, "http://"+ ctx.getResources().getString(R.string.hostname_server) +"/history.php",params, reponseListener, errorListener);
+
+        QueueSingleton.getInstance(ctx).addToRequestQueue(requestor);
+
+    }
+
     public static void addFriend(final String friend)
     {
 
@@ -819,6 +903,7 @@ public final class Caller {
                     String title = response.getString("title");
                     if(title != null) {
                         Toast.makeText(ctx, "Nom de la vidéo :"+title, Toast.LENGTH_LONG).show();
+                        currentVideoName = title;
                     }
                     else{
                         System.out.println("Could not fetch video name.");
