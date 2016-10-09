@@ -7,8 +7,10 @@ import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 import com.wakemeup.ektoplasma.valou.wakemeup.R;
+import com.wakemeup.ektoplasma.valou.wakemeup.utilities.Caller;
 
 /**
  * Created by Valentin on 11/08/2016.
@@ -45,6 +47,7 @@ public class SettingsActivity extends PreferenceActivity implements
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
                                           String key) {
         Preference pref = findPreference(key);
+        String oldPref = (String)pref.getSummary();
         if (pref instanceof EditTextPreference) {
             EditTextPreference etp = (EditTextPreference) pref;
             pref.setSummary(etp.getText());
@@ -52,6 +55,21 @@ public class SettingsActivity extends PreferenceActivity implements
         if (pref instanceof ListPreference) {
             ListPreference listp = (ListPreference) pref;
             pref.setSummary(listp.getEntry());
+            if(key.equals("prefWhoWakeMe")){
+                String newPref = (String) pref.getSummary();
+                if(newPref.equals("Tout le monde"))
+                {
+                    Caller.newPref("world");
+                }
+                else if(newPref.equals("Seulement moi"))
+                {
+                    Caller.newPref("private");
+                }
+                else {
+                    Caller.newPref("friends");
+                }
+
+            }
         }
     }
 

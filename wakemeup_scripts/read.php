@@ -34,7 +34,7 @@
 							$members->id = $o_friend["idAmi"];
 						 	$members->find();
 
-						 	if ($members !== null) {
+						 	if ($members !== null && $members->mode !== "private") {
 						 		$arr_friends[] = $members->pseudonyme;
 						 	} 
 						}
