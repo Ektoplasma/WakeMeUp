@@ -1,4 +1,4 @@
-package com.wakemeup.ektoplasma.valou.wakemeup;
+package com.wakemeup.ektoplasma.valou.wakemeup.receivers;
 
 /**
  * Created by Valentin on 14/07/2016.
@@ -7,11 +7,13 @@ import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.media.Ringtone;
-import android.media.RingtoneManager;
-import android.net.Uri;
 import android.support.v4.content.WakefulBroadcastReceiver;
 import android.util.Log;
+
+import com.wakemeup.ektoplasma.valou.wakemeup.services.AlarmService;
+import com.wakemeup.ektoplasma.valou.wakemeup.utilities.Caller;
+import com.wakemeup.ektoplasma.valou.wakemeup.activities.ClockActivity;
+import com.wakemeup.ektoplasma.valou.wakemeup.activities.MainActivity;
 
 public class AlarmReceiver extends WakefulBroadcastReceiver {
 

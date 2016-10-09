@@ -1,4 +1,4 @@
-package com.wakemeup.ektoplasma.valou.wakemeup;
+package com.wakemeup.ektoplasma.valou.wakemeup.fragments;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -7,6 +7,9 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.widget.EditText;
+
+import com.wakemeup.ektoplasma.valou.wakemeup.utilities.Caller;
+import com.wakemeup.ektoplasma.valou.wakemeup.R;
 
 /**
  * Created by Valentin on 25/09/2016.
@@ -32,7 +35,7 @@ public class DialogFragmentMessageReveil extends DialogFragment {
 
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        EditText reponse = (EditText) getDialog().findViewById(R.id.message_answer);
+                        EditText reponse = (EditText) getDialog().findViewById(R.id.message);
                         Caller.sendMessage(String.valueOf(reponse.getText()), voteur);
                         dialog.dismiss();
                     }

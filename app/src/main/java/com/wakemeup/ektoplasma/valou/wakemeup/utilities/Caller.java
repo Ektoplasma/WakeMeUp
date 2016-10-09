@@ -1,4 +1,4 @@
-package com.wakemeup.ektoplasma.valou.wakemeup;
+package com.wakemeup.ektoplasma.valou.wakemeup.utilities;
 
 import android.content.Context;
 import android.content.Intent;
@@ -6,6 +6,10 @@ import android.content.SharedPreferences;
 import android.widget.Toast;
 
 import com.android.volley.*;
+import com.wakemeup.ektoplasma.valou.wakemeup.R;
+import com.wakemeup.ektoplasma.valou.wakemeup.activities.MainActivity;
+import com.wakemeup.ektoplasma.valou.wakemeup.activities.SignActivity;
+import com.wakemeup.ektoplasma.valou.wakemeup.activities.YoutubeActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -79,7 +83,7 @@ public final class Caller {
 
     public static void setNewMessages(List<String> newMessages) { NewMessages = newMessages; }
 
-    static List<String> getNewAmi() { return NewAmi; }
+    public static List<String> getNewAmi() { return NewAmi; }
 
     public static void setNewAmi(List<String> newAmi) { NewAmi = newAmi; }
 
@@ -107,19 +111,19 @@ public final class Caller {
         Caller.state = state;
     }
 
-    static String getCurrentLink() {
+    public static String getCurrentLink() {
         return currentLink;
     }
 
-    static void setCurrentLink(String currentLink) {
+    public static void setCurrentLink(String currentLink) {
         Caller.currentLink = currentLink;
     }
 
-    static Context getCtx() {
+    public static Context getCtx() {
         return ctx;
     }
 
-    static void setCtx(Context ctx) {
+    public static void setCtx(Context ctx) {
         Caller.ctx = ctx;
     }
 
@@ -131,13 +135,13 @@ public final class Caller {
         Caller.username = username;
     }
 
-    static String getCookieInstance() {
+    public static String getCookieInstance() {
         return cookieInstance;
     }
 
     public static void setCookieInstance(String cookieInstance) { Caller.cookieInstance = cookieInstance; }
 
-    static List<String> getAmi() {
+    public static List<String> getAmi() {
         return Ami;
     }
 
@@ -145,7 +149,7 @@ public final class Caller {
         Ami = ami;
     }
 
-    static List<String> getWorld() {
+    public static List<String> getWorld() {
         return World;
     }
 
@@ -157,7 +161,7 @@ public final class Caller {
         return ctx.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
     }
 
-    static void storePersistantCookieString() {
+    public static void storePersistantCookieString() {
         String sessionCookie = getPrefs().getString(PREF_SESSION_COOKIE, PREF_DEFAULT_STRING);
 
         if(!sessionCookie.equals(PREF_DEFAULT_STRING))
@@ -166,7 +170,7 @@ public final class Caller {
         }
     }
 
-    static void checkCookie()
+    public static void checkCookie()
     {
         Map<String, String> params = new HashMap<>();
         params.put("cookie", cookieInstance);
@@ -216,7 +220,7 @@ public final class Caller {
 
     }
 
-    static void signup(String user, String pseudo, String password){
+    public static void signup(String user, String pseudo, String password){
         Map<String, String> params = new HashMap<>();
         params.put("user", user);
         params.put("pseudonyme", pseudo);
@@ -265,7 +269,7 @@ public final class Caller {
         QueueSingleton.getInstance(ctx).addToRequestQueue(requestor);
     }
 
-    static void signin(String user, String password){
+    public static void signin(String user, String password){
         Map<String, String> params = new HashMap<>();
         params.put("user", user);
         params.put("password",password);
@@ -313,7 +317,7 @@ public final class Caller {
         QueueSingleton.getInstance(ctx).addToRequestQueue(requestor);
     }
 
-    static void setClockSong(final String message){
+    public static void setClockSong(final String message){
 
         Map<String, String> params = new HashMap<>();
         params.put("cookie",cookieInstance);
@@ -355,7 +359,7 @@ public final class Caller {
 
     }
 
-    static void getClockSong(){
+    public static void getClockSong(){
         Map<String, String> params = new HashMap<>();
         params.put("cookie",cookieInstance);
 
@@ -402,7 +406,7 @@ public final class Caller {
         QueueSingleton.getInstance(ctx).addToRequestQueue(requestor);
     }
 
-    static void getBddAmi(){
+    public static void getBddAmi(){
 
         Ami = new ArrayList<>();
         Map<String, String> params = new HashMap<>();
@@ -458,7 +462,7 @@ public final class Caller {
 
     }
 
-    static void getBddWorld(){
+    public static void getBddWorld(){
 
         World = new ArrayList<>();
         Map<String, String> params = new HashMap<>();
@@ -514,7 +518,7 @@ public final class Caller {
 
     }
 
-    static void addFriend(final String friend)
+    public static void addFriend(final String friend)
     {
 
         Map<String, String> params = new HashMap<>();
@@ -556,7 +560,7 @@ public final class Caller {
         QueueSingleton.getInstance(ctx).addToRequestQueue(requestor);
     }
 
-    static void sendMessage(final String message, final String voteur)
+    public static void sendMessage(final String message, final String voteur)
     {
 
         Map<String, String> params = new HashMap<>();
@@ -600,7 +604,7 @@ public final class Caller {
         QueueSingleton.getInstance(ctx).addToRequestQueue(requestor);
     }
 
-    static void getNotif()
+    public static void getNotif()
     {
         NewAmi = new ArrayList<>();
         Map<String, String> params = new HashMap<>();
@@ -687,14 +691,7 @@ public final class Caller {
                             System.out.println("NewMessages "+i+": "+NewMessages.get(i)+" from : "+NewSenders.get(i));
                             i++;
                         }
-                        /*Set<String> hs = new HashSet<>();
-                        hs.addAll(NewMessages);
-                        NewMessages.clear();
-                        NewMessages.addAll(hs);
-                        Set<String> hs_m = new HashSet<>();
-                        hs_m.addAll(NewSenders);
-                        NewSenders.clear();
-                        NewSenders.addAll(hs_m);*/
+
                         Intent broadcast = new Intent("ekto.valou.badgebroadcast");
                         broadcast.putExtra("TYPE","message");
                         broadcast.putExtra("COUNT",String.valueOf(i));
@@ -727,7 +724,7 @@ public final class Caller {
         QueueSingleton.getInstance(ctx).addToRequestQueue(requestor2);
     }
 
-    static void acceptFriend(final String friend)
+    public static void acceptFriend(final String friend)
     {
 
         Map<String, String> params = new HashMap<>();
@@ -769,7 +766,7 @@ public final class Caller {
         QueueSingleton.getInstance(ctx).addToRequestQueue(requestor);
     }
 
-    static void refuseFriend(final String friend)
+    public static void refuseFriend(final String friend)
     {
 
         Map<String, String> params = new HashMap<>();

@@ -1,4 +1,4 @@
-package com.wakemeup.ektoplasma.valou.wakemeup;
+package com.wakemeup.ektoplasma.valou.wakemeup.activities;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -14,6 +14,7 @@ import com.google.android.youtube.player.YouTubeBaseActivity;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerView;
+import com.wakemeup.ektoplasma.valou.wakemeup.R;
 
 /**
  * Created by ektoplasma on 14/07/16.

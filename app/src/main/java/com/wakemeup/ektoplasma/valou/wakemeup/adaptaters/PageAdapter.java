@@ -1,4 +1,4 @@
-package com.wakemeup.ektoplasma.valou.wakemeup;
+package com.wakemeup.ektoplasma.valou.wakemeup.adaptaters;
 
 /**
  * Created by Valentin on 15/07/2016.
@@ -7,6 +7,10 @@ package com.wakemeup.ektoplasma.valou.wakemeup;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+
+import com.wakemeup.ektoplasma.valou.wakemeup.activities.ClockActivity;
+import com.wakemeup.ektoplasma.valou.wakemeup.activities.HistoryActivity;
+import com.wakemeup.ektoplasma.valou.wakemeup.fragments.UsersList;
 
 public class PageAdapter extends FragmentStatePagerAdapter {
     int mNumOfTabs;

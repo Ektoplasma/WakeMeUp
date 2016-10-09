@@ -1,4 +1,4 @@
-package com.wakemeup.ektoplasma.valou.wakemeup;
+package com.wakemeup.ektoplasma.valou.wakemeup.adaptaters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -9,6 +9,9 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.TextView;
+
+import com.wakemeup.ektoplasma.valou.wakemeup.utilities.Caller;
+import com.wakemeup.ektoplasma.valou.wakemeup.R;
 
 import java.util.ArrayList;
 

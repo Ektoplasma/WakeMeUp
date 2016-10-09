@@ -1,4 +1,4 @@
-package com.wakemeup.ektoplasma.valou.wakemeup;
+package com.wakemeup.ektoplasma.valou.wakemeup.fragments;
 
 /**
  * Created by Valentin on 25/09/2016.
@@ -9,9 +9,10 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
+
+import com.wakemeup.ektoplasma.valou.wakemeup.utilities.Caller;
+import com.wakemeup.ektoplasma.valou.wakemeup.R;
 
 public class DialogFragmentMessage extends DialogFragment {
 

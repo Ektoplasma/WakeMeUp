@@ -1,4 +1,4 @@
-package com.wakemeup.ektoplasma.valou.wakemeup;
+package com.wakemeup.ektoplasma.valou.wakemeup.drawables;
 
 /**
  * Created by Valentin on 29/08/2016.
@@ -13,6 +13,8 @@ import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
+
+import com.wakemeup.ektoplasma.valou.wakemeup.R;
 
 public class NotificationDrawable extends Drawable {
 

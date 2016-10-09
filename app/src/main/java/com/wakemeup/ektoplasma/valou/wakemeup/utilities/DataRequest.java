@@ -1,4 +1,4 @@
-package com.wakemeup.ektoplasma.valou.wakemeup;
+package com.wakemeup.ektoplasma.valou.wakemeup.utilities;
 
 import com.android.volley.NetworkResponse;
 import com.android.volley.ParseError;

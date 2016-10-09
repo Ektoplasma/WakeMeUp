@@ -1,21 +1,15 @@
-package com.wakemeup.ektoplasma.valou.wakemeup;
+package com.wakemeup.ektoplasma.valou.wakemeup.activities;
 
 import android.app.AlarmManager;
-import android.app.FragmentTransaction;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
-import android.os.DeadObjectException;
 import android.preference.PreferenceManager;
 import android.support.design.widget.TabLayout;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
@@ -33,16 +27,19 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import android.widget.TableLayout;
 import android.widget.TextView;
-import android.widget.TimePicker;
-import android.widget.Toast;
 import android.widget.ToggleButton;
+
+import com.wakemeup.ektoplasma.valou.wakemeup.receivers.AlarmReceiver;
+import com.wakemeup.ektoplasma.valou.wakemeup.utilities.Caller;
+import com.wakemeup.ektoplasma.valou.wakemeup.drawables.NotificationDrawable;
+import com.wakemeup.ektoplasma.valou.wakemeup.adaptaters.PageAdapter;
+import com.wakemeup.ektoplasma.valou.wakemeup.R;
+import com.wakemeup.ektoplasma.valou.wakemeup.fragments.DialogFragmentMessageReveil;
 
 import java.util.Calendar;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.zip.Inflater;
 
 public class MainActivity extends AppCompatActivity {
 

@@ -1,4 +1,4 @@
-package com.wakemeup.ektoplasma.valou.wakemeup;
+package com.wakemeup.ektoplasma.valou.wakemeup.activities;
 
 import android.app.Activity;
 import android.app.SearchManager;
