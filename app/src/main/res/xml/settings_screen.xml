@@ -5,7 +5,8 @@
         <EditTextPreference
             android:title="@string/pref_user_name"
             android:summary="@string/pref_user_name_summary"
-            android:key="prefUsername"/>
+            android:key="prefUsername"
+            />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/pref_update_setting" >
