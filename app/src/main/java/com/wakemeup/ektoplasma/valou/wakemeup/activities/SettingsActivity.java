@@ -1,6 +1,7 @@
 package com.wakemeup.ektoplasma.valou.wakemeup.activities;
 
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.EditTextPreference;
@@ -51,9 +52,9 @@ public class SettingsActivity extends PreferenceActivity implements
 
         rootView.setOrientation(LinearLayout.VERTICAL);
 
-        textView = new TextView(this);
+       /* textView = new TextView(this);
 
-        textView.setText(R.string.toto);
+        textView.setText(R.string.toto);*/
 
         preferenceView = new ListView(this);
 
@@ -69,7 +70,7 @@ public class SettingsActivity extends PreferenceActivity implements
 
         preferenceView.setAdapter(screen.getRootAdapter());
 
-        rootView.addView(textView);
+//        rootView.addView(textView);
 
         rootView.addView(preferenceView);
 
@@ -87,78 +88,77 @@ public class SettingsActivity extends PreferenceActivity implements
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 
+        /*PREF USER*/
 
+        PreferenceCategory prefuser = new PreferenceCategory(this);
 
-        // Inline preferences
+        prefuser.setTitle("Preference utilisateur");
 
-        PreferenceCategory cat1 = new PreferenceCategory(this);
+        root.addPreference(prefuser);
 
-        cat1.setTitle("Cat 1");
+        EditTextPreference username = new EditTextPreference(this);
 
-        root.addPreference(cat1);
+        username.setTitle("Le nom utilisateur");
 
+        username.setSummary("Le nom de la bdd");
 
+        username.setSelectable(false);
 
-        for(int i = 0; i < 5; i ++)
+        prefuser.addPreference(username);
 
-        {
+        /*PREF REVEIL*/
 
-            // Toggle preference
+        PreferenceCategory prefreveil = new PreferenceCategory(this);
 
-            CheckBoxPreference togglePref = new CheckBoxPreference(this);
+        prefreveil.setTitle("Preference du reveil");
 
-            togglePref.setKey("toggle_check" + Integer.toString(i));
+        root.addPreference(prefreveil);
 
-            togglePref.setTitle("Toggle Me");
+        CheckBoxPreference historique = new CheckBoxPreference(this);
 
-            togglePref.setChecked(prefs.getBoolean("toggle_check" + Integer.toString(i), false));
+        historique.setTitle("Historique de vote");
 
-            togglePref.setSummary("Checkbox " + Integer.toString(i));
+        historique.setChecked(true);
 
-            cat1.addPreference(togglePref);
+        historique.setSummary("Savoir qui a vote pour nous");
 
-        }
+        prefreveil.addPreference(historique);
 
+        ListPreference autorisation = new ListPreference(this);
 
+        autorisation.setTitle("Qui peut voter pour nous");
 
-        // Inline preferences
+        Resources res = getResources();
 
-        PreferenceCategory cat2 = new PreferenceCategory(this);
+        autorisation.setEntries(res.getStringArray(R.array.syncWhoWakeMe));
 
-        cat2.setTitle("Cat 2");
+        prefreveil.addPreference(autorisation);
 
-        root.addPreference(cat2);
+        EditTextPreference reveildef = new EditTextPreference(this);
 
+        reveildef.setTitle("Reveil par default");
 
+        reveildef.setSummary("Le lien YouTube");
 
-        for(int i = 6; i < 13; i ++)
+        prefreveil.addPreference(reveildef);
 
-        {
+        /*PREF A PROPROS*/
 
-            // Toggle preference
+        PreferenceCategory prefapropos = new PreferenceCategory(this);
 
-            CheckBoxPreference togglePref = new CheckBoxPreference(this);
+        prefapropos.setTitle("A propos");
 
-            togglePref.setKey("toggle_check" + Integer.toString(i));
+        root.addPreference(prefapropos);
 
-            togglePref.setTitle("Toggle Me");
+        EditTextPreference version = new EditTextPreference(this);
 
-            togglePref.setChecked(prefs.getBoolean("toggle_check" + Integer.toString(i), false));
+        version.setTitle("Version");
 
-            togglePref.setSummary("Checkbox " + Integer.toString(i));
+        version.setSummary("1.0");
 
-            cat2.addPreference(togglePref);
+        version.setSelectable(false);
 
-        }
-
-        PreferenceCategory cat3 = new PreferenceCategory(this);
-        root.addPreference(cat3);
-        EditTextPreference truc = new EditTextPreference(this);
-        truc.setKey("edittext");
-        truc.setTitle("Edit Me");
-
-        cat3.addPreference(truc);
-
+        prefapropos.addPreference(version);
 
         return root;
 
