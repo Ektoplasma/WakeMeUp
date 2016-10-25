@@ -6,6 +6,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.preference.PreferenceManager;
@@ -172,6 +173,7 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
 
         String valueAutorisation = PreferenceManager.getDefaultSharedPreferences(this).getString("prefWhoWakeMe", null);
+        SharedPreferences myPreference = PreferenceManager.getDefaultSharedPreferences(this);
 
 
         if(valueAutorisation != null)
@@ -183,10 +185,9 @@ public class MainActivity extends AppCompatActivity {
             else if(tablist.getText() == null)
             {
                 tablist = tabLayout.newTab().setText("Liste");
-                tabLayout.addTab(tablist);
+                tabLayout.addTab(tablist, 2, false);
             }
 
-            /* TODO : ICI CA PLANTE SUR RESUME
             if(!myPreference.getBoolean("prefHistory", false))
             {
                 tabLayout.removeTab(tabhistory);
@@ -194,8 +195,8 @@ public class MainActivity extends AppCompatActivity {
             else if(tabhistory.getText() == null)
             {
                 tabhistory = tabLayout.newTab().setText("Historique");
-                tabLayout.addTab(tabhistory);
-            }*/
+                tabLayout.addTab(tabhistory, 0, false);
+            }
         }
 
         if(waitingMsg == true)
