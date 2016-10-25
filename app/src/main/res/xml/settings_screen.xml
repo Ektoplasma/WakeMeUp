@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <PreferenceCategory android:title="@string/pref_user_profile" >
+    <PreferenceCategory android:title="@string/pref_user_profil" >
         <Preference android:key="img_pref" android:title="" android:layout="@xml/settings_img"
             android:id="@+id/preference"/>
         <EditTextPreference
