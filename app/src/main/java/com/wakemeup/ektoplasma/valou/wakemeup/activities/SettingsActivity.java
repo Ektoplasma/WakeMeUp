@@ -20,6 +20,8 @@ import android.widget.TextView;
 import com.wakemeup.ektoplasma.valou.wakemeup.R;
 import com.wakemeup.ektoplasma.valou.wakemeup.utilities.Caller;
 
+import static android.R.attr.defaultValue;
+
 /**
  * Created by Valentin on 11/08/2016.
  */
@@ -38,15 +40,15 @@ public class SettingsActivity extends PreferenceActivity implements
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        /*addPreferencesFromResource(R.xml.settings_screen);
+        addPreferencesFromResource(R.xml.settings_screen);
         SharedPreferences sp = getPreferenceScreen().getSharedPreferences();
         EditTextPreference editTextPref = (EditTextPreference) findPreference("prefReveilDefault");
         editTextPref
                 .setSummary(sp.getString("prefReveilDefault", "Lien YouTube"));
         ListPreference lp = (ListPreference) findPreference("prefWhoWakeMe");
-        lp.setSummary(sp.getString("prefWhoWakeMe", "Tout le monde"));*/
+        lp.setSummary(sp.getString("prefWhoWakeMe", "Tout le monde"));
 
-        rootView = new LinearLayout(this);
+        /*rootView = new LinearLayout(this);
 
         rootView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.FILL_PARENT));
 
@@ -54,7 +56,7 @@ public class SettingsActivity extends PreferenceActivity implements
 
        /* textView = new TextView(this);
 
-        textView.setText(R.string.toto);*/
+        textView.setText(R.string.toto);
 
         preferenceView = new ListView(this);
 
@@ -76,7 +78,7 @@ public class SettingsActivity extends PreferenceActivity implements
 
         this.setContentView(rootView);
 
-        setPreferenceScreen(screen);
+        setPreferenceScreen(screen);*/
 
     }
 
@@ -87,6 +89,10 @@ public class SettingsActivity extends PreferenceActivity implements
         PreferenceScreen root = getPreferenceManager().createPreferenceScreen(this);
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+
+        PreferenceManager prefMgr = getPreferenceManager();
+        prefMgr.setSharedPreferencesName("my_preferences");
+        prefMgr.setSharedPreferencesMode(MODE_MULTI_PROCESS);
 
         /*PREF USER*/
 
@@ -176,6 +182,8 @@ public class SettingsActivity extends PreferenceActivity implements
                 .unregisterOnSharedPreferenceChangeListener(this);
     }
 
+
+
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
                                           String key) {
         Preference pref = findPreference(key);
@@ -203,6 +211,11 @@ public class SettingsActivity extends PreferenceActivity implements
 
             }
         }
+
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        System.out.println("ICI VALUE ->"+sharedPreferences.getBoolean("prefHistory", false));
+        editor.putBoolean("prefHistory",sharedPreferences.getBoolean("prefHistory", false));
+        editor.commit();
     }
 
 }
