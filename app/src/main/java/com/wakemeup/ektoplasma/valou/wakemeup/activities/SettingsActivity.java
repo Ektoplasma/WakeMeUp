@@ -12,7 +12,9 @@ import android.preference.PreferenceCategory;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
 import android.util.Log;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -21,6 +23,7 @@ import com.wakemeup.ektoplasma.valou.wakemeup.R;
 import com.wakemeup.ektoplasma.valou.wakemeup.utilities.Caller;
 
 import static android.R.attr.defaultValue;
+import static com.wakemeup.ektoplasma.valou.wakemeup.R.styleable.View;
 
 /**
  * Created by Valentin on 11/08/2016.
@@ -47,6 +50,15 @@ public class SettingsActivity extends PreferenceActivity implements
                 .setSummary(sp.getString("prefReveilDefault", "Lien YouTube"));
         ListPreference lp = (ListPreference) findPreference("prefWhoWakeMe");
         lp.setSummary(sp.getString("prefWhoWakeMe", "Tout le monde"));
+
+        Preference myPref = (Preference) findPreference("img_pref");
+        myPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            public boolean onPreferenceClick(Preference preference) {
+                //TODO lancement de la galerie photo
+                System.out.println("Click "+preference.getKey());
+                return true;
+            }
+        });
 
         /*rootView = new LinearLayout(this);
 
