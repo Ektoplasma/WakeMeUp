@@ -1,8 +1,16 @@
 package com.wakemeup.ektoplasma.valou.wakemeup.activities;
 
+import android.app.Activity;
+import android.content.ActivityNotFoundException;
+import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.preference.CheckBoxPreference;
 import android.preference.EditTextPreference;
 import android.preference.ListPreference;
@@ -12,17 +20,25 @@ import android.preference.PreferenceCategory;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.wakemeup.ektoplasma.valou.wakemeup.R;
-import com.wakemeup.ektoplasma.valou.wakemeup.utilities.Caller;
+import com.wakemeup.ektoplasma.valou.wakemeup.utilities.*;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.util.Random;
 
 import static android.R.attr.defaultValue;
+import static com.wakemeup.ektoplasma.valou.wakemeup.R.styleable.LoadingImageView_imageAspectRatio;
 import static com.wakemeup.ektoplasma.valou.wakemeup.R.styleable.View;
 
 /**
@@ -39,6 +55,9 @@ public class SettingsActivity extends PreferenceActivity implements
 
     private TextView textView;
 
+    private final int GALLERY_ACTIVITY_CODE=200;
+    private final int RESULT_CROP = 400;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,47 +69,35 @@ public class SettingsActivity extends PreferenceActivity implements
                 .setSummary(sp.getString("prefReveilDefault", "Lien YouTube"));
         ListPreference lp = (ListPreference) findPreference("prefWhoWakeMe");
         lp.setSummary(sp.getString("prefWhoWakeMe", "Tout le monde"));
+        String photoPath = sp.getString("imagepath", "/sdcard/imh.jpeg");
+
+        LayoutInflater inflater = (LayoutInflater)getApplicationContext().getSystemService
+                (Context.LAYOUT_INFLATER_SERVICE);
+
+        FrameLayout fl = (FrameLayout) inflater.inflate(R.layout.settings_img,null);
+
+        if (!photoPath.equals("/sdcard/imh.jpeg")) {
+            Log.d("ICI",photoPath);
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+            Bitmap bitmap = BitmapFactory.decodeFile(photoPath, options);
+
+            ImageView image_capture1 = (ImageView) fl.findViewById(R.id.img_prefview);
+
+            image_capture1.setImageBitmap(bitmap);
+            image_capture1.setScaleType(ImageView.ScaleType.FIT_XY);
+        }
 
         Preference myPref = (Preference) findPreference("img_pref");
         myPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             public boolean onPreferenceClick(Preference preference) {
-                //TODO lancement de la galerie photo
-                System.out.println("Click "+preference.getKey());
+                Intent gallery_Intent = new Intent(getApplicationContext(), GalleryUtil.class);
+                startActivityForResult(gallery_Intent, GALLERY_ACTIVITY_CODE);
                 return true;
             }
         });
 
-        /*rootView = new LinearLayout(this);
 
-        rootView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.FILL_PARENT));
-
-        rootView.setOrientation(LinearLayout.VERTICAL);
-
-       /* textView = new TextView(this);
-
-        textView.setText(R.string.toto);
-
-        preferenceView = new ListView(this);
-
-        preferenceView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.FILL_PARENT));
-
-        preferenceView.setId(android.R.id.list);
-
-
-
-        PreferenceScreen screen = createPreferenceHierarchy();
-
-        screen.bind(preferenceView);
-
-        preferenceView.setAdapter(screen.getRootAdapter());
-
-//        rootView.addView(textView);
-
-        rootView.addView(preferenceView);
-
-        this.setContentView(rootView);
-
-        setPreferenceScreen(screen);*/
 
     }
 
@@ -228,6 +235,87 @@ public class SettingsActivity extends PreferenceActivity implements
         System.out.println("ICI VALUE ->"+sharedPreferences.getBoolean("prefHistory", false));
         editor.putBoolean("prefHistory",sharedPreferences.getBoolean("prefHistory", false));
         editor.commit();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == GALLERY_ACTIVITY_CODE) {
+            if(resultCode == Activity.RESULT_OK){
+                String picturePath = data.getStringExtra("picturePath");
+                //perform Crop on the Image Selected from Gallery
+                performCrop(picturePath);
+            }
+        }
+
+        if (requestCode == RESULT_CROP ) {
+            if(resultCode == Activity.RESULT_OK){
+                Bundle extras = data.getExtras();
+                Bitmap selectedBitmap = extras.getParcelable("data");
+                // Set The Bitmap Data To ImageView
+                ImageView image_capture1 =  (ImageView)findViewById(R.id.img_prefview);
+                image_capture1.setImageBitmap(selectedBitmap);
+                image_capture1.setScaleType(ImageView.ScaleType.FIT_XY);
+
+                String root = Environment.getExternalStorageDirectory().toString();
+                File myDir = new File(root + "/crop_images");
+                myDir.mkdirs();
+                Random generator = new Random();
+                int n = 10000;
+                n = generator.nextInt(n);
+                String fname = "Image-" + n + ".jpg";
+                File file = new File(myDir, fname);
+                Log.i("settingsactivity", "" + file);
+                if (file.exists())
+                    file.delete();
+                try {
+                    FileOutputStream out = new FileOutputStream(file);
+                    selectedBitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
+                    out.flush();
+                    out.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                SharedPreferences shre = PreferenceManager.getDefaultSharedPreferences(this);
+                SharedPreferences.Editor edit=shre.edit();
+                edit.putString("imagepath",myDir.getAbsolutePath() + "/"+fname);
+                edit.commit();
+
+            }
+        }
+    }
+
+    private void performCrop(String picUri) {
+        try {
+            //Start Crop Activity
+
+            Intent cropIntent = new Intent("com.android.camera.action.CROP");
+            // indicate image type and Uri
+            File f = new File(picUri);
+            Uri contentUri = Uri.fromFile(f);
+
+            cropIntent.setDataAndType(contentUri, "image/*");
+            // set crop properties
+            cropIntent.putExtra("crop", "true");
+            // indicate aspect of desired crop
+            cropIntent.putExtra("aspectX", 1);
+            cropIntent.putExtra("aspectY", 1);
+            // indicate output X and Y
+            cropIntent.putExtra("outputX", 280);
+            cropIntent.putExtra("outputY", 280);
+
+            // retrieve data on return
+            cropIntent.putExtra("return-data", true);
+            // start the activity - we handle returning in onActivityResult
+            startActivityForResult(cropIntent, RESULT_CROP);
+        }
+        // respond to users whose devices do not support the crop action
+        catch (ActivityNotFoundException anfe) {
+            // display an error message
+            String errorMessage = "your device doesn't support the crop action!";
+            Toast toast = Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT);
+            toast.show();
+        }
     }
 
 }
