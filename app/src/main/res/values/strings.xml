@@ -45,4 +45,9 @@
 
     <string name="toto">TOTO TOTO TOTOOOOOOOOOOO</string>
 
+    <string name="pref_design_image_title">Image</string>
+    <string name="pref_design_image_summary">Choose a design image to overlay</string>
+    <string name="pref_design_image_alpha_title">Alpha</string>
+    <string name="pref_design_image_alpha_summary">Alpha: %1$s %</string>
+
 </resources>

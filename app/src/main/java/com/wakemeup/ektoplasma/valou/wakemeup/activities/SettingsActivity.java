@@ -19,6 +19,7 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,6 +34,7 @@ import android.widget.Toast;
 import com.wakemeup.ektoplasma.valou.wakemeup.R;
 import com.wakemeup.ektoplasma.valou.wakemeup.utilities.*;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.Random;
@@ -69,23 +71,27 @@ public class SettingsActivity extends PreferenceActivity implements
                 .setSummary(sp.getString("prefReveilDefault", "Lien YouTube"));
         ListPreference lp = (ListPreference) findPreference("prefWhoWakeMe");
         lp.setSummary(sp.getString("prefWhoWakeMe", "Tout le monde"));
-        String photoPath = sp.getString("imagepath", "/sdcard/imh.jpeg");
+        /*String photoPath = sp.getString("imagepath", "/sdcard/imh.jpeg");
+
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+        Bitmap bitmap = BitmapFactory.decodeFile(photoPath, options);
 
         LayoutInflater inflater = (LayoutInflater)getApplicationContext().getSystemService
                 (Context.LAYOUT_INFLATER_SERVICE);
 
-        FrameLayout fl = (FrameLayout) inflater.inflate(R.layout.settings_img,null);
+        FrameLayout fl = (FrameLayout) inflater.inflate(R.layout.settings_img,null);*/
 
-        if (!photoPath.equals("/sdcard/imh.jpeg")) {
-            Log.d("ICI",photoPath);
-            BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inPreferredConfig = Bitmap.Config.ARGB_8888;
-            Bitmap bitmap = BitmapFactory.decodeFile(photoPath, options);
+        String imageS = sp.getString("img_pref_save", "");
+        Bitmap image;
+        if(!imageS.equals(""))
+        {
+            image = decodeToBase64(imageS);
+            ImageView image_capture1 = (ImageView) findViewById(R.id.img_prefview);
 
-            ImageView image_capture1 = (ImageView) fl.findViewById(R.id.img_prefview);
-
-            image_capture1.setImageBitmap(bitmap);
+            image_capture1.setImageBitmap(image);
             image_capture1.setScaleType(ImageView.ScaleType.FIT_XY);
+
         }
 
         Preference myPref = (Preference) findPreference("img_pref");
@@ -97,95 +103,18 @@ public class SettingsActivity extends PreferenceActivity implements
             }
         });
 
+        /*if (!photoPath.equals("/sdcard/imh.jpeg")) {
+            Log.d("ICI",photoPath);
 
 
-    }
+            ImageView image_capture1 = (ImageView) fl.findViewById(R.id.img_prefview);
+            fl.removeView(image_capture1);
+            ImageView new_image = new ImageView(getApplicationContext());
+            new_image.setImageBitmap(bitmap);
+            new_image.setScaleType(ImageView.ScaleType.FIT_XY);
+            fl.addView(new_image);
 
-    private PreferenceScreen createPreferenceHierarchy() {
-
-        // Root
-
-        PreferenceScreen root = getPreferenceManager().createPreferenceScreen(this);
-
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-
-        PreferenceManager prefMgr = getPreferenceManager();
-        prefMgr.setSharedPreferencesName("my_preferences");
-        prefMgr.setSharedPreferencesMode(MODE_MULTI_PROCESS);
-
-        /*PREF USER*/
-
-        PreferenceCategory prefuser = new PreferenceCategory(this);
-
-        prefuser.setTitle("Preference utilisateur");
-
-        root.addPreference(prefuser);
-
-        EditTextPreference username = new EditTextPreference(this);
-
-        username.setTitle("Le nom utilisateur");
-
-        username.setSummary("Le nom de la bdd");
-
-        username.setSelectable(false);
-
-        prefuser.addPreference(username);
-
-        /*PREF REVEIL*/
-
-        PreferenceCategory prefreveil = new PreferenceCategory(this);
-
-        prefreveil.setTitle("Preference du reveil");
-
-        root.addPreference(prefreveil);
-
-        CheckBoxPreference historique = new CheckBoxPreference(this);
-
-        historique.setTitle("Historique de vote");
-
-        historique.setChecked(true);
-
-        historique.setSummary("Savoir qui a vote pour nous");
-
-        prefreveil.addPreference(historique);
-
-        ListPreference autorisation = new ListPreference(this);
-
-        autorisation.setTitle("Qui peut voter pour nous");
-
-        Resources res = getResources();
-
-        autorisation.setEntries(res.getStringArray(R.array.syncWhoWakeMe));
-
-        prefreveil.addPreference(autorisation);
-
-        EditTextPreference reveildef = new EditTextPreference(this);
-
-        reveildef.setTitle("Reveil par default");
-
-        reveildef.setSummary("Le lien YouTube");
-
-        prefreveil.addPreference(reveildef);
-
-        /*PREF A PROPROS*/
-
-        PreferenceCategory prefapropos = new PreferenceCategory(this);
-
-        prefapropos.setTitle("A propos");
-
-        root.addPreference(prefapropos);
-
-        EditTextPreference version = new EditTextPreference(this);
-
-        version.setTitle("Version");
-
-        version.setSummary("1.0");
-
-        version.setSelectable(false);
-
-        prefapropos.addPreference(version);
-
-        return root;
+        }*/
 
     }
 
@@ -253,7 +182,7 @@ public class SettingsActivity extends PreferenceActivity implements
                 Bundle extras = data.getExtras();
                 Bitmap selectedBitmap = extras.getParcelable("data");
                 // Set The Bitmap Data To ImageView
-                ImageView image_capture1 =  (ImageView)findViewById(R.id.img_prefview);
+                ImageView image_capture1 =  (ImageView)findViewById(R.id.image_view);
                 image_capture1.setImageBitmap(selectedBitmap);
                 image_capture1.setScaleType(ImageView.ScaleType.FIT_XY);
 
@@ -276,10 +205,9 @@ public class SettingsActivity extends PreferenceActivity implements
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                SharedPreferences shre = PreferenceManager.getDefaultSharedPreferences(this);
-                SharedPreferences.Editor edit=shre.edit();
-                edit.putString("imagepath",myDir.getAbsolutePath() + "/"+fname);
-                edit.commit();
+                SharedPreferences.Editor editor = getSharedPreferences("img_pref_save",MODE_PRIVATE).edit();
+                editor.putString("img_pref_save", encodeToBase64(selectedBitmap));
+                editor.commit();
 
             }
         }
@@ -316,6 +244,23 @@ public class SettingsActivity extends PreferenceActivity implements
             Toast toast = Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT);
             toast.show();
         }
+    }
+
+    public static String encodeToBase64(Bitmap image) {
+        Bitmap immage = image;
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        immage.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        byte[] b = baos.toByteArray();
+        String imageEncoded = Base64.encodeToString(b, Base64.DEFAULT);
+
+
+        Log.d("Image Log:", imageEncoded);
+        return imageEncoded;
+    }
+
+    public static Bitmap decodeToBase64(String input) {
+        byte[] decodedByte = Base64.decode(input, 0);
+        return BitmapFactory.decodeByteArray(decodedByte, 0, decodedByte.length);
     }
 
 }

@@ -38,7 +38,7 @@ public class DataRequest extends Request<JSONObject> {
         try {
 
             String jsonString = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
-            System.out.println(jsonString);
+            //System.out.println(jsonString);
 
             return Response.success(new JSONObject(jsonString), HttpHeaderParser.parseCacheHeaders(response));
 
