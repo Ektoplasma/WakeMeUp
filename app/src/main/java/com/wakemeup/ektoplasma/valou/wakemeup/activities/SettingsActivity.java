@@ -75,20 +75,21 @@ public class SettingsActivity extends PreferenceActivity implements
 
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inPreferredConfig = Bitmap.Config.ARGB_8888;
-        Bitmap bitmap = BitmapFactory.decodeFile(photoPath, options);
+        Bitmap bitmap = BitmapFactory.decodeFile(photoPath, options);*/
 
         LayoutInflater inflater = (LayoutInflater)getApplicationContext().getSystemService
                 (Context.LAYOUT_INFLATER_SERVICE);
 
-        FrameLayout fl = (FrameLayout) inflater.inflate(R.layout.settings_img,null);*/
+        FrameLayout fl = (FrameLayout) inflater.inflate(R.layout.settings_img,null);
+        LinearLayout ll = (LinearLayout) fl.findViewById(R.id.help_linear_layout);
 
         String imageS = sp.getString("img_pref_save", "");
         Bitmap image;
         if(!imageS.equals(""))
         {
             image = decodeToBase64(imageS);
-            ImageView image_capture1 = (ImageView) findViewById(R.id.img_prefview);
-
+            ImageView image_capture1 = (ImageView) ll.findViewById(R.id.img_prefview);
+            Log.d("SettingsActivity", "Image added");
             image_capture1.setImageBitmap(image);
             image_capture1.setScaleType(ImageView.ScaleType.FIT_XY);
 
@@ -182,7 +183,8 @@ public class SettingsActivity extends PreferenceActivity implements
                 Bundle extras = data.getExtras();
                 Bitmap selectedBitmap = extras.getParcelable("data");
                 // Set The Bitmap Data To ImageView
-                ImageView image_capture1 =  (ImageView)findViewById(R.id.image_view);
+
+                ImageView image_capture1 =  (ImageView) findViewById(R.id.img_prefview);
                 image_capture1.setImageBitmap(selectedBitmap);
                 image_capture1.setScaleType(ImageView.ScaleType.FIT_XY);
 
@@ -205,7 +207,7 @@ public class SettingsActivity extends PreferenceActivity implements
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                SharedPreferences.Editor editor = getSharedPreferences("img_pref_save",MODE_PRIVATE).edit();
+                SharedPreferences.Editor editor = getPreferenceScreen().getSharedPreferences().edit();
                 editor.putString("img_pref_save", encodeToBase64(selectedBitmap));
                 editor.commit();
 
