@@ -324,6 +324,10 @@ public class MainActivity extends AppCompatActivity {
                 i = new Intent(this, MessageActivity.class);
                 startActivity(i);
                 return true;
+            case R.id.action_settings2:
+                i = new Intent(this, SettingsActivity2.class);
+                startActivity(i);
+                return true;
         }
 
         return super.onOptionsItemSelected(item);

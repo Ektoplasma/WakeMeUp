@@ -75,6 +75,15 @@
 
         </activity>
 
+        <activity
+            android:name=".activities.SettingsActivity2"
+            android:label="Message">
+            <intent-filter >
+                <category  android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+
+        </activity>
+
 
         <service
             android:name=".services.AlarmService"

@@ -215,6 +215,8 @@ public class SettingsActivity extends PreferenceActivity implements
         }
     }
 
+
+
     private void performCrop(String picUri) {
         try {
             //Start Crop Activity

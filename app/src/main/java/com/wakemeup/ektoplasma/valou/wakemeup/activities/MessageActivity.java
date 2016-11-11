@@ -1,6 +1,7 @@
 package com.wakemeup.ektoplasma.valou.wakemeup.activities;
 
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;

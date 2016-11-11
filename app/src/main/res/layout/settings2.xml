@@ -1,0 +1,59 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.SettingsActivity2" >
+
+    <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+
+        android:layout_height="fill_parent"
+
+        android:stretchColumns="1">
+
+        <ImageView
+            android:id="@+id/ProfilePicIV"
+            android:layout_width="250dp"
+            android:layout_height="250dp"
+            android:layout_centerInParent="true"
+            android:src="@drawable/ic_search"/>
+        <View
+            android:layout_height="1dip"
+            android:background="#FF909090" />
+
+        <TextView android:text="Profil utilisateur" />
+
+
+        <TableRow>
+            <TextView
+                android:text="Nom d'utilisateur"
+                android:padding="1dip"
+                />
+             <EditText
+                android:text="Nom utilisateur"
+                android:layout_column="1"
+                android:padding="3dip"
+                android:editable="false"
+            />
+        </TableRow>
+
+        <View
+            android:layout_height="1dip"
+            android:background="#FF909090"/>
+
+        <TableRow>
+            <TextView
+                android:text="Savoir qui a voté pour nous"
+                android:padding="1dip"
+                />
+            <CheckBox
+                android:defaultValue="true"
+                android:summary="@string/pref_history_summary"
+                android:title="@string/pref_history"
+                android:gravity="right">
+            </CheckBox>
+        </TableRow>
+    </TableLayout>
+
+
+</RelativeLayout>
