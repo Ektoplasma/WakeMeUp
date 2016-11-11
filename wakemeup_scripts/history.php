@@ -27,7 +27,7 @@
 	   		}
 
 	   		$alarm->idUser = $requestor;
-	   		$alarm_member = $members->Search();
+	   		$alarm_member = $alarm->Search();
 
 	   		if(!empty($alarm_member)){
 				foreach($alarm_member as $o_alarm){
