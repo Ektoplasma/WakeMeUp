@@ -21,39 +21,14 @@
             android:layout_height="1dip"
             android:background="#FF909090" />
 
-        <TextView android:text="Profil utilisateur" />
+        <TextView
+            android:id="@+id/gotosettings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Paramètres"
+            android:textSize="20sp"
+            android:clickable="true"/>
 
-
-        <TableRow>
-            <TextView
-                android:text="Nom d'utilisateur"
-                android:padding="1dip"
-                />
-             <EditText
-                android:text="Nom utilisateur"
-                android:layout_column="1"
-                android:padding="3dip"
-                android:editable="false"
-            />
-        </TableRow>
-
-        <View
-            android:layout_height="1dip"
-            android:background="#FF909090"/>
-
-        <TableRow>
-            <TextView
-                android:text="Savoir qui a voté pour nous"
-                android:padding="1dip"
-                />
-            <CheckBox
-                android:defaultValue="true"
-                android:summary="@string/pref_history_summary"
-                android:title="@string/pref_history"
-                android:gravity="right">
-            </CheckBox>
-        </TableRow>
     </TableLayout>
-
 
 </RelativeLayout>

@@ -51,6 +51,9 @@ import com.wakemeup.ektoplasma.valou.wakemeup.utilities.GalleryUtil;
  * Created by Valentin on 10/11/2016.
  */
 
+
+/*IMPORTANT -> DEMANDER LES AUTORISATIONS A L'USER*/
+
 public class SettingsActivity2 extends AppCompatActivity {
 
     private ImageView mImageView;
@@ -80,6 +83,17 @@ public class SettingsActivity2 extends AppCompatActivity {
             }
         });
 
+        TextView btn=(TextView) findViewById(R.id.gotosettings);
+
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i;
+                i = new Intent(getApplicationContext(), SettingsActivity.class);
+                startActivityForResult(i, 1);
+            }
+        });
+
     }
 
     @Override
@@ -95,6 +109,7 @@ public class SettingsActivity2 extends AppCompatActivity {
         }
 
         if (requestCode == RESULT_CROP ) {
+
             if(resultCode == Activity.RESULT_OK){
                 Bundle extras = data.getExtras();
                 Bitmap selectedBitmap = extras.getParcelable("data");

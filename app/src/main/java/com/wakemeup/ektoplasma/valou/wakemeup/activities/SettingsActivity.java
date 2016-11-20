@@ -39,9 +39,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.util.Random;
 
-import static android.R.attr.defaultValue;
-import static com.wakemeup.ektoplasma.valou.wakemeup.R.styleable.LoadingImageView_imageAspectRatio;
-import static com.wakemeup.ektoplasma.valou.wakemeup.R.styleable.View;
+//import static android.R.id.list;
+
 
 /**
  * Created by Valentin on 11/08/2016.
@@ -49,22 +48,14 @@ import static com.wakemeup.ektoplasma.valou.wakemeup.R.styleable.View;
 public class SettingsActivity extends PreferenceActivity implements
         SharedPreferences.OnSharedPreferenceChangeListener {
 
-    private LinearLayout rootView;
-
-    private LinearLayout titleView;
-
-    private ListView preferenceView;
-
-    private TextView textView;
-
     private final int GALLERY_ACTIVITY_CODE=200;
     private final int RESULT_CROP = 400;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         addPreferencesFromResource(R.xml.settings_screen);
+        ListView listView = (ListView) findViewById(android.R.id.list);
         SharedPreferences sp = getPreferenceScreen().getSharedPreferences();
         EditTextPreference editTextPref = (EditTextPreference) findPreference("prefReveilDefault");
         editTextPref
@@ -72,6 +63,7 @@ public class SettingsActivity extends PreferenceActivity implements
         ListPreference lp = (ListPreference) findPreference("prefWhoWakeMe");
         lp.setSummary(sp.getString("prefWhoWakeMe", "Tout le monde"));
         /*String photoPath = sp.getString("imagepath", "/sdcard/imh.jpeg");
+
 
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inPreferredConfig = Bitmap.Config.ARGB_8888;

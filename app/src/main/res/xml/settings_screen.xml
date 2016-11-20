@@ -20,6 +20,7 @@
         </CheckBoxPreference>
 
         <ListPreference
+            android:id="@+id/listpref"
             android:key="prefWhoWakeMe"
             android:entries="@array/syncWhoWakeMe"
             android:entryValues="@array/syncWhoWakeMe"
