@@ -312,8 +312,8 @@ public class MainActivity extends AppCompatActivity {
         Intent i;
 
         switch (id){
-            case R.id.action_settings:
-                i = new Intent(this, SettingsActivity.class);
+            case R.id.action_parametre:
+                i = new Intent(this, ParametresActivity.class);
                 startActivityForResult(i, 1);
                 return true;
             case R.id.action_friends:
@@ -322,10 +322,6 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             case R.id.action_message:
                 i = new Intent(this, MessageActivity.class);
-                startActivity(i);
-                return true;
-            case R.id.action_settings2:
-                i = new Intent(this, SettingsActivity2.class);
                 startActivity(i);
                 return true;
         }

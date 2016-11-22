@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.SettingsActivity2" >
+    tools:context=".activities.ParametresActivity" >
 
     <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
@@ -22,10 +22,22 @@
             android:background="#FF909090" />
 
         <TextView
-            android:id="@+id/gotosettings"
+            android:id="@+id/user_settings"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Paramètres"
+            android:text="Paramètres utilisateur"
+            android:textSize="20sp"
+            android:clickable="true"/>
+
+        <View
+            android:layout_height="1dip"
+            android:background="#FF909090" />
+
+        <TextView
+            android:id="@+id/clock_settings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Paramètres réveil"
             android:textSize="20sp"
             android:clickable="true"/>
 

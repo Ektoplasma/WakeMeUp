@@ -49,7 +49,16 @@
         </activity>
         <activity android:name=".activities.RegisterActivity" android:label="WakeMeUp" android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".activities.LoginActivity" android:label="WakeMeUp" android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".activities.SettingsActivity"
+
+        <activity android:name=".preferences.UserSettings"
+            android:screenOrientation="nosensor">
+            <intent-filer>
+                <action android:name=".Preferences" />
+                <category android:name="android.intent.cetagory.PREFERENCE" />
+            </intent-filer>
+        </activity>
+
+        <activity android:name=".preferences.ClockSettings"
             android:screenOrientation="nosensor">
             <intent-filer>
                 <action android:name=".Preferences" />
@@ -76,7 +85,7 @@
         </activity>
 
         <activity
-            android:name=".activities.SettingsActivity2"
+            android:name=".activities.ParametresActivity"
             android:label="Message">
             <intent-filter >
                 <category  android:name="android.intent.category.DEFAULT"/>

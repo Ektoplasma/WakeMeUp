@@ -1,17 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <PreferenceCategory android:title="@string/pref_user_profil" >
-        <Preference android:key="img_pref" android:title="" android:layout="@layout/settings_img"
-            android:id="@+id/preference"/>
-        <EditTextPreference
-            android:title="@string/pref_user_name"
-            android:summary="@string/pref_user_name_summary"
-            android:key="prefUsername"
-            />
-    </PreferenceCategory>
-
-    <PreferenceCategory android:title="@string/pref_update_setting" >
         <CheckBoxPreference
             android:defaultValue="true"
             android:key="prefHistory"
@@ -33,14 +22,5 @@
             android:summary="@string/pref_reveil_default_summary"
             android:key="prefReveilDefault"/>
 
-    </PreferenceCategory>
-
-    <PreferenceCategory android:title="@string/pref_about">
-        <PreferenceScreen
-            android:title="Version"
-            android:key="version"
-            android:summary="1.0">
-        </PreferenceScreen>
-    </PreferenceCategory>
 
 </PreferenceScreen>

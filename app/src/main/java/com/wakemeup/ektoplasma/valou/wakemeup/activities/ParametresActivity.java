@@ -1,60 +1,39 @@
 package com.wakemeup.ektoplasma.valou.wakemeup.activities;
 
 import android.app.Activity;
-import android.content.SharedPreferences;
-import android.graphics.BitmapFactory;
-import android.preference.Preference;
-import android.preference.PreferenceActivity;
-import android.preference.PreferenceCategory;
-import android.preference.PreferenceManager;
-import android.preference.PreferenceScreen;
-import android.support.v7.app.AppCompatActivity;
-
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
-import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
-import android.content.ComponentName;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.provider.MediaStore;
-import android.support.v7.widget.Toolbar;
+import android.preference.PreferenceManager;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.wakemeup.ektoplasma.valou.wakemeup.R;
+import com.wakemeup.ektoplasma.valou.wakemeup.preferences.ClockSettings;
+import com.wakemeup.ektoplasma.valou.wakemeup.preferences.UserSettings;
 import com.wakemeup.ektoplasma.valou.wakemeup.utilities.GalleryUtil;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.util.Random;
+
 /**
- * Created by Valentin on 10/11/2016.
+ * Created by Valentin on 22/11/2016.
  */
-
-
 /*IMPORTANT -> DEMANDER LES AUTORISATIONS A L'USER*/
 
-public class SettingsActivity2 extends AppCompatActivity {
+
+public class ParametresActivity extends AppCompatActivity {
 
     private ImageView mImageView;
     private final int GALLERY_ACTIVITY_CODE=200;
@@ -62,12 +41,10 @@ public class SettingsActivity2 extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-       setContentView(R.layout.settings2);
+        setContentView(R.layout.parametre);
         mImageView = (ImageView) findViewById(R.id.ProfilePicIV);
 
         String save = PreferenceManager.getDefaultSharedPreferences(this).getString("PhotoPath", "defaultStringIfNothingFound");
-
-        System.out.println("Bonjour -> "+save);
 
         if (!save.equals("defaultStringIfNothingFound"))
         {
@@ -83,13 +60,24 @@ public class SettingsActivity2 extends AppCompatActivity {
             }
         });
 
-        TextView btn=(TextView) findViewById(R.id.gotosettings);
+        TextView usersettings=(TextView) findViewById(R.id.user_settings);
 
-        btn.setOnClickListener(new View.OnClickListener() {
+        usersettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i;
-                i = new Intent(getApplicationContext(), SettingsActivity.class);
+                i = new Intent(getApplicationContext(), UserSettings.class);
+                startActivityForResult(i, 1);
+            }
+        });
+
+        TextView clocksettings=(TextView) findViewById(R.id.clock_settings);
+
+        clocksettings.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Intent i;
+                i = new Intent(getApplicationContext(), ClockSettings.class);
                 startActivityForResult(i, 1);
             }
         });
@@ -176,7 +164,7 @@ public class SettingsActivity2 extends AppCompatActivity {
 
     public Bitmap StringToBitMap(String encodedString){
         try{
-            byte [] encodeByte=Base64.decode(encodedString, Base64.DEFAULT);
+            byte [] encodeByte= Base64.decode(encodedString, Base64.DEFAULT);
             Bitmap bitmap= BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
             return bitmap;
         }catch(Exception e){
