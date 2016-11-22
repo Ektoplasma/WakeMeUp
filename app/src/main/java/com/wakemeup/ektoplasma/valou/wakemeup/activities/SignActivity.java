@@ -46,7 +46,7 @@ public class SignActivity extends AppCompatActivity {
         ButtonSettings.setOnClickListener(
                 new Button.OnClickListener() {
                     public void onClick(View v) {
-                        startActivity(new Intent(SignActivity.this, SettingsActivity.class));
+                        startActivity(new Intent(SignActivity.this, ParametresActivity.class));
                     }
                 }
         );
