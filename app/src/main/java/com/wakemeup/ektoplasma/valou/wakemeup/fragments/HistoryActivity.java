@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.wakemeup.ektoplasma.valou.wakemeup.R;
+import com.wakemeup.ektoplasma.valou.wakemeup.adaptaters.CustomAdapterHistory;
+import com.wakemeup.ektoplasma.valou.wakemeup.adaptaters.UsersAdapter;
 import com.wakemeup.ektoplasma.valou.wakemeup.utilities.Caller;
 
 import org.json.JSONObject;
@@ -34,6 +36,8 @@ public class HistoryActivity extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_history, container, false);
 
+        ListView listhistory = (ListView) getView().findViewById(R.id.ListHistory);
+
         //TODO remplir la list avec historique
         Caller.getBddHistory();
 
@@ -54,6 +58,10 @@ public class HistoryActivity extends Fragment {
             if(Caller.getCurrentVideoName() != null)
                 list.add( voter + " : " + Caller.getCurrentVideoName() );
         }
+
+        CustomAdapterHistory adapter = new CustomAdapterHistory(list, getActivity());
+        listhistory.setAdapter(adapter);
+
 
         return view;
     }
