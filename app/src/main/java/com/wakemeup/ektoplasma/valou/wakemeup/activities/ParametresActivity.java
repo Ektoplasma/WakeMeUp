@@ -2,7 +2,10 @@ package com.wakemeup.ektoplasma.valou.wakemeup.activities;
 
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -20,6 +23,7 @@ import android.widget.Toast;
 import com.wakemeup.ektoplasma.valou.wakemeup.R;
 import com.wakemeup.ektoplasma.valou.wakemeup.preferences.ClockSettings;
 import com.wakemeup.ektoplasma.valou.wakemeup.preferences.UserSettings;
+import com.wakemeup.ektoplasma.valou.wakemeup.utilities.Caller;
 import com.wakemeup.ektoplasma.valou.wakemeup.utilities.GalleryUtil;
 
 import java.io.ByteArrayOutputStream;
@@ -38,6 +42,7 @@ public class ParametresActivity extends AppCompatActivity {
     private ImageView mImageView;
     private final int GALLERY_ACTIVITY_CODE=200;
     private final int RESULT_CROP = 400;
+    Context ctx = getApplicationContext();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +55,12 @@ public class ParametresActivity extends AppCompatActivity {
         {
             Bitmap bMap = BitmapFactory.decodeFile(save);
             mImageView.setImageBitmap(bMap);
+        }
+        else {
+            IntentFilter filter = new IntentFilter();
+            filter.addAction("ekto.valou.picbroadcast");
+            registerReceiver(receiver, filter);
+            Caller.getPicture();
         }
 
         mImageView.setOnClickListener(new View.OnClickListener(){
@@ -114,6 +125,8 @@ public class ParametresActivity extends AppCompatActivity {
                 n = generator.nextInt(n);
                 String fname = "Image-" + n + ".jpg";
                 PreferenceManager.getDefaultSharedPreferences(this).edit().putString("PhotoPath", root+"/crop_images/"+fname).commit();
+                String pictosend = BitMapToString(selectedBitmap);
+                Caller.sendPicture(pictosend);
                 File file = new File(myDir, fname);
                 Log.i("settingsactivity", "" + file);
                 if (file.exists())
@@ -129,6 +142,7 @@ public class ParametresActivity extends AppCompatActivity {
             }
         }
     }
+
     private void performCrop(String picUri) {
         try {
             //Start Crop Activity
@@ -180,4 +194,40 @@ public class ParametresActivity extends AppCompatActivity {
         String temp=Base64.encodeToString(b, Base64.DEFAULT);
         return temp;
     }
+
+    private BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Bundle extra = intent.getExtras();
+            if(extra != null)
+            {
+                Bitmap selectedBitmap = StringToBitMap(extra.getString("data"));
+                // Set The Bitmap Data To ImageView
+
+                mImageView.setImageBitmap(selectedBitmap);
+                mImageView.setScaleType(ImageView.ScaleType.FIT_XY);
+
+                String root = Environment.getExternalStorageDirectory().toString();
+                File myDir = new File(root + "/crop_images");
+                myDir.mkdirs();
+                Random generator = new Random();
+                int n = 10000;
+                n = generator.nextInt(n);
+                String fname = "Image-" + n + ".jpg";
+                PreferenceManager.getDefaultSharedPreferences(ctx).edit().putString("PhotoPath", root+"/crop_images/"+fname).commit();
+                File file = new File(myDir, fname);
+                Log.i("settingsactivity", "" + file);
+                if (file.exists())
+                    file.delete();
+                try {
+                    FileOutputStream out = new FileOutputStream(file);
+                    selectedBitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
+                    out.flush();
+                    out.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    };
 }

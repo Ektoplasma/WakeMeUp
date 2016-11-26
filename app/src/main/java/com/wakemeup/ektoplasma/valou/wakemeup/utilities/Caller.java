@@ -963,4 +963,92 @@ public final class Caller {
 
         QueueSingleton.getInstance(ctx).addToRequestQueue(requestor);
     }
+
+    public static void sendPicture(final String picture)
+    {
+
+        Map<String, String> params = new HashMap<>();
+        params.put("cookie",cookieInstance);
+        params.put("image", picture);
+        //TODO security
+
+        Response.Listener<JSONObject> reponseListener= new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+
+                    JSONObject jsonResponse = response.getJSONObject("statut");
+                    String succes = jsonResponse.getString("succes");
+
+                    if(succes != null && succes.matches("true")) {
+                        Toast.makeText(ctx, "Image envoyée.", Toast.LENGTH_LONG).show();
+                    }
+                    else{
+                        System.out.println("Could not send picture.");
+                        Toast.makeText(ctx, "echec...", Toast.LENGTH_LONG).show();
+                    }
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        };
+
+        Response.ErrorListener errorListener = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+            }
+        };
+        DataRequest requestor = new DataRequest(Request.Method.POST, "http://"+ ctx.getResources().getString(R.string.hostname_server) +"/put_pic.php",params, reponseListener, errorListener);
+
+        QueueSingleton.getInstance(ctx).addToRequestQueue(requestor);
+    }
+
+    public static void getPicture()
+    {
+
+        Map<String, String> params = new HashMap<>();
+        params.put("cookie",cookieInstance);
+        //TODO security
+
+        Response.Listener<JSONObject> reponseListener= new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+
+                    JSONObject jsonResponse = response.getJSONObject("statut");
+                    String succes = jsonResponse.getString("succes");
+
+                    if(succes != null && succes.matches("true")) {
+                        Toast.makeText(ctx, "Image récupérée.", Toast.LENGTH_LONG).show();
+                        Intent broadcast = new Intent("ekto.valou.picbroadcast");
+                        broadcast.putExtra("data",jsonResponse.getString("image"));
+                        ctx.sendBroadcast(broadcast);
+                    }
+                    else{
+                        System.out.println("Could not get picture.");
+                        Toast.makeText(ctx, "echec...", Toast.LENGTH_LONG).show();
+                    }
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        };
+
+        Response.ErrorListener errorListener = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+            }
+        };
+        DataRequest requestor = new DataRequest(Request.Method.POST, "http://"+ ctx.getResources().getString(R.string.hostname_server) +"/get_pic.php",params, reponseListener, errorListener);
+
+        QueueSingleton.getInstance(ctx).addToRequestQueue(requestor);
+    }
 }
