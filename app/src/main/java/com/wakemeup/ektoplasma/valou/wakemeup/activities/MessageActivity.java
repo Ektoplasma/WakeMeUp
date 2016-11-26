@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.wakemeup.ektoplasma.valou.wakemeup.adaptaters.CustomAdapterMessage;
 import com.wakemeup.ektoplasma.valou.wakemeup.utilities.Caller;
 import com.wakemeup.ektoplasma.valou.wakemeup.R;
 
@@ -19,6 +20,8 @@ public class MessageActivity  extends AppCompatActivity {
 
     private ListView mainListView ;
     private ArrayAdapter<String> listAdapter ;
+    private ArrayList<String> listpseudo  = new ArrayList<>();
+    private ArrayList<String> listmessage  = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,9 +48,13 @@ public class MessageActivity  extends AppCompatActivity {
         {
             String message = (String) x.next();
             String pseudo = (String) y.next();
-            listAdapter.add( pseudo + " : " + message );
+            //listAdapter.add( pseudo + " : " + message );
+            listpseudo.add(pseudo);
+            listmessage.add(message);
         }
-        
-        mainListView.setAdapter( listAdapter );
+        listpseudo.add("Valou");
+        listmessage.add("C'est celui qui le dit...");
+        CustomAdapterMessage adapter = new CustomAdapterMessage(listpseudo, listmessage, this);
+        mainListView.setAdapter(adapter);
     }
 }
