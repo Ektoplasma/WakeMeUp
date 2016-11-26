@@ -36,7 +36,7 @@ public class HistoryActivity extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_history, container, false);
 
-        ListView listhistory = (ListView) getView().findViewById(R.id.ListHistory);
+        ListView listhistory = (ListView) view.findViewById(R.id.ListHistory);
 
         //TODO remplir la list avec historique
         Caller.getBddHistory();
