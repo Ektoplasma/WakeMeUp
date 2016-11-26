@@ -52,9 +52,6 @@ public class MessageActivity  extends AppCompatActivity {
             listpseudo.add(pseudo);
             listmessage.add(message);
         }
-        //temporaire
-        listpseudo.add("Valou");
-        listmessage.add("C'est celui qui le dit...");
         CustomAdapterMessage adapter = new CustomAdapterMessage(listpseudo, listmessage, this);
         mainListView.setAdapter(adapter);
     }
