@@ -1,10 +1,14 @@
 package com.wakemeup.ektoplasma.valou.wakemeup.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.wakemeup.ektoplasma.valou.wakemeup.adaptaters.CustomAdapterMessage;
 import com.wakemeup.ektoplasma.valou.wakemeup.utilities.Caller;
@@ -29,23 +33,22 @@ public class MessageActivity  extends AppCompatActivity {
         setContentView(R.layout.message);
         ArrayList<String> listMsg;
         ArrayList<String> listSender;
-        mainListView = (ListView) findViewById( R.id.listMessage );
+        mainListView = (ListView) findViewById(R.id.listMessage);
         ArrayList<String> messagelist = new ArrayList<String>();
         listAdapter = new ArrayAdapter<String>(this, R.layout.message_row, messagelist);
 
-        if(Caller.getNewMessages() != null)
+        if (Caller.getNewMessages() != null)
             listMsg = new ArrayList<String>(Caller.getNewMessages());
         else listMsg = new ArrayList<String>();
 
-        if(Caller.getNewSenders() != null)
+        if (Caller.getNewSenders() != null)
             listSender = new ArrayList<String>(Caller.getNewSenders());
         else listSender = new ArrayList<String>();
 
         Iterator<String> x = listMsg.iterator();
         Iterator<String> y = listSender.iterator();
 
-        while (x.hasNext() && y.hasNext())
-        {
+        while (x.hasNext() && y.hasNext()) {
             String message = (String) x.next();
             String pseudo = (String) y.next();
             //listAdapter.add( pseudo + " : " + message );
@@ -54,5 +57,14 @@ public class MessageActivity  extends AppCompatActivity {
         }
         CustomAdapterMessage adapter = new CustomAdapterMessage(listpseudo, listmessage, this);
         mainListView.setAdapter(adapter);
+
+        mainListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
+                Intent intent = new Intent(MessageActivity.this, MessengerActivity.class);
+                intent.putExtra("Name",listpseudo.get(position));
+                startActivity(intent);
+            }
+        });
     }
 }

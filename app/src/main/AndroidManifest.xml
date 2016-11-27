@@ -85,8 +85,17 @@
         </activity>
 
         <activity
+            android:name=".activities.MessengerActivity"
+            android:label="Messenger">
+            <intent-filter >
+                <category  android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+
+        </activity>
+
+        <activity
             android:name=".activities.ParametresActivity"
-            android:label="Message">
+            android:label="Paraètres">
             <intent-filter >
                 <category  android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
