@@ -42,12 +42,13 @@ public class ParametresActivity extends AppCompatActivity {
     private ImageView mImageView;
     private final int GALLERY_ACTIVITY_CODE=200;
     private final int RESULT_CROP = 400;
-    Context ctx = getApplicationContext();
+    Context ctx;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.parametre);
         mImageView = (ImageView) findViewById(R.id.ProfilePicIV);
+        ctx = ParametresActivity.this;
 
         String save = PreferenceManager.getDefaultSharedPreferences(this).getString("PhotoPath", "defaultStringIfNothingFound");
 
