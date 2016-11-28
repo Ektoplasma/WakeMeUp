@@ -4,10 +4,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
+import android.view.ContextMenu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ExpandableListView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.wakemeup.ektoplasma.valou.wakemeup.adaptaters.CustomAdapterMessage;
@@ -17,12 +21,15 @@ import com.wakemeup.ektoplasma.valou.wakemeup.R;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import static android.support.v7.appcompat.R.id.info;
+
 /**
  * Created by Valentin on 30/08/2016.
  */
 public class MessageActivity  extends AppCompatActivity {
 
     private ListView mainListView ;
+    CustomAdapterMessage adapter;
     private ArrayAdapter<String> listAdapter ;
     private ArrayList<String> listpseudo  = new ArrayList<>();
     private ArrayList<String> listmessage  = new ArrayList<>();
@@ -36,6 +43,7 @@ public class MessageActivity  extends AppCompatActivity {
         mainListView = (ListView) findViewById(R.id.listMessage);
         ArrayList<String> messagelist = new ArrayList<String>();
         listAdapter = new ArrayAdapter<String>(this, R.layout.message_row, messagelist);
+        registerForContextMenu(mainListView);
 
         if (Caller.getNewMessages() != null)
             listMsg = new ArrayList<String>(Caller.getNewMessages());
@@ -57,6 +65,7 @@ public class MessageActivity  extends AppCompatActivity {
         }
         CustomAdapterMessage adapter = new CustomAdapterMessage(listpseudo, listmessage, this);
         mainListView.setAdapter(adapter);
+        adapter = new CustomAdapterMessage(listpseudo, listmessage, this);
 
         mainListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -66,5 +75,32 @@ public class MessageActivity  extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+
+        ListView lv = (ListView) v;
+        AdapterView.AdapterContextMenuInfo acmi = (AdapterView.AdapterContextMenuInfo) menuInfo;
+        String pseudo = (String) lv.getItemAtPosition(acmi.position);
+
+        menu.setHeaderTitle("Conversation avec "+pseudo);
+        menu.add(0, 1, 1, "Supprimer la conversation");
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item)
+    {
+
+        switch (item.getItemId())
+        {
+            case 1://Suppression conversation
+                AdapterView.AdapterContextMenuInfo acmi = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+                String key = listpseudo.get(acmi.position);
+                Toast.makeText(this, "Conversation avec "+key+" supprimée", Toast.LENGTH_LONG).show();
+                break;
+        }
+        return super.onContextItemSelected(item);
     }
 }
