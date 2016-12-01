@@ -2,10 +2,10 @@
 
    require("Friends.class.php");
    require("Members.class.php");
-   require("Messenger.class.php");
+   require("Message.class.php");
 
    $members  = new Members();
-   $message = new Messenger();
+   $message = new Message();
 
    if (isset($_POST["cookie"]) && isset($_POST["person"]) && isset($_POST["message"])) {
 
@@ -30,8 +30,8 @@
 				foreach($found_member as $o_member){
 					foreach ($found_another as $o_another) {
 
-						$message->idUser = $o_member["id"];
-						$message->idOther = $o_another["id"];
+						$message->idSender = $o_member["id"];
+						$message->idReceiver = $o_another["id"];
 						$message->msg = $msg;
 						$message->Create();
 

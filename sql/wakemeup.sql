@@ -3,9 +3,9 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Sep 29, 2016 at 02:27 PM
+-- Generation Time: Dec 01, 2016 at 05:32 PM
 -- Server version: 5.5.52-0+deb8u1
--- PHP Version: 5.6.24-0+deb8u1
+-- PHP Version: 5.6.27-0+deb8u1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -35,7 +35,14 @@ CREATE TABLE IF NOT EXISTS `alarm` (
   `msg` varchar(140) COLLATE latin1_general_ci NOT NULL,
   `chosen` varchar(10) CHARACTER SET utf8 NOT NULL DEFAULT 'false',
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+
+--
+-- Dumping data for table `alarm`
+--
+
+INSERT INTO `alarm` (`id`, `idUser`, `enabled`, `idVoter`, `ytlink`, `msg`, `chosen`, `date`) VALUES
+(00000000000000000003, 00000000000000000004, 'false', 00000000000000000005, 'AFP5tYKjdTc', 'Fromage de biche.', 'true', '2016-09-29 12:29:30');
 
 -- --------------------------------------------------------
 
@@ -72,16 +79,17 @@ CREATE TABLE IF NOT EXISTS `members` (
   `cookie` varchar(255) CHARACTER SET utf8 NOT NULL,
   `mode` varchar(10) CHARACTER SET utf8 NOT NULL DEFAULT 'world',
   `pseudonyme` varchar(16) CHARACTER SET utf8 NOT NULL,
-  `date_creation` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `date_creation` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `image` varchar(50) COLLATE latin1_general_ci DEFAULT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 --
 -- Dumping data for table `members`
 --
 
-INSERT INTO `members` (`id`, `username`, `password`, `cookie`, `mode`, `pseudonyme`, `date_creation`) VALUES
-(00000000000000000004, 'Theo', '$2y$10$85EEE87bRJ1HAQMWgB7.ROx6N.4mq/s2X8NgrqKNDkUgejOE7pBWW', '8c9655c777c2a91782a825147d3781aa5c901f92cbd868069085c6080d9c202c', 'world', 'Theo', '2016-09-22 13:32:03'),
-(00000000000000000005, 'valou', '$2y$10$4tZ.Q2lqbYIzu2YirAnth.iS4b3qJedAEUfhH/GkpmZ7mpBwWWDka', 'e33833b204e36114a9c9be3706c46effca3706e2f522ce60f68b99a9a6aac24a', 'world', 'valou', '2016-09-22 13:36:31');
+INSERT INTO `members` (`id`, `username`, `password`, `cookie`, `mode`, `pseudonyme`, `date_creation`, `image`) VALUES
+(00000000000000000004, 'Theo', '$2y$10$85EEE87bRJ1HAQMWgB7.ROx6N.4mq/s2X8NgrqKNDkUgejOE7pBWW', 'ecb1d015c9781e497b45297266808bd12f0407a1bdaad4cf7fa802bb1247e907', 'world', 'Theo', '2016-09-22 13:32:03', NULL),
+(00000000000000000005, 'valou', '$2y$10$4tZ.Q2lqbYIzu2YirAnth.iS4b3qJedAEUfhH/GkpmZ7mpBwWWDka', '01502ee8db8a3109674eb5f8e8dade127385a48beb661d8bc74ea2475f151c2d', 'private', 'valou', '2016-09-22 13:36:31', NULL);
 
 -- --------------------------------------------------------
 
@@ -102,6 +110,21 @@ CREATE TABLE IF NOT EXISTS `message` (
 
 INSERT INTO `message` (`id`, `idSender`, `idReceiver`, `msg`) VALUES
 (00000000000000000001, 00000000000000000004, 00000000000000000005, 'Celui qui lit ce message est un con.');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `messenger`
+--
+
+CREATE TABLE IF NOT EXISTS `messenger` (
+`id` bigint(20) unsigned zerofill NOT NULL,
+  `idUser` bigint(20) unsigned zerofill NOT NULL,
+  `idOther` bigint(20) unsigned zerofill NOT NULL,
+  `message` varchar(140) NOT NULL,
+  `read` varchar(10) NOT NULL,
+  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Indexes for dumped tables
@@ -132,6 +155,12 @@ ALTER TABLE `message`
  ADD PRIMARY KEY (`id`), ADD KEY `idSender` (`idSender`), ADD KEY `idReceiver` (`idReceiver`);
 
 --
+-- Indexes for table `messenger`
+--
+ALTER TABLE `messenger`
+ ADD PRIMARY KEY (`id`), ADD KEY `idUser` (`idUser`,`idOther`), ADD KEY `idOther` (`idOther`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -139,7 +168,7 @@ ALTER TABLE `message`
 -- AUTO_INCREMENT for table `alarm`
 --
 ALTER TABLE `alarm`
-MODIFY `id` bigint(20) unsigned zerofill NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+MODIFY `id` bigint(20) unsigned zerofill NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `friends`
 --
@@ -155,6 +184,11 @@ MODIFY `id` bigint(20) unsigned zerofill NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=
 --
 ALTER TABLE `message`
 MODIFY `id` bigint(20) unsigned zerofill NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT for table `messenger`
+--
+ALTER TABLE `messenger`
+MODIFY `id` bigint(20) unsigned zerofill NOT NULL AUTO_INCREMENT;
 --
 -- Constraints for dumped tables
 --
@@ -179,6 +213,13 @@ ADD CONSTRAINT `friends_ibfk_3` FOREIGN KEY (`idAmi`) REFERENCES `members` (`id`
 ALTER TABLE `message`
 ADD CONSTRAINT `message_ibfk_1` FOREIGN KEY (`idSender`) REFERENCES `members` (`id`) ON DELETE CASCADE,
 ADD CONSTRAINT `message_ibfk_2` FOREIGN KEY (`idReceiver`) REFERENCES `members` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `messenger`
+--
+ALTER TABLE `messenger`
+ADD CONSTRAINT `messenger_ibfk_1` FOREIGN KEY (`idUser`) REFERENCES `members` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+ADD CONSTRAINT `messenger_ibfk_2` FOREIGN KEY (`idOther`) REFERENCES `members` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

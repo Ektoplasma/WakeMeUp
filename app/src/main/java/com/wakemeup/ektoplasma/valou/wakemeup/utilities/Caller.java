@@ -46,10 +46,29 @@ public final class Caller {
     private static String currentMessage;
     private static String currentVoter;
     private static String currentVideoName;
+    private static List<String> NewTinyMessages;
+    private static List<String> NewTinySenders;
+    //private static List<String> NewTinyDate;
 
     private final static String PREFS_NAME = "COOKIE_WMU";
     private final static String PREF_SESSION_COOKIE = "session_cookie";
     private final static String PREF_DEFAULT_STRING = "";
+
+    public static List<String> getNewTinyMessages() {
+        return NewTinyMessages;
+    }
+
+    public static void setNewTinyMessages(List<String> newTinyMessages) {
+        NewTinyMessages = newTinyMessages;
+    }
+
+    public static List<String> getNewTinySenders() {
+        return NewTinySenders;
+    }
+
+    public static void setNewTinySenders(List<String> newTinySenders) {
+        NewTinySenders = newTinySenders;
+    }
 
     public static String getCurrentVideoName() {
         return currentVideoName;
@@ -323,6 +342,7 @@ public final class Caller {
                         ctx.startActivity(mainIntent);
                         SharedPreferences.Editor editor = getPrefs().edit();
                         editor.putString(PREF_SESSION_COOKIE, cookieInstance);
+                        editor.putString("prefUsername", pseudonyme);
                         editor.apply();
                     }
                     else{
@@ -689,6 +709,50 @@ public final class Caller {
         QueueSingleton.getInstance(ctx).addToRequestQueue(requestor);
     }
 
+    public static void sendTinyMessage(final String message, final String user)
+    {
+
+        Map<String, String> params = new HashMap<>();
+        params.put("cookie",cookieInstance);
+        params.put("message", message);
+        params.put("person", user);
+        //TODO security
+
+        Response.Listener<JSONObject> reponseListener= new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+
+                    JSONObject jsonResponse = response.getJSONObject("statut");
+                    String succes = jsonResponse.getString("succes");
+
+                    if(succes != null && succes.matches("true")) {
+                        Toast.makeText(ctx, "Message envoyé.", Toast.LENGTH_LONG).show();
+                    }
+                    else{
+                        System.out.println("Could not send message "+message+" to "+user+".");
+                        Toast.makeText(ctx, "echec...", Toast.LENGTH_LONG).show();
+                    }
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        };
+
+        Response.ErrorListener errorListener = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+            }
+        };
+        DataRequest requestor = new DataRequest(Request.Method.POST, "http://"+ ctx.getResources().getString(R.string.hostname_server) +"/send_tmsg.php",params, reponseListener, errorListener);
+
+        QueueSingleton.getInstance(ctx).addToRequestQueue(requestor);
+    }
+
     public static void getNotif()
     {
         NewAmi = new ArrayList<>();
@@ -804,9 +868,68 @@ public final class Caller {
             }
         };
         DataRequest requestor2 = new DataRequest(Request.Method.POST, "http://"+ ctx.getResources().getString(R.string.hostname_server) +"/notif_msg.php",params2, reponseListener2, errorListener2);
+        /* -------  */
+        NewTinyMessages = new ArrayList<>();
+        NewTinySenders = new ArrayList<>();
+        Map<String, String> params3 = new HashMap<>();
+        params3.put("cookie",cookieInstance);
+
+        Response.Listener<JSONObject> reponseListener3= new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+
+                    JSONObject jsonResponse = response.getJSONObject("statut");
+                    String succes = jsonResponse.getString("succes");
+
+                    if(succes != null && succes.matches("true")) {
+                        JSONObject jsonMessages = jsonResponse.getJSONObject("messages");
+                        JSONObject jsonSenders = jsonResponse.getJSONObject("senders");
+                        Iterator x = jsonMessages.keys();
+                        Iterator y = jsonSenders.keys();
+
+                        int i = 0;
+
+                        while (x.hasNext() && y.hasNext()){
+                            String key = (String) x.next();
+                            String key_s = (String) y.next();
+                            NewTinyMessages.add(jsonMessages.get(key).toString());
+                            NewTinySenders.add(jsonSenders.get(key_s).toString());
+                            System.out.println("NewTinyMessages "+i+": "+NewTinyMessages.get(i)+" from : "+NewTinySenders.get(i));
+                            i++;
+                        }
+
+                        Intent broadcast = new Intent("ekto.valou.badgebroadcast");
+                        broadcast.putExtra("TYPE","message");
+                        broadcast.putExtra("COUNT",String.valueOf(i));
+                        ctx.sendBroadcast(broadcast);
+                    }
+                    else{
+                        Intent broadcast = new Intent("ekto.valou.badgebroadcast");
+                        broadcast.putExtra("TYPE","message");
+                        broadcast.putExtra("COUNT",String.valueOf(0));
+                        ctx.sendBroadcast(broadcast);
+                    }
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        };
+
+        Response.ErrorListener errorListener3 = new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+            }
+        };
+        DataRequest requestor3 = new DataRequest(Request.Method.POST, "http://"+ ctx.getResources().getString(R.string.hostname_server) +"/notif_tiny.php",params3, reponseListener3, errorListener3);
 
         QueueSingleton.getInstance(ctx).addToRequestQueue(requestor);
         QueueSingleton.getInstance(ctx).addToRequestQueue(requestor2);
+        QueueSingleton.getInstance(ctx).addToRequestQueue(requestor3);
     }
 
     public static void acceptFriend(final String friend)
