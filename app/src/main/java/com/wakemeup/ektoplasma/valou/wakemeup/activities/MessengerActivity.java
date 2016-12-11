@@ -22,6 +22,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * Created by Valentin on 27/11/2016.
@@ -53,8 +54,20 @@ public class MessengerActivity extends AppCompatActivity {
 
         cache = new File(getCacheDir(), Name+"_cache");
         //cache.delete();
-
         messageList = ReadCache(Name+"_cache");
+
+        ArrayList<String> listMsg;
+        if (Caller.getNewMessages() != null)
+            listMsg = new ArrayList<String>(Caller.getNewMessages());
+        else listMsg = new ArrayList<String>();
+
+        Iterator<String> x = listMsg.iterator();
+        while (x.hasNext()) {
+            String message = (String) x.next();
+            messageList.add(new MessengerClass(message, false));
+            SaveInCache(Name+" : "+message);
+        }
+
         adapter = new CustomAdapterMessenger(messageList, this);
         mainListView.setAdapter(adapter);
 
@@ -119,7 +132,7 @@ public class MessengerActivity extends AppCompatActivity {
         {
             FileOutputStream fOut = new FileOutputStream(cache, true);
             OutputStreamWriter myOutWriter = new OutputStreamWriter(fOut);
-            myOutWriter.append(write);
+            myOutWriter.append(write+"\n");
 
             myOutWriter.close();
 
