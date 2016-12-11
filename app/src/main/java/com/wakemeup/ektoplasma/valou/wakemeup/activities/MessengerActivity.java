@@ -4,6 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 
 import com.wakemeup.ektoplasma.valou.wakemeup.R;
@@ -34,6 +37,9 @@ public class MessengerActivity extends AppCompatActivity {
 
     File cache;
 
+    CustomAdapterMessenger adapter;
+    EditText messEnvoi;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,26 +49,25 @@ public class MessengerActivity extends AppCompatActivity {
         Name = myIntent.getStringExtra("Name");
         setTitle(Name);
         messageList = new ArrayList<MessengerClass>();
-       /* MessengerClass bonjour = new MessengerClass("Bonjour", false);
-        messageList.add(0, bonjour);
-        MessengerClass bonjour1 = new MessengerClass("ca va", false);
-        messageList.add(1, bonjour1);
-        MessengerClass bonjour2 = new MessengerClass("Oui et toi", true);
-        messageList.add(2, bonjour2);
-        MessengerClass bonjour3 = new MessengerClass("Oui", false);
-        messageList.add(3, bonjour3);*/
 
 
         cache = new File(getCacheDir(), Name+"_cache");
         //cache.delete();
 
-       /* SaveInCache("valou : Bonjour\n");
-        SaveInCache("valou : Bien?\n");
-        SaveInCache("Theo : Oui et toi\n");
-        SaveInCache("valou : Oui\n");*/
         messageList = ReadCache(Name+"_cache");
-        CustomAdapterMessenger adapter = new CustomAdapterMessenger(messageList, this);
+        adapter = new CustomAdapterMessenger(messageList, this);
         mainListView.setAdapter(adapter);
+
+        Button button= (Button) findViewById(R.id.EnvoiMessenger);
+        messEnvoi = (EditText) findViewById(R.id.MessToSend);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                messageList.add(new MessengerClass(messEnvoi.getText().toString(), true));
+                SaveInCache(messengerCall.getPseudonyme()+" : "+messEnvoi.getText().toString());
+                adapter.notifyDataSetChanged();
+            }
+        });
 
     }
 
