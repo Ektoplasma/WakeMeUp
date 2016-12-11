@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.widget.AdapterView;
 import android.widget.SearchView;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -227,8 +228,6 @@ public class UsersList extends Fragment {
             List<String> ToutLeMonde = Caller.getWorld();
             UsersDetails.put("Tous les utilisateurs", ToutLeMonde);
         }
-
-        System.out.println(UsersDetails.values());
 
         return UsersDetails;
     }
