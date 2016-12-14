@@ -41,14 +41,44 @@
                 <action android:name="android.intent.action.MAIN"/>
             </intent-filter>
         </activity>
-        <activity android:name=".activities.SignActivity" android:label="WakeMeUp" android:theme="@style/AppTheme.NoActionBar"/>
+       <!-- <activity android:name=".activities.SignActivity" android:label="WakeMeUp" android:theme="@style/AppTheme.NoActionBar"/>-->
         <activity android:name=".activities.SearchActivity">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.RegisterActivity" android:label="WakeMeUp" android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".activities.LoginActivity" android:label="WakeMeUp" android:theme="@style/AppTheme.NoActionBar"/>
+       <!-- <activity android:name=".activities.RegisterActivity" android:label="WakeMeUp" android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".activities.LoginActivity" android:label="WakeMeUp" android:theme="@style/AppTheme.NoActionBar"/>-->
+
+        <activity
+            android:name=".activities.SignActivity"
+            android:label="Bienvenue dans WakeMeUp"
+            android:theme="@style/AppTheme">
+            <intent-filter >
+                <category  android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+
+        </activity>
+
+        <activity
+            android:name=".activities.LoginActivity"
+            android:label="Connexion"
+            android:theme="@style/AppTheme">
+            <intent-filter >
+                <category  android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+
+        </activity>
+
+        <activity
+            android:name=".activities.RegisterActivity"
+            android:label="Inscription"
+            android:theme="@style/AppTheme">
+            <intent-filter >
+                <category  android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+
+        </activity>
 
         <activity android:name=".preferences.UserSettings"
             android:screenOrientation="nosensor">
@@ -95,7 +125,7 @@
 
         <activity
             android:name=".activities.ParametresActivity"
-            android:label="Paraètres">
+            android:label="Paramètres">
             <intent-filter >
                 <category  android:name="android.intent.category.DEFAULT"/>
             </intent-filter>

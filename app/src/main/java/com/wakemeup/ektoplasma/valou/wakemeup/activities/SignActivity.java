@@ -1,5 +1,6 @@
 package com.wakemeup.ektoplasma.valou.wakemeup.activities;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -25,8 +26,6 @@ public class SignActivity extends AppCompatActivity {
 
         Button ButtonLogin = (Button)findViewById(R.id.ButtonLogin);
         Button ButtonRegister = (Button)findViewById(R.id.ButtonRegister);
-        Button ButtonSettings = (Button)findViewById(R.id.ButtonSettings);
-
         ButtonLogin.setOnClickListener(
                 new Button.OnClickListener() {
                     public void onClick(View v) {
@@ -39,14 +38,6 @@ public class SignActivity extends AppCompatActivity {
                 new Button.OnClickListener() {
                     public void onClick(View v) {
                         startActivity(new Intent(SignActivity.this, RegisterActivity.class));
-                    }
-                }
-        );
-
-        ButtonSettings.setOnClickListener(
-                new Button.OnClickListener() {
-                    public void onClick(View v) {
-                        startActivity(new Intent(SignActivity.this, ParametresActivity.class));
                     }
                 }
         );

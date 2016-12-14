@@ -25,7 +25,7 @@
     <string name="pref_user_profil">Profil Utilisateur</string>
     <string name="pref_update_setting">Paramètres reveil</string>
     <string name="pref_about">A propos</string>
-    <string name="username">Nom d\\\'utilisateur</string>
+    <string name="username">Nom d\'utilisateur</string>
     <string name="hint_password">password</string>
     <string name="valider">Valider</string>
     <string name="nom_password">Mot de passe</string>
@@ -50,5 +50,11 @@
     <string name="pref_design_image_summary">Choose a design image to overlay</string>
     <string name="pref_design_image_alpha_title">Alpha</string>
     <string name="pref_design_image_alpha_summary">Alpha: %1$s %</string>
+
+    <color name="background_general">#5b361c</color>
+    <color name="primary">#ce3a3a</color>
+    <color name="text_primary">#fafafa</color>
+    <color name="primary_dark">#453636</color>
+    <color name="accent">#996060</color>
 
 </resources>
