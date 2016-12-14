@@ -56,5 +56,6 @@
     <color name="text_primary">#fafafa</color>
     <color name="primary_dark">#453636</color>
     <color name="accent">#996060</color>
+    <color name="test">#00ff04</color>
 
 </resources>
