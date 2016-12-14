@@ -22,8 +22,7 @@
         android:onClick="onToggleClicked"
         android:layout_below="@+id/ClockAlarmPicker"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="36dp"
-        android:background="@drawable/button_form"/>
+        android:layout_marginTop="36dp" />
 
     <TextView
         android:layout_width="wrap_content"
