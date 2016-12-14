@@ -47,17 +47,20 @@ public class ClockActivity extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final Context contextThemeWrapper = new ContextThemeWrapper(getActivity(), R.style.DialogTheme);
-
         LayoutInflater localInflater = inflater.cloneInContext(contextThemeWrapper);
-        View view = inflater.inflate(R.layout.fragment_main, container, false);
+
+
+        //View view = inflater.inflate(R.layout.fragment_main, container, false);
+        View view = localInflater.inflate(R.layout.fragment_main, container, false);
         AlarmTextView = (TextView) view.findViewById(R.id.AlarmText);
         //AlarmTextView.setText(mavideo.getTitleQuietly("Sw9uicEGjGw"));
         alarmTimePicker = (TimePicker) view.findViewById(R.id.ClockAlarmPicker);
         alarmTimePicker.setIs24HourView(true);
 
-        return localInflater.inflate(R.layout.fragment_main, container, false);
 
-        //return view;
+       // return localInflater.inflate(R.layout.fragment_main, container, false);
+
+        return view;
     }
 
 
