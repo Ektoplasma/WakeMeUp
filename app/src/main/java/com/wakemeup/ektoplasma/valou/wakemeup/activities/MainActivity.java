@@ -249,10 +249,10 @@ public class MainActivity extends AppCompatActivity {
 
         getMenuInflater().inflate(R.menu.menu_main, menu);
 
-        SearchActivity search = new SearchActivity();
+        /*SearchActivity search = new SearchActivity();
         MenuItem searchItem = menu.findItem(R.id.search);
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
-        searchView.setOnQueryTextListener(search);
+        searchView.setOnQueryTextListener(search);*/
 
         setBadgeCount(this, "0", "friend");
 

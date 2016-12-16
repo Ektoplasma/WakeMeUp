@@ -23,12 +23,4 @@
         app:showAsAction="always" />
 
 
-    <item android:id="@+id/search"
-        android:title="Search"
-        android:icon="@drawable/ic_search"
-        android:orderInCategory="1"
-        app:actionViewClass="android.support.v7.widget.SearchView"
-        app:showAsAction="always"/>
-
-
 </menu>
