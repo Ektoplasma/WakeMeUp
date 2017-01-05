@@ -10,7 +10,8 @@
         android:paddingBottom="2dp"
         android:paddingLeft="?android:attr/expandableListPreferredItemPaddingLeft"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textStyle="bold"
+        android:textColor="#d6d6d6"
     />
-
+<!--        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textStyle="bold"-->
 </LinearLayout>

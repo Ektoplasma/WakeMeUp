@@ -51,11 +51,13 @@
     <string name="pref_design_image_alpha_title">Alpha</string>
     <string name="pref_design_image_alpha_summary">Alpha: %1$s %</string>
 
-    <color name="background_general">#5b361c</color>
-    <color name="primary">#ce3a3a</color>
+    <color name="background_general">#1b1a1a</color>
+    <!--<color name="primary">#ce3a3a</color>-->
+    <color name="primary">#2264c9</color>
     <color name="text_primary">#fafafa</color>
     <color name="primary_dark">#453636</color>
-    <color name="accent">#996060</color>
+    <color name="accent">#2286c9</color>
+    <!--<color name="accent">#2286c9</color>-->
     <color name="test">#00ff04</color>
 
 </resources>

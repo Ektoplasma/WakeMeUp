@@ -11,6 +11,7 @@
         android:paddingBottom="2dp"
         android:paddingTop="2dp"
         android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="#d6d6d6"
     />
 
 </LinearLayout>
